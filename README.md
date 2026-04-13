@@ -1,66 +1,69 @@
-Aqui está o `README.md` completo, técnico e atualizado para o repositório **social-forests-protocol**. Esta versão consolida toda a visão de infraestrutura, as mecânicas B2B2C e a equipa com o rigor técnico exigido para o ecossistema Stellar.
+# Social Forest: Infrastructure Protocol for Green RWA & Climate Finance
+
+**Social Forest** is a decentralized infrastructure protocol (tech-stack) designed to convert the **ecological flourishing** of silvicultural assets (specifically *Khaya senegalensis* — African Mahogany) into programmable collateral and liquid assets on the Stellar network.
+
+Unlike static carbon credit models, Social Forest introduces the concept of **Proof of Flourishing (PoF)**: a dynamic proof of biomic health audited by AI and data oracles, enabling a circular **B2B2C** economy.
 
 -----
 
-# Social Forest: Protocolo de Infraestrutura para Green RWA & Finanças Climáticas
+## 📄 Official Documentation
 
-O **Social Forest** é um protocolo de infraestrutura (*tech-stack*) descentralizado que converte o **crescimento ecológico** de ativos silvícolas (especificamente *Khaya senegalensis* — Mogno Africano) em colaterais programáveis e ativos líquidos na rede Stellar.
-
-Ao contrário de modelos de créditos de carbono estáticos, o Social Forest introduz o conceito de **Proof of Flourishing (PoF)**: uma prova dinâmica de saúde biómica auditada por IA e oráculos de dados, permitindo uma economia circular **B2B2C**.
+  * **[Lightpaper: Vision and B2B2C Strategy](https://github.com/G0vermind/social-forests-protocol/blob/main/LIGHTPAPER.md):** An executive overview of the Climate Finance thesis, the impact on the Brazilian semi-arid region, and the African Mahogany economy.
+  * **[Technical Whitepaper (Coming Soon)](https://www.google.com/search?q=%23):** Detailed architecture of Soroban Smart Contracts and integration with the x402 Protocol.
 
 -----
 
-## 🏗 Arquitetura Técnica & Stack
+## 🏗 Technical Architecture & Stack
 
-O protocolo é construído sobre três pilares fundamentais de integração na rede Stellar:
+The protocol is built on three fundamental pillars of integration within the Stellar network:
 
 ### 1\. Smart Contracts (Soroban & Rust)
 
-Utilizamos contratos inteligentes em **Soroban** para gerir o ciclo de vida dos ativos:
+We utilize **Soroban** smart contracts to manage the asset lifecycle:
 
-  * **RWA Vaults:** Contratos que custodiam os direitos sobre o crescimento ecológico e gerenciam o fracionamento em tokens de liquidez.
-  * **Automated Liquidity Pools (AMM):** Integração nativa para permitir a troca imediata entre frações verdes e ativos estáveis (USDC/XLM).
-  * **SBT Engine (Soulbound Tokens):** Implementação de tokens não-transferíveis para registo de reputação, conquistas e missões que definem a governação.
+  * **RWA Vaults:** Contracts that custody ecological growth rights and manage the fractionalization into liquidity tokens.
+  * **Automated Liquidity Pools (AMM):** Native integration to allow immediate exchange between green fractions and stable assets (USDC/XLM).
+  * **SBT Engine (Soulbound Tokens):** Implementation of non-transferable tokens for reputation tracking, achievements, and governance missions.
 
-### 2\. On-ramp Institucional (Stripe MPP)
+### 2\. Institutional On-ramp (Stripe MPP)
 
-Para viabilizar o modelo B2B, utilizamos o **Stripe Managed Payment Provider** para:
+To enable the B2B model, we leverage the **Stripe Managed Payment Provider** for:
 
-  * **Fiat-to-Asset:** Tesourarias corporativas adquirem colateral verde via moeda fiduciária, eliminando a fricção de custódia criptográfica inicial.
-  * **Compliance:** Automação de processos de KYB integrados ao fluxo de investimento em ativos reais.
+  * **Fiat-to-Asset:** Corporate treasuries acquire green collateral via fiat currency, removing the friction of initial crypto custody.
+  * **Compliance:** Automation of KYB (Know Your Business) processes integrated into the real-world asset investment flow.
 
-### 3\. Protocolo x402 + IA (Proof of Flourishing)
+### 3\. x402 Protocol + AI (Proof of Flourishing)
 
-A camada de auditoria substitui o tradicional "Proof of Growth" pelo **Proof of Flourishing (PoF)**:
+The audit layer replaces traditional "Proof of Growth" with **Proof of Flourishing (PoF)**:
 
-  * **IA Oracle:** Processamento de dados multiespectrais e biométricos para validar o florescimento do ecossistema.
-  * **Micropagamentos x402:** Cada validação dispara eventos económicos na rede Stellar via micropagamentos, atualizando o valor intrínseco do RWA on-chain.
-
------
-
-## 🌲 O Modelo B2B2C: Propósito e Aplicação Real
-
-O protocolo fecha o ciclo entre o investimento institucional e o engajamento comunitário:
-
-1.  **B2B (Âncora):** Empresas compram frações de RWA para balanço ESG e conformidade climática, utilizando a segurança jurídica da operação vertical (**Serraria Sómogno/CE**) e a isenção de DOF.
-2.  **B2B2C (Engajamento):** Corporações distribuem "frações de florescimento" como recompensas ou cashbacks verdes para clientes.
-3.  **B2C (Mecânica de Missões):** Os utilizadores participam em missões de validação para evoluir os seus **SBTs de Reputação**, ganhando peso na governação da Tesouraria Verde e acesso a itens de consumo vinculados.
+  * **AI Oracle:** Processing of multispectral and biometric data to validate ecosystem health.
+  * **x402 Micropayments:** Every successful validation triggers economic events on the Stellar network via micropayments, updating the intrinsic value of the RWA on-chain.
 
 -----
 
-## 🛠 Estrutura do Repositório
+## 🌲 The B2B2C Model: Purpose and Real-World Application
+
+The protocol closes the loop between institutional investment and community engagement:
+
+1.  **B2B (Anchor):** Companies purchase RWA fractions for ESG balance sheets and climate compliance, leveraging the legal security of our vertical operation (**Sómogno Sawmill/CE**) and DOF (Document of Forest Origin) exemption.
+2.  **B2B2C (Engagement):** Corporations distribute "flourishing fractions" as green rewards or cashbacks to their customers.
+3.  **B2C (Mission Mechanics):** End-users participate in validation missions to evolve their **Reputation SBTs**, gaining voting weight in the Green Treasury governance and access to linked consumption items.
+
+-----
+
+## 🛠 Repository Structure
 
 ```bash
-├── contracts/             # Workspace Rust para Smart Contracts Soroban
-│   ├── rwa_vault/         # Gestão de colateral e cunhagem (minting)
-│   ├── sbt_reputation/    # Soulbound Tokens para conquistas e missões
-│   └── governance/        # Lógica de voto ponderado por PoF e SBT
-├── services/              # Camada de back-end e integrações
-│   ├── stripe_gateway/    # Integração com Stripe MPP (fiat on-ramp)
-│   └── pof_oracle/        # Engine de IA e Protocolo x402
-├── interface/             # Dashboard B2B2C e Painel B2B (Next.js)
-├── docs/                  # Documentação técnica, arquitetura e Whitepaper
-└── stellar.toml           # Definição de ativos e metadados para a rede Stellar
+├── contracts/             # Rust Workspace for Soroban Smart Contracts
+│   ├── rwa_vault/         # Asset custody and minting logic
+│   ├── sbt_reputation/    # Soulbound Tokens for achievements and missions
+│   └── governance/        # Weighted voting logic via PoF and SBTs
+├── services/              # Backend layer and integrations
+│   ├── stripe_gateway/    # Stripe MPP integration (fiat on-ramp)
+│   └── pof_oracle/        # AI Engine and x402 Protocol implementation
+├── interface/             # B2B2C Dashboard and B2B Panel (Next.js)
+├── docs/                  # Technical documentation and Whitepaper
+└── stellar.toml           # Asset definitions and Stellar network metadata
 ```
 
 -----
