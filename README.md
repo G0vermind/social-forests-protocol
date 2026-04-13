@@ -76,7 +76,7 @@ The protocol closes the loop between institutional investment and community enga
 
   * **Clarkson Luiz Buriche** (`Environmental Dev & AI`): *bio* : impact-driven developer and senior environmental engineer with a solid background in ESG and territory management + specialist in translating multi-layered socio-environmental complexity into functional digital systems and scalable APIs + Rust and AI architect building secure tech-stacks for climate regeneration and natural resource governance / [LinkedIn](https://www.linkedin.com/in/clarkson-luiz-buriche-bartalini-80446a6b/)
 
-  * **Iara Magalhães** (`Web3 Developer`): *bio* : web3 developer and blockchain enthusiast focused on mastering Rust and decentralized system fundamentals + explorer of autonomous digital tools and secure smart contract architectures within the Soroban ecosystem + contributor to the Social Forest technical development / [LinkedIn](https://www.google.com/search?q=https://www.linkedin.com/in/iaiakedemy)
+  * **Iara Magalhães** (`Web3 Developer`): *bio* : web3 developer and blockchain enthusiast focused on mastering Rust and decentralized system fundamentals + explorer of autonomous digital tools and secure smart contract architectures within the Soroban ecosystem + contributor to the Social Forest technical development / [LinkedIn](https://www.linkedin.com/in/iaiakedemy)
 
 -----
 
