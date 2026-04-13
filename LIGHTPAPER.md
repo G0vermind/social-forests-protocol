@@ -61,6 +61,7 @@ Operar no Ceará, dentro do ecossistema **ABC+ (Agricultura de Baixo Carbono)**,
 
 ## 🇺🇸 English: Segment Proposal
 
+
 # LIGHTPAPER: Social Forest Protocol
 **Bridging Biological Assets and Programmable Liquidity on Stellar**
 
