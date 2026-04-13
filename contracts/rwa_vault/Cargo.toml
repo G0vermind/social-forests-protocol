@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "contracts/rwa_vault",
+]
+resolver = "2"
