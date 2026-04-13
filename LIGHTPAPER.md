@@ -1,43 +1,34 @@
-# Social Forest: Executive Lightpaper 🌳
-**Institutional RWA Infrastructure for High-Yield Silviculture & Programmable Carbon**
+# Social Forest 🌳
+**A Decentralized RWA & B2B2C ReFi Protocol on the Stellar Network**
 
-> 💻 **Developers & Technical Auditors:** To explore our monorepo architecture, Next.js frontend, and Soroban smart contracts, please return to the [Technical README](./README.md).
+> 📄 **Investors & Partners:** For a deep dive into our economic model, market thesis, and institutional vision, please read our [Executive Lightpaper](./LIGHTPAPER.md).
 
-## 1. Executive Summary
-Social Forest is a technology-driven startup specializing in the tokenization of high-value Real-World Assets (RWAs). We bridge the gap between institutional ESG capital and the $500B timber market by deploying a decentralized infrastructure on the Stellar network. By integrating autonomous AI monitoring with Soroban smart contracts, we transform biological growth into liquid, verifiable, and programmable digital assets.
+## 1. Overview
+Social Forest is a production-ready Regenerative Finance (ReFi) protocol bridging physical forestry assets with the Stellar network. Built as a seamless B2B2C ecosystem, the protocol transforms high-yield silviculture into verifiable, programmable digital assets using Soroban smart contracts.
 
-## 2. Market Thesis: The RWA Opportunity
-The voluntary carbon market and the timber industry suffer from chronic opacity, high verification costs, and illiquidity. Social Forest solves these bottlenecks by verticalizing the supply chain and using the Stellar network as a settlement layer for biological assets.
+## 2. Real-World Asset (RWA) Collateral
+Unlike purely theoretical protocols, Social Forest is anchored by a fully operational vertical supply chain in **Nova Russas, Ceará (Brazil)**.
 
-### 2.1. Strategic Asset: African Mahogany (Khaya senegalensis)
-We focus on high-density African Mahogany, a premier hardwood with exponential value appreciation. 
-* **Biological Growth as Yield:** As the trees mature, the underlying collateral (biomass) increases, providing a natural "interest rate" reflected in the token's value.
-* **Regulatory Arbitrage (Ceará, Brazil):** Our operational base in the Brazilian semi-arid region benefits from a unique legal framework. As an exotic species in Ceará, our mahogany is **exempt from the Document of Forest Origin (DOF)**. This drastically reduces bureaucratic friction, enables rapid international trade, and increases the liquidity of the physical asset compared to native species.
+* **The Asset:** African Mahogany (*Khaya senegalensis*).
+* **Regulatory Advantage:** As an exotic species in the state of Ceará, our African Mahogany is explicitly **exempt from Document of Forest Origin (DOF) requirements** for transport when the origin is proven. This legal framework enables frictionless commercialization and increases asset liquidity.
+* **Infrastructure:** The protocol integrates data from the seedling cultivation stage at **Viveiro Maravilha** through to the final timber processing at the **Sómogno** sawmill.
 
-## 3. The Vertical Ecosystem: "From Seed to Smart Contract"
-Social Forest controls the entire value chain, ensuring data integrity and asset security.
+## 3. Monorepo Architecture
+To provide maximum transparency for auditors and maintain high-quality CI/CD, this project operates as a monorepo:
 
-* **Upstream (The Nursery):** *Viveiro Maravilha* serves as the origin point, where biometric tracking begins at the seedling stage.
-* **Midstream (The Oracle):** An autonomous AI Engine processes field data (DBH, height, and health). This "Digital Twin" of the forest acts as a trustless oracle, anchoring physical growth to the blockchain.
-* **Downstream (The Sawmill):** *Sómogno* sawmill handles the industrial processing, closing the economic cycle and ensuring the final product reaches the high-end export market.
+* `/src`: The Next.js frontend containing the B2B Corporate Dashboard, B2C Gamified Digital Nursery, and AI Oracle interfaces.
+* `/contracts`: The Soroban (Rust) smart contracts handling RWA state, token fractionalization, and the minting of C-CRED (Carbon) and S-CRED (Stewardship) tokens.
 
-## 4. Technology & Infrastructure
-Our stack is designed for institutional scalability and low-friction retail adoption.
+## 4. Technical Innovation: Proof of Growth (PoG)
+* **Physical Oracle:** We utilize an AI Engine to process raw field biometric data (DBH and total height). 
+* **Trustless Execution:** This validated data acts as an oracle, automatically triggering Soroban smart contracts to update the state and value of the RWA on-chain, eliminating the need for expensive, manual annual audits.
 
-* **Soroban Smart Contracts:** Rust-based contracts handle the minting, fractionalization, and distribution of environmental credits (C-CRED) and stewardship rewards (S-CRED).
-* **Proof of Growth (PoG) Protocol:** Our proprietary AI model verifies biological milestones. Instead of yearly manual audits, we provide continuous, real-time "On-Chain Auditability."
-* **Global Liquidity Layer:** Built on Stellar for near-instant settlement and negligible transaction costs, enabling the micro-fractionalization of forestry assets.
-
-## 5. B2B2C Business Model: The "Green Loyalty" Engine
-Social Forest operates as a multi-sided platform, generating revenue through asset management and technology licensing.
-
-* **B2B (Corporate ESG-as-a-Service):** Corporations neutralize their environmental footprint through direct acquisition of tokenized forestry lots. Integration via Stripe allows for seamless fiat-to-RWA onboarding.
-* **B2C (Retail Engagement):** Consumers earn "Leaves" (token fractions) through brand loyalty programs. This gamified layer drives retail adoption and creates a massive secondary market for environmental assets.
-
-## 6. Development Strategy
-* **Phase 1 (Alpha):** Deployment of the RWA dashboard and core Soroban contracts.
-* **Phase 2 (Integration):** Scaling the AI Oracle and connecting regional nurseries to the Social Forest Protocol.
-* **Phase 3 (Expansion):** Transitioning to a decentralized governance model (DAO) to allow global forest operators to leverage our RWA infrastructure.
+## 5. Tech Stack
+* **Blockchain:** Stellar Network, Soroban (Rust), Freighter Wallet API.
+* **Frontend:** Next.js (App Router), React, Tailwind CSS, TypeScript.
+* **Backend & Database:** Supabase (PostgreSQL), Edge Functions.
+* **Fiat-On-Ramp:** Stripe Integration.
 
 ---
+*Built with precision for the Stellar Ecosystem.*
 *Social Forest: Tokenizing the lungs of the planet to build a regenerative economy.*
