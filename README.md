@@ -88,4 +88,98 @@ The protocol closes the loop between institutional investment and community enga
 
 -----
 
-**Social Forest Protocol** – *Converting Ecological Flourishing into Programmable Prosperity on Stellar.*
+*Português*. 
+
+-----
+
+# Social Forest: Protocolo de Infraestrutura para Green RWA & Finanças Climáticas
+
+O **Social Forest** é um protocolo de infraestrutura (*tech-stack*) descentralizado que converte o **crescimento ecológico** de ativos silvícolas (especificamente *Khaya senegalensis* — Mogno Africano) em colaterais programáveis e ativos líquidos na rede Stellar.
+
+Diferente de modelos de créditos de carbono estáticos, o Social Forest introduz o conceito de **Proof of Flourishing (PoF)**: uma prova dinâmica de saúde biômica auditada por IA e oráculos de dados, permitindo uma economia circular **B2B2C**.
+
+-----
+
+## 📄 Documentação Oficial
+
+  * **[Lightpaper: Visão e Estratégia B2B2C](https://github.com/G0vermind/social-forests-protocol/blob/main/LIGHTPAPER.md):** Uma visão executiva sobre a tese de Finanças Climáticas, o impacto no semiárido cearense e a economia do Mogno Africano.
+  * **[Whitepaper Técnico (Em breve)](https://www.google.com/search?q=%23):** Detalhamento da arquitetura de Smart Contracts em Soroban e integração com o Protocolo x402.
+
+-----
+
+## 🏗 Arquitetura Técnica & Stack
+
+O protocolo é construído sobre três pilares fundamentais de integração na rede Stellar:
+
+### 1\. Smart Contracts (Soroban & Rust)
+
+Utilizamos contratos inteligentes em **Soroban** para gerir o ciclo de vida dos ativos:
+
+  * **RWA Vaults:** Contratos que custodiam os direitos sobre o crescimento ecológico e gerenciam o fracionamento em tokens de liquidez.
+  * **Automated Liquidity Pools (AMM):** Integração nativa para permitir a troca imediata entre frações verdes e ativos estáveis (USDC/XLM).
+  * **SBT Engine (Soulbound Tokens):** Implementação de tokens não-transferíveis para registro de reputação, conquistas e missões que definem a governança.
+
+### 2\. On-ramp Institucional (Stripe MPP)
+
+Para viabilizar o modelo B2B, utilizamos o **Stripe Managed Payment Provider** para:
+
+  * **Fiat-to-Asset:** Tesourarias corporativas adquirem colateral verde via moeda fiduciária, eliminando a fricção de custódia criptográfica inicial.
+  * **Compliance:** Automação de processos de KYB integrados ao fluxo de investimento em ativos reais.
+
+### 3\. Protocolo x402 + IA (Proof of Flourishing)
+
+A camada de auditoria substitui o tradicional "Proof of Growth" pelo **Proof of Flourishing (PoF)**:
+
+  * **IA Oracle:** Processamento de dados multiespectrais e biométricos para validar o florescimento do ecossistema.
+  * **Micropagamentos x402:** Cada validação dispara eventos econômicos na rede Stellar via micropagamentos, atualizando o valor intrínseco do RWA on-chain.
+
+-----
+
+## 🌲 O Modelo B2B2C: Propósito e Aplicação Real
+
+O protocolo fecha o ciclo entre o investimento institucional e o engajamento comunitário:
+
+1.  **B2B (Âncora):** Empresas compram frações de RWA para balanço ESG e conformidade climática, utilizando a segurança jurídica da operação vertical (**Serraria Sómogno/CE**) e a isenção de DOF.
+2.  **B2B2C (Engajamento):** Corporações distribuem "frações de florescimento" como recompensas ou cashbacks verdes para clientes.
+3.  **B2C (Mecânica de Missões):** Os usuários participam de missões de validação para evoluir os seus **SBTs de Reputação**, ganhando peso na governança da Tesouraria Verde e acesso a itens de consumo vinculados.
+
+-----
+
+## 🛠 Estrutura do Repositório
+
+```bash
+├── contracts/             # Workspace Rust para Smart Contracts Soroban
+│   ├── rwa_vault/         # Gestão de colateral e cunhagem (minting)
+│   ├── sbt_reputation/    # Soulbound Tokens para conquistas e missões
+│   └── governance/        # Lógica de voto ponderado por PoF e SBT
+├── services/              # Camada de back-end e integrações
+│   ├── stripe_gateway/    # Integração com Stripe MPP (fiat on-ramp)
+│   └── pof_oracle/        # Engine de IA e Protocolo x402
+├── interface/             # Dashboard B2B2C e Painel B2B (Next.js)
+├── docs/                  # Documentação técnica, arquitetura e Whitepaper
+└── stellar.toml           # Definição de ativos e metadados para a rede Stellar
+```
+
+-----
+
+## 👥 Core Team (The Netweavers)
+
+  * **Gustavo Gonçalves** (`Founder & Tech-stack Lead`): *bio* : silvicultor e empreendedor dedicado a madeiras nobres de alto valor desde o final dos anos 90 + Embaixador da Rede Stellar no Brasil/Ceará + builder de tech-stack para Green RWA e Finanças Climáticas + nó estratégico no ABC+ Ceará impulsionando agricultura de baixo carbono e bioeconomia + fundador do Social Forest / [LinkedIn](https://www.google.com/search?q=https://www.linkedin.com/in/gustavo-gon%C3%A7alves-9a4a1523/)
+
+  * **Vinicius Brás Rocha** (`Arquiteto ReFi`): *bio* : commoner desde muito jovem + explorador glocal P2P + netweaver focado em co-criar uma cibercultura regenerativa no ciberespaço web3 através do ReRe (Regenerative Resources) + hacker whitehat envolvido nos anos 90 com o movimento cypherpunk e posteriormente com o ecossistema pré-lançamento do bitcoin / [LinkedIn](https://www.linkedin.com/in/vrselfmedia/)
+
+  * **Clarkson Luiz Buriche** (`Dev Ambiental & IA`): *bio* : desenvolvedor focado em impacto e engenheiro ambiental sênior com sólida bagagem em ESG e gestão de território + especialista em traduzir complexidade socioambiental em sistemas digitais funcionais e APIs escaláveis + arquiteto Rust e IA construindo tech-stacks seguras para regeneração climática e governança de recursos naturais / [LinkedIn](https://www.linkedin.com/in/clarkson-luiz-buriche-bartalini-80446a6b/)
+
+  * **Iara Magalhães** (`Web3 Developer`): *bio* : desenvolvedora web3 e entusiasta de blockchain focada em dominar Rust e fundamentos de sistemas descentralizados + exploradora de ferramentas digitais autônomas e arquiteturas de smart contracts seguros no ecossistema Soroban + contribuidora do desenvolvimento técnico do Social Forest / [LinkedIn](https://www.google.com/search?q=https://www.linkedin.com/in/iaiakedemy)
+
+-----
+
+## ⚖️ Advisors (Council of Guardians)
+
+  * **Francisco das Chagas Rosa** (`Consultor Agronômico`): *bio* : engenheiro agrônomo e consultor técnico sênior em silvicultura tropical + especialista no manejo de alta performance de Mogno Africano e restauração florestal + ponte entre a complexidade biológica e a validação de dados agronômicos para o protocolo Social Forest.
+
+  * **Patricia Lemos** (`Consultora Jurídica`): *bio* : Formada em Direito pela UNICAP + arquiteta jurídica Web3 especializada em direito ambiental e conformidade regulatória + estrategista em jurisprudência de ativos florestais e legislação de espécies exóticas isentas de DOF + guardiã da estrutura legal do protocolo, unindo o direito tradicional às finanças programáveis descentralizadas / [LinkedIn]
+
+-----
+
+**Social Forest Protocol** – *Convertendo Florescimento Ecológico em Prosperidade Programável na Stellar.*
