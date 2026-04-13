@@ -1,0 +1,13 @@
+# SOCIAL FOREST PROTOCOL
+[DOCUMENTATION]
+org_name = "Social Forest Protocol"
+org_url = "https://github.com/G0vermind/social-forests-protocol"
+
+[[PRINCIPALS]]
+name = "Gustavo Gonçalves"
+role = "Founder & Stellar Ambassador"
+
+[[CURRENCIES]]
+code = "MOGNO"
+name = "Social Forest Mahogany RWA"
+desc = "Ativo Real (RWA) de Mogno Africano."
