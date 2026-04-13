@@ -1,6 +1,8 @@
 # Social Forest: Executive Lightpaper 🌳
 **Institutional-Grade RWA Tokenization & Environmental Oracle on Stellar**
 
+> 💻 **Developers & Technical Auditors:** To explore our monorepo architecture, Next.js frontend, and Soroban smart contracts, please return to the [Technical README](./README.md).
+> 
 ---
 
 ## 1. Abstract
