@@ -1,59 +1,81 @@
-# Social Forest 🌳
-**Institutional RWA Infrastructure & DeFi Protocol on Stellar (Stellar 37º - Track B)**
+# Social Forest: Protocolo de Infraestrutura para Green RWA & Finanças Climáticas
 
-> 📄 **Executive & Economic Thesis:** For a deep dive into our market segment proposal, regulatory advantages (DOF exemption), and economic model, please read the [Executive Lightpaper](./LIGHTPAPER.md).
+O **Social Forest** é um protocolo de infraestrutura (*tech-stack*) descentralizado que converte o **crescimento ecológico** de ativos silvícolas (especificamente *Khaya senegalensis*) em colaterais programáveis e ativos líquidos na rede Stellar.
 
----
+Diferente de modelos de créditos de carbono estáticos, o Social Forest introduz o conceito de **Proof of Flourishing (PoF)**, uma prova dinâmica de saúde biômica auditada por IA e oráculos de dados, permitindo uma economia circular **B2B2C**.
 
-## 🇧🇷 Português
+-----
 
-### 1. Escopo do Projeto
-O **Social Forest** é um protocolo de Finanças Regenerativas (ReFi) projetado para converter ativos biológicos reais (Mogno Africano) em colateral programável na rede Stellar. Atuamos na **Trilha B** para construir a infraestrutura que conecta pagamentos fiduciários (Stripe) à liquidez de Ativos do Mundo Real (RWA) via Soroban.
+## 🏗 Arquitetura Técnica & Stack
 
-### 2. Diferenciais Estratégicos
-* **Arbitragem Regulatória:** Operação baseada no Ceará com isenção de DOF para espécies exóticas, garantindo liquidez imediata para exportação.
-* **Verticalização Industrial:** Integração direta com o **Viveiro Maravilha** e a **Serraria Sómogno**.
-* **Oráculo de Crescimento (PoG):** Monitoramento biométrico via IA que ancora o valor do token ao crescimento real da biomassa.
+O protocolo é construído sobre quatro pilares fundamentais de integração na rede Stellar:
 
-### 3. Roteiro de Sprints (Stellar 37º)
-* **Sprint 1:** Integração Stripe Checkout (Fiat-to-RWA) e arquitetura de Vaults.
-* **Sprint 2:** Implementação do Protocolo x402 para auditorias biométricas via micropagamentos.
-* **Sprint 3:** Smart Contracts Soroban para governança de ativos e Pools de Liquidez (AMM).
+### 1\. Smart Contracts (Soroban & Rust)
 
----
+Utilizamos contratos inteligentes em **Soroban** para gerir o ciclo de vida dos ativos:
 
-## 🇺🇸 English
+  * **RWA Vaults:** Contratos que custodiam os direitos sobre o crescimento ecológico e gerenciam o fracionamento em tokens de liquidez.
+  * **Automated Liquidity Pools (AMM):** Integração nativa para permitir a troca imediata entre frações verdes e ativos estáveis (USDC/XLM).
+  * **SBT Engine (Soulbound Tokens):** Implementação de tokens não-transferíveis para registro de reputação, conquistas e governança participativa.
 
-### 1. Project Scope
-**Social Forest** is a Regenerative Finance (ReFi) protocol designed to convert real biological assets (African Mahogany) into programmable collateral on the Stellar network. We operate within **Track B** to build the infrastructure connecting fiat payments (Stripe) to Real-World Asset (RWA) liquidity via Soroban.
+### 2\. On-ramp Institucional (Stripe MPP)
 
-### 2. Strategic Differentiators
-* **Regulatory Arbitrage:** Operations based in Ceará (Brazil) with DOF exemption for exotic species, ensuring immediate liquidity for international exports.
-* **Industrial Verticalization:** Direct integration with **Viveiro Maravilha** (Nursery) and **Sómogno** (Sawmill).
-* **Proof of Growth (PoG):** AI-driven biometric monitoring that anchors token value to real-time biomass growth.
+Para viabilizar o modelo B2B, utilizamos o **Stripe Managed Payment Provider** para:
 
-### 3. Sprint Roadmap (Stellar 37º)
-* **Sprint 1:** Stripe Checkout integration (Fiat-to-RWA) and Vault architecture.
-* **Sprint 2:** x402 Protocol implementation for biometric audits via micropayments.
-* **Sprint 3:** Soroban Smart Contracts for asset governance and Liquidity Pools (AMM).
+  * **Fiat-to-Asset:** Tesourarias corporativas podem adquirir colateral verde diretamente via moeda fiduciária, eliminando a fricção de custódia cripto inicial.
+  * **Compliance:** Automação de processos de KYC/KYB integrados ao fluxo de investimento em ativos reais.
 
----
+### 3\. Protocolo x402 + IA (Proof of Flourishing)
 
-## 🛠️ Stack Tecnológica / Tech Stack
+A camada de auditoria substitui o tradicional "Proof of Growth" pelo **Proof of Flourishing (PoF)**:
 
-* **Blockchain:** Stellar Network (Soroban Smart Contracts in Rust).
-* **Payments:** Stripe MPP (Fiat Gateway) & x402 Protocol (Micropayments).
-* **Frontend:** Next.js 14+, Tailwind CSS, Lucide Icons.
-* **Backend/Data:** AI Engine (Biometrics) + Supabase (PostgreSQL).
+  * **IA Oracle:** Processamento de dados multiespectrais e biométricos para validar o florescimento do ecossistema.
+  * **Micropagamentos x402:** Cada validação bem-sucedida dispara eventos econômicos na rede Stellar, remunerando os validadores de dados em tempo real e atualizando o valor intrínseco do RWA on-chain.
 
----
+-----
 
-## 👥 Equipe Principal / Core Team
+## 🌲 O Modelo B2B2C: Propósito e Aplicação Real
 
-* **Gustavo Gonçalves** – *Web3 Architect, Sómogno Manager & Institutional Liaison*
-* **Vinicius Brás Rocha (Glocal VR)** – *Cypherpunk Veteran & ReFi Architect*
-* **Clarkson Luiz Buriche Bartalini** – *Senior Environmental & Web3 Developer*
-* **Iaiakedemy** – *Web3 & Rust Developer*
+O protocolo fecha o ciclo entre o investimento institucional e o engajamento comunitário:
 
----
-*Built with precision for the Stellar Ecosystem.*
+1.  **B2B (Âncora):** Empresas compram frações de RWA para balanço ESG e compensação climática, utilizando a segurança jurídica da operação vertical (Serraria Sómogno/CE) e isenção de DOF.
+2.  **B2B2C (Engajamento):** Corporações distribuem "frações de florescimento" como recompensas para clientes.
+3.  **B2C (Mecânica de Missões):** Os usuários finais participam de missões (validação de dados, educação ambiental) para evoluir seus **SBTs de Reputação**, ganhando voz na governança da **Tesouraria Verde** e acesso a itens de consumo vinculados.
+
+-----
+
+## 🛠 Estrutura do Repositório
+
+```bash
+├── contracts/             # Smart Contracts em Soroban (Rust)
+│   ├── rwa-vault/         # Gestão de colateral e minting
+│   ├── sbt-reputation/    # Lógica de Soulbound Tokens para conquistas
+│   └── governance/        # Contratos de voto ponderado por PoF
+├── api/                   # Integração com Stripe MPP e Gateway
+├── oracles/               # Engine de IA para Proof of Flourishing
+│   └── x402-integration/  # Implementação do protocolo de micropagamentos
+└── frontend/              # Interface para Missões e Dashboard B2B2C
+```
+
+-----
+
+## 👥 Core Team (The Netweavers)
+
+  * **Gustavo Gonçalves** (`Founder & Tech-stack Lead`): *bio* : silviculturist and entrepreneur dedicated to high-value hardwoods since the late 90s + Stellar Network Ambassador for Brazil/Ceará + tech-stack builder for Green RWA and Climate Finance + strategic node within ABC+ Ceará driving low-carbon agriculture and bioeconomy + founder of Social Forest (an infrastructure protocol bridging ecological flourishing to programmable finance on the Stellar network) / [LinkedIn](https://www.google.com/search?q=https://www.linkedin.com/in/gustavo-gon%C3%A7alves-9a4a1523/)
+
+  * **Vinicius Brás Rocha** (`ReFi Architect`): *bio* : commoner since very young age + P2P glocal explorer + netweaver that seeks to co-create an widespread regenerative cyberculture within the web3 cyberspace through ReRe -Regenerative Resources ( an singular cybercultural protocol that was co-initiated in 2022 within the nascent ReFi movement in BR ) + whitehat hacker that got involved in the 1990\`s with the cypherpunk movement and further with the pre-launch bitcoin ecosystem / [LinkedIn](https://www.linkedin.com/in/vrselfmedia/)
+
+  * **Clarkson Luiz Buriche** (`Environmental Dev & AI`): *bio* : impact-driven developer and senior environmental engineer with a solid background in ESG and territory management + specialist in translating multi-layered socio-environmental complexity into functional digital systems and scalable APIs + Rust and AI architect building secure tech-stacks for climate regeneration and natural resource governance + explorer of decentralized models for the tokenization of ecosystem services and water resources + netweaver of regenerative economics and automated workflows designed to bridge technology, territory, and decentralized governance / [LinkedIn]
+
+-----
+
+## 🚀 Roadmap de Desenvolvimento
+
+  * **Sprint 1:** Finalização da arquitetura de Vaults em Soroban e integração inicial Stripe.
+  * **Sprint 2:** Implementação do motor de Missões e lógica de emissão de SBTs.
+  * **Sprint 3:** Deploy do Oráculo PoF com Protocolo x402 para auditoria real no semiárido cearense.
+  * **Mainnet Launch:** Integração vertical completa com a liquidação física via Serraria Sómogno.
+
+-----
+
+**Social Forest Protocol** – *Converting Ecological Flourishing into Programmable Prosperity on Stellar.*
