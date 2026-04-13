@@ -1,6 +1,8 @@
 # Social Forest 🌳
 **A Decentralized ReFi & RWA Protocol on the Stellar Network**
 
+> 📄 **Investors & SCF Judges:** For a deep dive into our economic model, RWA collateral in Brazil, and institutional vision, please read our [Executive Lightpaper](./LIGHTPAPER.md).
+> 
 Social Forest is an open-source Regenerative Finance (ReFi) protocol that bridges the gap between high-impact forestry and the Web3 ecosystem. By transforming living trees into autonomous digital agents via Soroban smart contracts and x402 machine-to-machine (M2M) micropayments, we provide a gamified B2B2C ecosystem backed by transparent, on-chain climate auditing.
 
 ## 🌍 The "Client Zero" & Physical Infrastructure
