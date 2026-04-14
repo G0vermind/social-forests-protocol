@@ -1,5 +1,14 @@
-[workspace]
-members = [
-    "contracts/rwa_vault",
-]
-resolver = "2"
+[package]
+name = "rwa_vault"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { version = "21", features = [] }
+
+[dev-dependencies]
+soroban-sdk = { version = "21", features = ["testutils"] }
