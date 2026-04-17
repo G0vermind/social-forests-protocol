@@ -262,7 +262,7 @@ social-forests-protocol/
 ├── public/                     # Static assets
 ├── .well-known/                # stellar.toml — asset definitions + metadata
 │
-├── AGENTS.md                   # AI agent instructions (Antgravity)
+├── AGENTS.md                   # AI agent instructions
 ├── CLAUDE.md                   # Claude context file
 ├── CONTRIBUTING.md             # Dev setup, branch workflow, code standards
 ├── LIGHTPAPER.md               # Vision, strategy, tokenomics
