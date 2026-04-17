@@ -1,4 +1,3 @@
-```markdown
 # AGENTS.md — Social Forest Protocol
 
 Operational instructions for AI agents (Antgravity, Claude Code, Codex, and similar).
@@ -18,6 +17,7 @@ This file defines **HOW** agents must act in this repository.
 
 ---
 
+```markdown
 ## 🗂️ Repository Map
 
 ```text
