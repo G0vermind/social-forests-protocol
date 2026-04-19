@@ -338,20 +338,20 @@ Law degree from UNICAP. Web3 legal architect specialized in environmental law an
 
 ---
 
-### ⚡ [R]3 - ReReGeneradora: The First Decelerator
+### ⚡ [RE]³ - ReReGeneradora: The First Decelerator
 
-> **[R]3 - ReReGeneradora** is the first known decelerator ⚡ and it is connected to what is already changing the logic of the world we live in: AI & Web3. ⚡ 
+> **[RE]³ - ReReGeneradora** is the first known decelerator ⚡ and it is connected to what is already changing the logic of the world we live in: AI & Web3. ⚡ 
 >
 > For in an increasingly accelerated reality where new ideas & projects are captured by the gravitational pull of *trends* & *hypes*, decision-making becomes more an act of survival than of effective critical vision... 
 > 
 > Because today, right at this exact moment, more than ever, it is necessary to decelerate not only to eco-localize oneself, but also to become the master of your own acceleration.
 
-#### [R]3 Advisors
+#### [RE]³ Advisors
 * **Pedro Bruder**
   * [LinkedIn](https://www.linkedin.com/in/pedrobruder) | [GitHub](https://github.com/BasedCaveman)
   * *Bio:* An entrepreneurial-minded individual with a passion for changing the world through innovative education, self learning tools, regenerative finance, web3 and deFi mechanics and the entrepreneurial mindset. Skilled in token economy, governance minting, web3, DeFi, blockchain, marketing strategy, sales management, and crafting learning culture.
 
-* **Enzo Garcia**
+* **[RE]³ Enzo Garcia**
   * [LinkedIn](https://www.linkedin.com/in/enzo-garcia-295066316) | [GitHub](https://github.com/F0rtyF0ur)
   * *Bio:* Computer Science & Web3 enthusiast. Aims to transform gaming logic and blockchain security into tools for the next human frontier. Currently based in Lisbon, integrating into the European tech community to eventually become a player in the 21st-century space race. Skilled in problem-solving and tackling challenges, with a passion for scalable technologies.
 
@@ -716,9 +716,9 @@ Formada em Direito pela UNICAP. Arquiteta jurídica Web3 especializada em direit
 
 ---
 
-### ⚡ [R]3 - ReReGeneradora: A Primeira Desaceleradora
+### ⚡ [RE]³ - ReReGeneradora: A Primeira Desaceleradora
 
-> A **[R]3 - ReReGeneradora** é a primeira desaceleradora que se tem notícia ⚡ e ligada ao que já está mudando a lógica do mundo que vivemos: IA & Web3. ⚡ 
+> A **[RE]³  - ReReGeneradora** é a primeira desaceleradora que se tem notícia ⚡ e ligada ao que já está mudando a lógica do mundo que vivemos: IA & Web3. ⚡ 
 >
 > Pois, numa realidade cada vez mais acelerada onde novas ideias & projetos são capturados pela força gravitacional dos *trends* & *hypes*, as tomadas de decisão são mais um ato de sobrevivência do que de efetiva visão crítica... 
 > 
