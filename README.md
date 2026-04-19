@@ -29,7 +29,7 @@ Unlike static carbon credit models, Social Forest introduces **Proof of Flourish
 | :--- | :--- |
 | [LIGHTPAPER.md](./LIGHTPAPER.md) | Climate Finance thesis, B2B2C strategy, token architecture |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | Dev environment setup, branch workflow, code standards |
-| [AGENTS.md](./AGENTS.md) | Instructions for AI agents (Antgravity) |
+| [AGENTS.md](./AGENTS.md) | Instructions for AI agents |
 | [CLAUDE.md](./CLAUDE.md) | Context file for Claude |
 | Whitepaper *(coming soon)* | Full Soroban contract architecture + x402/MPP integration spec |
 
@@ -407,7 +407,7 @@ Diferente de modelos de créditos de carbono estáticos, o Social Forest introdu
 | :--- | :--- |
 | [LIGHTPAPER.md](./LIGHTPAPER.md) | Tese de Finanças Climáticas, estratégia B2B2C, arquitetura de tokens |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | Configuração do ambiente, fluxo de branches, padrões de código |
-| [AGENTS.md](./AGENTS.md) | Instruções para agentes de IA (Antgravity) |
+| [AGENTS.md](./AGENTS.md) | Instruções para agentes de IA |
 | [CLAUDE.md](./CLAUDE.md) | Arquivo de contexto para o Claude |
 | Whitepaper *(em breve)* | Arquitetura completa dos contratos Soroban + spec de integração x402/MPP |
 
