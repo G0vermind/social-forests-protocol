@@ -724,7 +724,7 @@ Formada em Direito pela UNICAP. Arquiteta jurídica Web3 especializada em direit
 > 
 > Pois hoje, neste exato momento, mais do nunca, é preciso desacelerar não apenas para se eco-localizar, mas também para se tornar dono da sua própria aceleração.
 
-#### Conselheiros [R]3
+#### Conselheiros [RE]³
 * **Pedro Bruder**
   * [LinkedIn](https://www.linkedin.com/in/pedrobruder) | [GitHub](https://github.com/BasedCaveman)
   * *Bio:* Um indivíduo com mentalidade empreendedora e paixão por mudar o mundo através de educação inovadora, ferramentas de autoaprendizagem, finanças regenerativas, mecânicas de web3 e DeFi, e mentalidade empreendedora. Especialista em economia de tokens, cunhagem de governança, web3, DeFi, blockchain, estratégia de marketing, gestão de vendas e na criação de uma cultura de aprendizado.
