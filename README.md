@@ -492,7 +492,7 @@ Silvicultor e empreendedor em madeiras nobres desde o final dos anos 90. Embaixa
 
 **Vinicius Brás Rocha** · `Arquiteto ReFi`
 P2P glocal explorer e netweaver focado em co-criar uma cibercultura regenerativa no Web3 através do ReRe (Regenerative Resources). Hacker whitehat com raízes no movimento cypherpunk dos anos 90 e no ecossistema pré-lançamento do Bitcoin.
-[LinkedIn](https://www.linkedin.com/in/vrselfmedia/)
+[LinkedIn](https://www.linkedin.com/in/vrselfmedia/) [GitHub](https://github.com/glocalVR)
 
 **Clarkson Luiz Buriche** · `Dev Ambiental & IA`
 Desenvolvedor focado em impacto e engenheiro ambiental sênior. Arquiteto Rust e IA para regeneração climática e governança de recursos naturais. Especialista em traduzir complexidade socioambiental em sistemas digitais escaláveis.
@@ -528,7 +528,8 @@ Github: **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**
 Indivíduo com mentalidade empreendedora e paixão por mudar o mundo através de educação inovadora, ferramentas de autoaprendizagem, finanças regenerativas, mecânicas de Web3 e DeFi. Especialista em economia de tokens, cunhagem de governança, blockchain, estratégia de marketing e na criação de uma cultura de aprendizado.
 [LinkedIn](https://www.linkedin.com/in/pedrobruder) · [GitHub](https://github.com/BasedCaveman)
 
-**[Vinícius (glocalVR)](https://github.com/glocalVR)** — Membro do Protocolo e Conselheiro Estratégico na **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**. Especialista em governança regenerativa, ele faz a ponte entre ativos biológicos e modelos de impacto sustentável, garantindo que a gente siga as melhores práticas de economia circular.
+**[Vinícius (glocalVR)](https://github.com/glocalVR)** — Membro do Protocolo e Conselheiro Estratégico na **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**. Especialista em governança regenerativa, ele faz a ponte entre ativos biológicos e modelos de impacto sustentável, garantindo que a gente siga as melhores práticas de economia circular. 
+[LinkedIn](https://www.linkedin.com/in/vrselfmedia/) [GitHub](https://github.com/glocalVR)
 
 **Enzo Garcia** · `Conselheiro [RE]³`
 Entusiasta de Ciência da Computação & Web3. Desejo transformar a lógica dos games e a segurança do Blockchain em ferramentas para a próxima fronteira humana. Atualmente em Lisboa, integrando-me à comunidade tech europeia. Facilidade em resolver problemas e apaixonado por tecnologias que escalam.
