@@ -1,0 +1,5 @@
+{
+  "/ativos/page": "app/ativos/page.js",
+  "/dao/page": "app/dao/page.js",
+  "/page": "app/page.js"
+}
