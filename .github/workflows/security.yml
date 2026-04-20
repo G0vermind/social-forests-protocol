@@ -1,0 +1,77 @@
+name: Security & Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Contract Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Test rwa_vault
+        run: cargo test --manifest-path contracts/rwa_vault/Cargo.toml -- --nocapture
+
+      - name: Test sbt_reputation
+        run: cargo test --manifest-path contracts/sbt_reputation/Cargo.toml -- --nocapture
+
+  build:
+    name: WASM Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-wasm-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build rwa_vault (WASM)
+        run: cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/rwa_vault/Cargo.toml
+
+      - name: Build sbt_reputation (WASM)
+        run: cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/sbt_reputation/Cargo.toml
+
+  scout:
+    name: Scout Security Audit
+    runs-on: ubuntu-latest
+    # Runs after tests to avoid wasting audit time on broken code
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Scout
+        run: cargo install cargo-scout-audit
+
+      - name: Audit rwa_vault
+        run: cargo scout-audit --manifest-path contracts/rwa_vault/Cargo.toml
+
+      - name: Audit sbt_reputation
+        run: cargo scout-audit --manifest-path contracts/sbt_reputation/Cargo.toml
