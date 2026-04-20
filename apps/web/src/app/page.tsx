@@ -1,124 +1,150 @@
-"use client";
+'use client';
 
-import { Leaf, Sprout, Sparkles, Wallet, ChevronRight, TreePine } from "lucide-react";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
+  const { connectFreighter, connectGoogle, isLoading } = useAuth();
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleFreighter() {
+    try {
+      setError(null);
+      await connectFreighter();
+      router.push('/dashboard');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Erro ao conectar carteira');
+    }
+  }
+
+  async function handleGoogle() {
+    try {
+      setError(null);
+      await connectGoogle();
+      router.push('/dashboard');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Erro ao entrar com Google');
+    }
+  }
+
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex flex-col overflow-hidden">
-      {/* Ambient background glows */}
-      <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute top-[-10%] left-[-10%] h-72 w-72 rounded-full bg-emerald-600/20 blur-[100px]" />
-        <div className="absolute bottom-[-5%] right-[-5%] h-96 w-96 rounded-full bg-teal-500/15 blur-[120px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full bg-emerald-900/30 blur-[80px]" />
+    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-green-950 to-emerald-950 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+
+      {/* Background glow — purely decorative */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-green-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-emerald-400/5 rounded-full blur-2xl" />
       </div>
 
-      {/* ── HEADER ── */}
-      <header className="relative z-10 flex items-center justify-between px-6 py-5">
-        <div className="flex items-center gap-2">
-          <TreePine className="h-6 w-6 text-emerald-400" strokeWidth={1.5} />
-          <span className="text-xl font-bold tracking-tight text-emerald-400">
-            Social Forest
-          </span>
-        </div>
-
-        {/* Wallet chip */}
-        <button className="flex items-center gap-2 rounded-full border border-slate-700 bg-slate-800/70 px-4 py-2 text-sm text-slate-300 backdrop-blur-sm transition hover:border-emerald-500/60 hover:text-emerald-300 active:scale-95">
-          <Wallet className="h-4 w-4" />
-          <span>Conectar</span>
-        </button>
-      </header>
-
-      {/* ── BODY ── */}
-      <section className="relative z-10 flex flex-1 flex-col items-center justify-center gap-8 px-6 pb-10 pt-4">
-
-        {/* Saldo badge */}
-        <div className="flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-950/50 px-5 py-2 text-sm text-emerald-300 backdrop-blur-sm">
-          <Sparkles className="h-4 w-4 text-emerald-400" />
-          Viveiro Digital • Temporada 1
-        </div>
-
-        {/* ── MUDA CARD ── */}
-        <div className="group relative w-full max-w-sm">
-          {/* Card glow on hover */}
-          <div className="absolute -inset-0.5 rounded-3xl bg-gradient-to-br from-emerald-500/40 to-teal-400/20 opacity-60 blur-sm transition-all duration-500 group-hover:opacity-100 group-hover:blur-md" />
-
-          <div className="relative flex flex-col items-center gap-6 rounded-3xl border border-slate-700/60 bg-slate-900/80 px-8 py-10 backdrop-blur-xl shadow-2xl">
-            {/* NFT-style badge */}
-            <div className="absolute top-4 right-4 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3 py-0.5 text-xs font-semibold text-emerald-400 tracking-widest">
-              NFT
-            </div>
-
-            {/* Icon orb */}
-            <div className="relative flex h-28 w-28 items-center justify-center rounded-full border border-emerald-500/30 bg-gradient-to-br from-emerald-900/80 to-slate-900">
-              <div className="absolute inset-0 rounded-full bg-emerald-500/10 animate-pulse" />
-              <Sprout className="relative h-14 w-14 text-emerald-400 drop-shadow-[0_0_12px_rgba(52,211,153,0.8)]" strokeWidth={1.2} />
-            </div>
-
-            {/* Info */}
-            <div className="flex flex-col items-center gap-1 text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Espécie
-              </p>
-              <h1 className="text-2xl font-extrabold tracking-tight text-white">
-                Mogno Africano
-              </h1>
-              <span className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-0.5 text-xs font-bold text-amber-400">
-                <Leaf className="h-3 w-3" />
-                Muda Nível 1
-              </span>
-            </div>
-
-            {/* Stats row */}
-            <div className="grid w-full grid-cols-3 gap-2 rounded-2xl border border-slate-700/50 bg-slate-800/40 p-3">
-              {[
-                { label: "Crescimento", value: "0%" },
-                { label: "Saúde", value: "100%" },
-                { label: "Raridade", value: "C" },
-              ].map((stat) => (
-                <div key={stat.label} className="flex flex-col items-center gap-0.5">
-                  <span className="text-base font-bold text-emerald-300">{stat.value}</span>
-                  <span className="text-[10px] text-slate-500">{stat.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* ── SALDO COUNTER ── */}
-        <div className="flex flex-col items-center gap-1">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
-            Saldo atual
-          </p>
-          <p className="text-5xl font-black tracking-tight text-white">
-            150{" "}
-            <span className="text-emerald-400">Folhas</span>{" "}
-            <span className="text-3xl">🍃</span>
-          </p>
-          <p className="text-xs text-slate-600 mt-1">≈ 0.075 ETH em créditos verdes</p>
-        </div>
-
-        {/* ── CTA BUTTON ── */}
-        <div className="flex w-full max-w-sm flex-col gap-3">
-          <button className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-400 px-6 py-4 font-bold text-slate-950 shadow-lg shadow-emerald-500/30 transition-all duration-300 hover:shadow-emerald-500/50 hover:scale-[1.02] active:scale-95 text-base tracking-wide">
-            {/* shine effect */}
-            <span className="absolute inset-0 -translate-x-full skew-x-12 bg-white/20 transition-transform duration-700 group-hover:translate-x-full" />
-            <span className="relative flex items-center justify-center gap-2">
-              <TreePine className="h-5 w-5" />
-              Forjar Árvore Real
-              <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </span>
-          </button>
-
-          <button className="w-full rounded-2xl border border-slate-700 bg-transparent px-6 py-3 text-sm text-slate-400 transition hover:border-slate-500 hover:text-slate-200 active:scale-95">
-            Ver meu portfólio
-          </button>
-        </div>
-
-        {/* Bottom hint */}
-        <p className="text-center text-xs text-slate-600 max-w-xs">
-          Cada árvore forjada é plantada no mundo real via protocolo de impacto verificável 🌍
+      {/* Logo e tagline */}
+      <div className="mb-10 text-center relative z-10">
+        <div className="text-7xl mb-4 drop-shadow-lg select-none">🌳</div>
+        <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
+          Florestas<span className="text-green-400">.Social</span>
+        </h1>
+        <p className="text-green-300/70 mt-3 text-sm tracking-wide">
+          Finanças Regenerativas · Rede Stellar · Mogno Africano
         </p>
-      </section>
+      </div>
+
+      {/* Card de login */}
+      <div className="w-full max-w-md bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/10 relative z-10">
+
+        {/* Header do card */}
+        <div className="px-8 py-6 text-center border-b border-white/10">
+          <p className="text-green-400/80 text-xs font-semibold uppercase tracking-widest mb-1">
+            Acesso ao Protocolo
+          </p>
+          <h2 className="text-xl font-semibold text-white">Como você quer entrar?</h2>
+        </div>
+
+        <div className="p-8 space-y-5">
+
+          {/* Google — Web2 (Account Abstraction) */}
+          <div>
+            <p className="text-xs text-white/30 mb-2.5 text-center font-medium uppercase tracking-wide">
+              Consumidor — entrada sem crypto
+            </p>
+            <button
+              id="btn-google-login"
+              onClick={handleGoogle}
+              disabled={isLoading}
+              className="w-full flex items-center justify-center gap-3 bg-white hover:bg-green-50 text-gray-700 font-semibold py-3.5 px-4 rounded-xl transition-all duration-200 disabled:opacity-50 shadow-sm"
+            >
+              <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              Entrar com Google — Fricção Zero
+            </button>
+          </div>
+
+          {/* Separador */}
+          <div className="relative flex items-center">
+            <div className="flex-grow border-t border-white/10" />
+            <span className="mx-4 text-white/30 text-xs">ou entre com carteira</span>
+            <div className="flex-grow border-t border-white/10" />
+          </div>
+
+          {/* Freighter — Web3 Native */}
+          <div>
+            <p className="text-xs text-white/30 mb-2.5 text-center font-medium uppercase tracking-wide">
+              Empresa / Admin — Stellar nativo
+            </p>
+            <button
+              id="btn-freighter-login"
+              onClick={handleFreighter}
+              disabled={isLoading}
+              className="w-full flex items-center justify-center gap-3 bg-green-500 hover:bg-green-400 text-white font-semibold py-3.5 px-4 rounded-xl transition-all duration-200 disabled:opacity-50 shadow-lg shadow-green-900/30"
+            >
+              <span className="text-lg" aria-hidden="true">💳</span>
+              {isLoading ? 'Conectando...' : 'Conectar Carteira Freighter'}
+            </button>
+          </div>
+
+          {/* Erro */}
+          {error && (
+            <div
+              role="alert"
+              className="bg-red-900/30 border border-red-500/30 text-red-300 text-sm px-4 py-3 rounded-xl"
+            >
+              {error}
+            </div>
+          )}
+
+          {/* Rodapé do card */}
+          <p className="pt-1 text-xs text-center text-white/20 leading-relaxed">
+            Ao entrar você concorda com o modelo de Account Abstraction e patrocínio de fees via Soroban.
+          </p>
+        </div>
+      </div>
+
+      {/* Links informativos */}
+      <div className="mt-8 flex gap-6 text-xs text-green-400/60 relative z-10">
+        <a
+          href="https://github.com/G0vermind/social-forests-protocol"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-green-300 transition-colors"
+        >
+          GitHub
+        </a>
+        <span className="text-white/20">·</span>
+        <a href="/lightpaper" className="hover:text-green-300 transition-colors">Lightpaper</a>
+        <span className="text-white/20">·</span>
+        <a
+          href="https://stellar.expert/explorer/testnet"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-green-300 transition-colors"
+        >
+          Testnet Explorer
+        </a>
+      </div>
     </main>
   );
 }
