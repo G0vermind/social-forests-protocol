@@ -32,6 +32,9 @@ jobs:
       - name: Test sbt_reputation
         run: cargo test --manifest-path contracts/sbt_reputation/Cargo.toml -- --nocapture
 
+      - name: Test hero_journey
+        run: cargo test --manifest-path contracts/hero_journey/Cargo.toml -- --nocapture
+
   build:
     name: WASM Build
     runs-on: ubuntu-latest
@@ -57,6 +60,9 @@ jobs:
       - name: Build sbt_reputation (WASM)
         run: cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/sbt_reputation/Cargo.toml
 
+      - name: Build hero_journey (WASM)
+        run: cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/hero_journey/Cargo.toml
+
   scout:
     name: Scout Security Audit
     runs-on: ubuntu-latest
@@ -75,3 +81,6 @@ jobs:
 
       - name: Audit sbt_reputation
         run: cargo scout-audit --manifest-path contracts/sbt_reputation/Cargo.toml
+
+      - name: Audit hero_journey
+        run: cargo scout-audit --manifest-path contracts/hero_journey/Cargo.toml

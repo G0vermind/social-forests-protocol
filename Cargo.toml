@@ -2,6 +2,7 @@
 members = [
     "contracts/rwa_vault",
     "contracts/sbt_reputation",
+    "contracts/hero_journey",
 ]
 resolver = "2"
 
