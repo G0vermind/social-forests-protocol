@@ -283,7 +283,7 @@ Github: **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**
 Entrepreneurial-minded individual with a passion for changing the world through innovative education, self-learning tools, regenerative finance, Web3 and DeFi mechanics. Skilled in token economy, governance minting, blockchain, marketing strategy, and crafting learning culture.
 [LinkedIn](https://www.linkedin.com/in/pedrobruder) · [GitHub](https://github.com/BasedCaveman)
 
-**[Vinícius (glocalVR)](https://github.com/glocalVR)** `[RE]³ Advisor` — Protocol Member and Strategic Advisor at **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**. Expert in regenerative governance, bridging biological assets and sustainable impact models, ensuring the protocol follows circular economy best practices. [LinkedIn](https://www.linkedin.com/in/vrselfmedia/) [GitHub](https://github.com/glocalVR)
+**[Vinícius (glocalVR)](https://github.com/glocalVR)** `[RE]³ Advisor` — Protocol co-initiator and  co-creator at  **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**. Expert in regenerative governance, bridging biological assets and sustainable impact models, ensuring the protocol follows circular economy best practices. [LinkedIn](https://www.linkedin.com/in/vrselfmedia/) [GitHub](https://github.com/glocalVR)
 
 **Enzo Garcia** · `[RE]³ Advisor`
 Computer Science & Web3 enthusiast. Aims to transform gaming logic and blockchain security into tools for the next human frontier. Currently based in Lisbon, integrating into the European tech community. Skilled in problem-solving and scalable technologies.
