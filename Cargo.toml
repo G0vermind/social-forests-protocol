@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "contracts/rwa_vault",
+    "contracts/sbt_reputation",
 ]
 resolver = "2"
 
