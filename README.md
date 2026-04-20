@@ -277,9 +277,13 @@ Law degree from UNICAP. Web3 legal architect specialized in environmental law an
 >
 > Because today, right at this exact moment, more than ever, it is necessary to decelerate not only to eco-localize oneself, but also to become the master of your own acceleration.
 
+Github: **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**
+
 **Pedro Bruder** · `[RE]³ Advisor`
 Entrepreneurial-minded individual with a passion for changing the world through innovative education, self-learning tools, regenerative finance, Web3 and DeFi mechanics. Skilled in token economy, governance minting, blockchain, marketing strategy, and crafting learning culture.
 [LinkedIn](https://www.linkedin.com/in/pedrobruder) · [GitHub](https://github.com/BasedCaveman)
+
+**[Vinícius (glocalVR)](https://github.com/glocalVR)** `[RE]³ Advisor` — Protocol Member and Strategic Advisor at **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**. Expert in regenerative governance, bridging biological assets and sustainable impact models, ensuring the protocol follows circular economy best practices.
 
 **Enzo Garcia** · `[RE]³ Advisor`
 Computer Science & Web3 enthusiast. Aims to transform gaming logic and blockchain security into tools for the next human frontier. Currently based in Lisbon, integrating into the European tech community. Skilled in problem-solving and scalable technologies.
@@ -518,9 +522,13 @@ Formada em Direito pela UNICAP. Arquiteta jurídica Web3 especializada em direit
 >
 > Pois hoje, neste exato momento, mais do que nunca, é preciso desacelerar não apenas para se eco-localizar, mas também para se tornar dono da sua própria aceleração.
 
+Github: **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**
+
 **Pedro Bruder** · `Conselheiro [RE]³`
 Indivíduo com mentalidade empreendedora e paixão por mudar o mundo através de educação inovadora, ferramentas de autoaprendizagem, finanças regenerativas, mecânicas de Web3 e DeFi. Especialista em economia de tokens, cunhagem de governança, blockchain, estratégia de marketing e na criação de uma cultura de aprendizado.
 [LinkedIn](https://www.linkedin.com/in/pedrobruder) · [GitHub](https://github.com/BasedCaveman)
+
+**[Vinícius (glocalVR)](https://github.com/glocalVR)** — Membro do Protocolo e Conselheiro Estratégico na **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**. Especialista em governança regenerativa, ele faz a ponte entre ativos biológicos e modelos de impacto sustentável, garantindo que a gente siga as melhores práticas de economia circular.
 
 **Enzo Garcia** · `Conselheiro [RE]³`
 Entusiasta de Ciência da Computação & Web3. Desejo transformar a lógica dos games e a segurança do Blockchain em ferramentas para a próxima fronteira humana. Atualmente em Lisboa, integrando-me à comunidade tech europeia. Facilidade em resolver problemas e apaixonado por tecnologias que escalam.
