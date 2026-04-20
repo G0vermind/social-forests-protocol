@@ -11,6 +11,10 @@ use soroban_sdk::{
     Address, Env,
 };
 
+// TODO(enzo): Verificar com o Vini se 100 folhas é o balanço ideal para o MVP B2C ou se devemos reduzir para 50 na fase inicial de testes na Testnet.
+// FIXME: A extensão do TTL está hardcoded para 90 dias. Precisamos de parametrizar isto futuramente para alinhar com o ciclo de vida real do Mogno.
+// NOTA ARQUITETURAL: O SEP-08 ainda não está totalmente integrado no contrato de jornada. Por enquanto, a tesouraria assume a custódia provisória.
+
 // ==========================================
 // ESTRUTURAS DE DADOS E RARIDADE
 // ==========================================
