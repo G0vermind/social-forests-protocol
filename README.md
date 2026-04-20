@@ -164,33 +164,36 @@ Frontend (Florestas.Social — Next.js)
 ```
 social-forests-protocol/
 │
+├── apps/
+│   └── web/                    # Next.js frontend — Florestas.Social ✅
+│       ├── src/app/            # B2B2C dashboard + B2B corporate panel
+│       ├── public/             # Static assets
+│       ├── next.config.ts
+│       └── package.json
+│
 ├── contracts/                  # Rust workspace — Soroban smart contracts
-│   ├── rwa_vault/              # SEP-41 RWA Token MOGNO ✅ live testnet
-│   ├── sbt_reputation/         # Green Cashback + SBT ✅ live testnet
+│   ├── rwa_vault/              # SEP-41 RWA Token MOGNO ✅ em desenvolvimento
+│   ├── sbt_reputation/         # Green Cashback + SBT ✅ em desenvolvimento
+│   ├── hero_journey/           # Leaves economy + NFT forge ✅ em desenvolvimento
 │   ├── governance/             # $FLORA voting (roadmap)
 │   ├── c_cred/                 # Ex-post carbon credit issuance (roadmap)
 │   ├── c_debt/                 # Corporate carbon ledger (roadmap)
 │   └── amm_impact/             # Non-speculative AMM (roadmap)
 │
-├── apps/
-│   └── web/                    # Next.js frontend — Florestas.Social
-│       └── src/app/            # B2B2C dashboard + B2B corporate panel
-│
-├── packages/
-│   └── sdk/                    # TypeScript SDK — contracts ↔ frontend bridge
-│
 ├── services/
-│   ├── stripe_gateway/         # Fiat on-ramp via Stripe MPP
-│   └── pof_oracle/             # AI Vision + x402/MPP PoF engine (n8n)
+│   ├── stripe_gateway/         # Fiat on-ramp via Stripe MPP 🔨
+│   └── pof_oracle/             # AI Vision + x402/MPP PoF engine (n8n) 🔨
+│
+├── docs/
+│   ├── ARCHITECTURE.md         # Trust model + storage schema ✅
+│   ├── SECURITY.md             # Security policy + audit tools ✅
+│   └── architecture/           # SEPs + Wallet strategy docs
 │
 ├── .well-known/
 │   └── stellar.toml            # SEP-1: asset definitions + metadata
 │
-├── docs/
-├── AGENTS.md                   # AI agent instructions
-├── CLAUDE.md                   # Claude context file
-├── CONTRIBUTING.md             # Dev setup, branch workflow, code standards
-├── LIGHTPAPER.md               # Vision, strategy, tokenomics
+├── Cargo.toml                  # Rust workspace root
+├── docs/whitepaper/            # LIGHTPAPER, AGENTS, CONTRIBUTING, CLAUDE
 └── README.md
 ```
 
@@ -205,20 +208,23 @@ cargo install stellar-cli
 
 # Clone & install
 git clone https://github.com/G0vermind/social-forests-protocol.git
-cd social-forests-protocol && npm install
+cd social-forests-protocol
 
 # Build contracts
 cargo build --target wasm32-unknown-unknown --release \
   --manifest-path contracts/rwa_vault/Cargo.toml
 cargo build --target wasm32-unknown-unknown --release \
   --manifest-path contracts/sbt_reputation/Cargo.toml
+cargo build --target wasm32-unknown-unknown --release \
+  --manifest-path contracts/hero_journey/Cargo.toml
 
-# Test
+# Test all contracts
 cargo test --manifest-path contracts/rwa_vault/Cargo.toml
 cargo test --manifest-path contracts/sbt_reputation/Cargo.toml
+cargo test --manifest-path contracts/hero_journey/Cargo.toml
 
 # Frontend
-npm run dev   # → http://localhost:3000
+cd apps/web && npm install && npm run dev  # → http://localhost:3000
 ```
 
 ---
@@ -227,8 +233,8 @@ npm run dev   # → http://localhost:3000
 
 | Phase | Status | Milestones |
 |-------|--------|-----------|
-| **Phase 1 — Seed** | 🔨 Building | `rwa_vault` + `sbt_reputation` on Testnet · Stripe MPP · First PoF registry · B2B pilot · Viveiro Maravilha "Client Zero" |
-| **Phase 2 — Growth** | 🔜 Planned | AI Vision oracle on Mainnet · Green Cashback activation · Flourishing Missions · $FLORA governance · Sómogno integration (Vereda.Verify) |
+| **Phase 1 — Seed** | 🔨 Building | `rwa_vault` + `sbt_reputation` + `hero_journey` · Stripe MPP · First PoF registry · B2B pilot · Viveiro Maravilha "Client Zero" |
+| **Phase 2 — Growth** | 🔜 Planned | AI Vision oracle on Mainnet · Green Cashback activation · `vereda-core` cross-contract · $FLORA governance · Sómogno integration |
 | **Phase 3 — Scale** | 🔜 Planned | `c_cred` + `c_debt` + `amm_impact` · Secondary RWA marketplace · DAO transition · Pecém Port export · Full institutional onboarding |
 
 ---
@@ -443,20 +449,23 @@ cargo install stellar-cli
 
 # Clone e instalação
 git clone https://github.com/G0vermind/social-forests-protocol.git
-cd social-forests-protocol && npm install
+cd social-forests-protocol
 
 # Build dos contratos
 cargo build --target wasm32-unknown-unknown --release \
   --manifest-path contracts/rwa_vault/Cargo.toml
 cargo build --target wasm32-unknown-unknown --release \
   --manifest-path contracts/sbt_reputation/Cargo.toml
+cargo build --target wasm32-unknown-unknown --release \
+  --manifest-path contracts/hero_journey/Cargo.toml
 
 # Testes
 cargo test --manifest-path contracts/rwa_vault/Cargo.toml
 cargo test --manifest-path contracts/sbt_reputation/Cargo.toml
+cargo test --manifest-path contracts/hero_journey/Cargo.toml
 
 # Frontend
-npm run dev   # → http://localhost:3000
+cd apps/web && npm install && npm run dev  # → http://localhost:3000
 ```
 
 ---
@@ -465,8 +474,8 @@ npm run dev   # → http://localhost:3000
 
 | Fase | Status | Marcos |
 |------|--------|--------|
-| **Fase 1 — Seed** | 🔨 Construindo | `rwa_vault` + `sbt_reputation` na Testnet · Stripe MPP · Primeiro registro PoF · Piloto B2B · Viveiro Maravilha "Cliente Zero" |
-| **Fase 2 — Crescimento** | 🔜 Planejado | IA Vision oracle na Mainnet · Green Cashback ativo · Missões de Florescimento · $FLORA governance · Integração Sómogno (Vereda.Verify) |
+| **Fase 1 — Seed** | 🔨 Construindo | `rwa_vault` + `sbt_reputation` + `hero_journey` · Stripe MPP · Primeiro registro PoF · Piloto B2B · Viveiro Maravilha "Cliente Zero" |
+| **Fase 2 — Crescimento** | 🔜 Planejado | IA Vision oracle na Mainnet · Green Cashback ativo · Cross-contract `vereda-core` · $FLORA governance · Integração Sómogno |
 | **Fase 3 — Escala** | 🔜 Planejado | `c_cred` + `c_debt` + `amm_impact` · Marketplace secundário RWA · Transição para DAO · Porto do Pecém exportação · Integração institucional completa |
 
 ---
