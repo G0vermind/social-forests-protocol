@@ -175,11 +175,21 @@
                 "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
               },
               {
-                "symbol": "initialize"
+                "symbol": "admin_mint"
               }
             ],
             "data": {
-              "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+              "vec": [
+                {
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M"
+                },
+                {
+                  "i128": {
+                    "hi": 0,
+                    "lo": 100000000
+                  }
+                }
+              ]
             }
           }
         }
@@ -199,17 +209,17 @@
               },
               {
                 "error": {
-                  "contract": 2
+                  "auth": "invalid_action"
                 }
               }
             ],
             "data": {
               "vec": [
                 {
-                  "string": "failing with contract error"
+                  "string": "Unauthorized function call for address"
                 },
                 {
-                  "u32": 2
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 }
               ]
             }
@@ -231,7 +241,7 @@
               },
               {
                 "error": {
-                  "contract": 2
+                  "auth": "invalid_action"
                 }
               }
             ],
@@ -256,7 +266,7 @@
               },
               {
                 "error": {
-                  "contract": 2
+                  "auth": "invalid_action"
                 }
               }
             ],
@@ -281,7 +291,7 @@
               },
               {
                 "error": {
-                  "contract": 2
+                  "auth": "invalid_action"
                 }
               }
             ],
@@ -291,12 +301,18 @@
                   "string": "contract call failed"
                 },
                 {
-                  "symbol": "initialize"
+                  "symbol": "admin_mint"
                 },
                 {
                   "vec": [
                     {
-                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M"
+                    },
+                    {
+                      "i128": {
+                        "hi": 0,
+                        "lo": 100000000
+                      }
                     }
                   ]
                 }
@@ -320,7 +336,7 @@
               },
               {
                 "error": {
-                  "contract": 2
+                  "auth": "invalid_action"
                 }
               }
             ],
