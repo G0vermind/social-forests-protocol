@@ -72,14 +72,11 @@ Today's carbon credit market operates on self-reported data, centralized verific
 |----------|-------------|
 | [LIGHTPAPER.md](LIGHTPAPER.md) | Climate Finance thesis, B2B2C strategy, full token architecture |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Dev environment setup, branch workflow, code standards |
-| [AGENTS.md](AGENTS.md) | Instructions for AI agents |
-| [CLAUDE.md](CLAUDE.md) | Context file for Claude AI |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Trust model, storage schema, cross-contract flows |
 | [docs/SECURITY.md](docs/SECURITY.md) | Security policy, audit tools, invariants |
-| [docs/SECURITY_AUDIT_MAP.md](docs/SECURITY_AUDIT_MAP.md) | Certora-based audit readiness map + STRIDE threat model |
-| [docs/ANTGRAVITY_ESTRUTURA.md](docs/ANTGRAVITY_ESTRUTURA.md) | Agent prompt: repo structure fixes |
-| [docs/ANTGRAVITY_FRONTEND.md](docs/ANTGRAVITY_FRONTEND.md) | Agent prompt: full Next.js frontend build |
-| [docs/ANTGRAVITY_SECURITY.md](docs/ANTGRAVITY_SECURITY.md) | Agent prompt: security improvements (Audit Bank ready) |
+| [docs/SECURITY_CHECKLIST.md](docs/SECURITY_CHECKLIST.md) | Soroban audit readiness checklist (Certora + STRIDE) |
+| [docs/FRONTEND_ARCHITECTURE.md](docs/FRONTEND_ARCHITECTURE.md) | Next.js portal structure, routing, component map |
+| [docs/CONTRACT_SPEC.md](docs/CONTRACT_SPEC.md) | Contract interfaces, storage layout, error codes |
 | Whitepaper *(coming soon)* | Full Soroban contract architecture + x402/MPP integration spec |
 
 ---
@@ -210,16 +207,15 @@ social-forests-protocol/
 ├── docs/
 │   ├── ARCHITECTURE.md         # Trust model + storage schema
 │   ├── SECURITY.md             # Security policy + audit tools
-│   ├── SECURITY_AUDIT_MAP.md   # Certora audit readiness map
-│   ├── ANTGRAVITY_ESTRUTURA.md # Agent prompt: repo fixes
-│   ├── ANTGRAVITY_FRONTEND.md  # Agent prompt: frontend build
-│   └── ANTGRAVITY_SECURITY.md  # Agent prompt: security improvements
+│   ├── SECURITY_CHECKLIST.md   # Soroban audit readiness checklist
+│   ├── FRONTEND_ARCHITECTURE.md# Next.js portal map + routing
+│   └── CONTRACT_SPEC.md        # Contract interfaces + error codes
 │
 ├── .well-known/
 │   └── stellar.toml            # SEP-1: asset definitions + metadata
 │
 ├── Cargo.toml                  # Rust workspace root
-├── AGENTS.md · CLAUDE.md · CONTRIBUTING.md · LIGHTPAPER.md
+├── CONTRIBUTING.md · LIGHTPAPER.md
 └── README.md
 ```
 
@@ -425,14 +421,11 @@ O mercado de créditos de carbono atual opera com dados autorreportados, verific
 |-----------|-----------|
 | [LIGHTPAPER.md](LIGHTPAPER.md) | Tese de Finanças Climáticas, estratégia B2B2C, tokenomics completo |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Setup do ambiente, workflow de branches, padrões de código |
-| [AGENTS.md](AGENTS.md) | Instruções para agentes de IA (Antgravity) |
-| [CLAUDE.md](CLAUDE.md) | Arquivo de contexto para o Claude AI |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Trust model, schema de storage, fluxos cross-contract |
 | [docs/SECURITY.md](docs/SECURITY.md) | Política de segurança, ferramentas de auditoria, invariantes |
-| [docs/SECURITY_AUDIT_MAP.md](docs/SECURITY_AUDIT_MAP.md) | Mapa de auditoria baseado no guia Certora + STRIDE |
-| [docs/ANTGRAVITY_ESTRUTURA.md](docs/ANTGRAVITY_ESTRUTURA.md) | Prompt agente: correções de estrutura do repo |
-| [docs/ANTGRAVITY_FRONTEND.md](docs/ANTGRAVITY_FRONTEND.md) | Prompt agente: build completo do frontend Next.js |
-| [docs/ANTGRAVITY_SECURITY.md](docs/ANTGRAVITY_SECURITY.md) | Prompt agente: melhorias de segurança (pronto pro Audit Bank) |
+| [docs/SECURITY_CHECKLIST.md](docs/SECURITY_CHECKLIST.md) | Checklist de auditoria Soroban (Certora + STRIDE) |
+| [docs/FRONTEND_ARCHITECTURE.md](docs/FRONTEND_ARCHITECTURE.md) | Estrutura dos portais Next.js, roteamento, mapa de componentes |
+| [docs/CONTRACT_SPEC.md](docs/CONTRACT_SPEC.md) | Interfaces dos contratos, storage layout, códigos de erro |
 | Whitepaper *(em breve)* | Arquitetura completa dos contratos Soroban + spec x402/MPP |
 
 ---
