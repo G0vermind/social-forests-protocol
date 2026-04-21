@@ -14,6 +14,7 @@
 [![Standard: SEP-41](https://img.shields.io/badge/Standard-SEP--41-blue?style=for-the-badge)](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0041.md)
 [![Payments: x402 + MPP](https://img.shields.io/badge/Payments-x402%20%2B%20MPP-brightgreen?style=for-the-badge)](https://developers.stellar.org/docs/build/agentic-payments)
 [![Frontend: Next.js](https://img.shields.io/badge/Frontend-Next.js-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Stellar37°](https://img.shields.io/badge/Stellar37°-Acceleration-7B6FEE?style=for-the-badge)](https://stellar37.nearx.com.br)
 
 > 🇧🇷 [Versão em Português abaixo](#-social-forest-protocol-1)
 
@@ -27,7 +28,7 @@ Most sustainability promises stop at marketing. We build the infrastructure that
 
 **Social Forest democratizes sustainability** by connecting everyday consumption to real environmental regeneration. Every Real spent at a partner brand becomes biological heritage — a fraction of a living African Mahogany tree (*Khaya senegalensis*), anchored on the Stellar blockchain, owned by the person who earned it.
 
-We call this model **RWA as a Service (RWAaaS)**: companies don't invest in the asset — they use our infrastructure to distribute regenerative cashback to their customers. The asset belongs to whoever redeems it.
+We call this model **RWA as a Service (RWAaaS)**: companies don't invest in the asset — they use our infrastructure to distribute regenerative cashback to their customers. **The tree belongs to whoever redeems it.**
 
 > **Unique competitive moat:** full control of the physical supply chain — from Viveiro Maravilha (seedlings) to Sómogno (processing) — eliminates counterparty risk and guarantees the permanence of every on-chain asset.
 
@@ -35,13 +36,13 @@ We call this model **RWA as a Service (RWAaaS)**: companies don't invest in the 
 
 ## The Problem
 
-Today's carbon credit market operates on self-reported data, centralized verification, and issuance cycles that stretch up to 18 months. Companies seeking to offset real emissions face technical barriers that block direct access to verified forest assets.
+Today's carbon credit market operates on self-reported data, centralized verification, and issuance cycles up to 18 months long. Companies seeking to offset real emissions face technical barriers blocking direct access to verified forest assets.
 
 **The result:** greenwashing at scale, trapped climate capital, and forests that don't receive the financing they need.
 
 ---
 
-## The Solution — How It Works
+## How It Works — The B2B2C Flow
 
 ```
 🏢 B2B Partner (Company)
@@ -53,15 +54,33 @@ Today's carbon credit market operates on self-reported data, centralized verific
 🌱 B2C User (Consumer)
   └─ Captures LEAF Tokens via purchases / missions
      Accumulates Common → Rare → Legendary Leaves
-     Redeems: triggers smart contract → receives Mogno NFT (RWA)
+     Redeems: forge_tree() → receives Mogno NFT (RWA)
           │  The tree belongs to whoever redeems the cashback
           ▼
 🌍 Planet
   └─ Real tree growing in the Brazilian semi-arid
-     CO₂ sequestered, biodiversity preserved, rural income generated
+     CO₂ sequestered · biodiversity preserved · rural income generated
 ```
 
 **Capital flows in from B2B. The asset lands with B2C. The planet is the beneficiary.**
+
+---
+
+## 📚 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [LIGHTPAPER.md](LIGHTPAPER.md) | Climate Finance thesis, B2B2C strategy, full token architecture |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Dev environment setup, branch workflow, code standards |
+| [AGENTS.md](AGENTS.md) | Instructions for AI agents |
+| [CLAUDE.md](CLAUDE.md) | Context file for Claude AI |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Trust model, storage schema, cross-contract flows |
+| [docs/SECURITY.md](docs/SECURITY.md) | Security policy, audit tools, invariants |
+| [docs/SECURITY_AUDIT_MAP.md](docs/SECURITY_AUDIT_MAP.md) | Certora-based audit readiness map + STRIDE threat model |
+| [docs/ANTGRAVITY_ESTRUTURA.md](docs/ANTGRAVITY_ESTRUTURA.md) | Agent prompt: repo structure fixes |
+| [docs/ANTGRAVITY_FRONTEND.md](docs/ANTGRAVITY_FRONTEND.md) | Agent prompt: full Next.js frontend build |
+| [docs/ANTGRAVITY_SECURITY.md](docs/ANTGRAVITY_SECURITY.md) | Agent prompt: security improvements (Audit Bank ready) |
+| Whitepaper *(coming soon)* | Full Soroban contract architecture + x402/MPP integration spec |
 
 ---
 
@@ -70,36 +89,32 @@ Today's carbon credit market operates on self-reported data, centralized verific
 | Token | Type | Role |
 |-------|------|------|
 | **LEAF** | Fungible (SEP-41) | Regenerative cashback fuel. Distributed by companies, captured by consumers via purchases and missions. The engine of the B2B2C economy. |
-| **NFT Mogno** (RWA) | Non-Fungible / Soulbound | Fraction of a real African Mahogany tree. Evolves from Common → Rare → Legendary based on engagement. Redeemed from accumulated LEAF. |
-| **C-CRED** | Carbon Credit | Ex-post ecocredit based on verified real CO₂ capture. Follows rigorous scientific methodologies (GRI, SASB, SBTi). Tradeable in the B2B DeFi layer. |
+| **NFT Mogno** (RWA) | Non-Fungible · Soulbound | Fraction of a real African Mahogany tree. Evolves Common → Rare → Legendary based on engagement. Forged from accumulated LEAF. |
+| **C-CRED** | Carbon Credit | Ex-post ecocredit based on verified real CO₂ capture. Follows GRI, SASB, SBTi methodologies. Tradeable in the B2B non-speculative DeFi layer. |
 | **S-CRED** | Stewardship (PES) | Payment for Environmental Services. Rewards conservation and biodiversity — independent of carbon sequestration. |
-| **C-DEBT** | Carbon Debt Ledger | On-chain registry for companies to declare carbon footprints (Scopes 1, 2 & 3) and prove Net Zero compliance. |
-| **$FLORA** | Governance | Protocol voting utility token. Acts as Credit Class Admin — curating new areas, methodologies, and the authorized agent list. |
+| **C-DEBT** | Carbon Debt Ledger | On-chain registry for companies to declare footprints (Scopes 1, 2 & 3) and prove Net Zero compliance. |
+| **$FLORA** | Governance | Protocol voting token. Acts as Credit Class Admin — curating new areas, methodologies, and the authorized agent list. |
 
 ---
 
 ## DeFi Layer — Two Complementary Engines
 
-The protocol runs two distinct DeFi layers, each serving a different market need.
+### ⚖️ Non-Speculative Layer — ESG Compliance
 
-### ⚖️ Non-Speculative Layer — ESG Efficiency
+For corporate compliance. Companies manage environmental liabilities with integrity, not speculation.
 
-Focused on corporate compliance. Companies use this layer to manage environmental liabilities with integrity, not speculation.
-
-- **C-DEBT Management:** Companies register and monitor carbon footprint (Scopes 1, 2 & 3) on-chain. No more self-reported spreadsheets.
-- **C-CRED Settlement:** Companies exceeding sustainability targets offer verified ex-post credits directly to organizations with carbon debts.
-- **Net Zero Proof:** Credit retirement anchored on Stellar creates irrefutable audit trails for GRI, SASB, and SBTi reporting.
-- **Non-Speculative AMM:** Exchange values driven by real forest restoration costs, curated by the DAO via `$FLORA` — no artificial volatility.
+- **C-DEBT Management:** Register and monitor carbon footprint on-chain. No self-reported spreadsheets.
+- **C-CRED Settlement:** Companies exceeding targets offer verified ex-post credits to organizations with carbon debts.
+- **Net Zero Proof:** Credit retirement on Stellar creates irrefutable audit trails for GRI, SASB, and SBTi.
+- **Non-Speculative AMM:** Exchange values driven by real forest restoration costs, curated by the DAO via `$FLORA`.
 
 ### 📈 Speculative Layer — Secondary RWA Market *(Phase 3)*
 
 As Mogno NFTs evolve in rarity and biological maturity, a secondary market emerges:
 
-- Holders of **Legendary NFTs** can sell their RWAs to companies seeking to acquire premium timber or mature biological assets.
-- **Corporate buyers** acquire real, verified forest assets — not promises of carbon offsets.
-- **Price discovery** is grounded in real silviculture data: DAP, height, age, and certified forest management records from the PoF oracle.
-
-> This transforms the consumer from passive cashback recipient into an active participant in a real-world asset market — without ever needing to understand blockchain.
+- Holders of **Legendary NFTs** can sell RWAs to companies seeking to acquire premium timber or mature biological assets.
+- **Price discovery** grounded in real silviculture data: DAP, height, age, and PoF oracle records.
+- Transforms the consumer from passive cashback recipient into an active participant in a real-world asset market — without needing to understand blockchain.
 
 ---
 
@@ -109,29 +124,28 @@ As Mogno NFTs evolve in rarity and biological maturity, a secondary market emerg
 
 ```
 contracts/
-├── rwa_vault/          ← SEP-41 LEAF Token + Mogno NFT minting (Testnet)
-├── sbt_reputation/     ← Green Cashback Engine + Soulbound Impact Points (Testnet)
-├── hero_journey/       ← Leaves economy + NFT forge + rarity evolution (Testnet)
-├── governance/         ← $FLORA weighted voting via PoF (roadmap)
-├── c_cred/             ← Ex-post carbon credit issuance (roadmap)
-├── c_debt/             ← Corporate carbon audit ledger (roadmap)
-└── amm_impact/         ← Non-speculative DeFi settlement AMM (roadmap)
+├── rwa_vault/       ← SEP-41 LEAF Token + Mogno NFT minting    🔨 testnet
+├── sbt_reputation/  ← Green Cashback Engine + Soulbound SBT     🔨 in dev
+├── hero_journey/    ← LEAF economy + forge_tree() + rarity      🔨 in dev
+├── governance/      ← $FLORA weighted voting                    🔜 roadmap
+├── c_cred/          ← Ex-post carbon credit issuance            🔜 roadmap
+├── c_debt/          ← Corporate carbon audit ledger             🔜 roadmap
+└── amm_impact/      ← Non-speculative DeFi settlement AMM       🔜 roadmap
 ```
 
 **`rwa_vault`** — Core Asset Contract
 - `admin_mint` gated behind the PoF oracle — tokens only minted when flourishing is cryptographically proven
 - Full SEP-41: `transfer`, `transfer_from`, `approve`, `allowance`, `balance`
-- Security: `require_auth()` on all write functions · `extend_ttl()` on every storage write · explicit error enum · emergency pause pattern
+- Security: `require_auth()` · `extend_ttl()` · explicit error enum · emergency pause
 
 **`sbt_reputation`** — Green Cashback Engine
-- `distribute_green_cashback(company, user, amount)` — double-validated: `require_auth` + on-chain whitelist check
+- `distribute_green_cashback(company, user, amount)` — double-validated: `require_auth` + on-chain whitelist
 - Impact Points are **Soulbound by design** — `transfer_reputation()` always panics (`SoulboundNonTransferable`)
-- `get_user_impact(user) -> i128` — read endpoint consumed by the Next.js frontend
 
-**`hero_journey`** — Leaves Economy + NFT Forge
-- Manages the LEAF accumulation logic and rarity evolution (Common → Rare → Legendary)
-- `forge_tree()` — triggered by consumer when LEAF threshold is reached, mints the Mogno NFT
-- Rarity unlocks: Legendary Leaves accelerate harvest time and unlock secondary market access
+**`hero_journey`** — LEAF Economy + NFT Forge
+- Manages LEAF accumulation and rarity evolution (Common → Rare → Legendary)
+- `forge_tree()` — consumer triggers when LEAF threshold is reached, mints the Mogno NFT
+- Legendary Leaves unlock secondary market access in Phase 3
 
 ### Proof of Flourishing — x402 + MPP + AI Vision
 
@@ -146,7 +160,7 @@ AI Vision Layer ──── multispectral validation (satellite + drone)
     │  PoF threshold reached
     ▼
 x402 Payment Required ──── validation micropayment via Coinbase
-    │  economic event fired
+    │
     ▼
 admin_mint() ──── rwa_vault mints LEAF backed by living tree
     │
@@ -164,7 +178,7 @@ distribute_green_cashback() ──── LEAF reaches consumer wallet
 |-------|-----------|
 | Smart Contracts | Rust + Soroban SDK 21 |
 | Frontend | Next.js 14 · TypeScript · TailwindCSS |
-| Wallet | Freighter API v6 (Web3) · Account Abstraction via Google (Web2) |
+| Wallet | Freighter API v6 (Web3) · Google Account Abstraction (Web2) |
 | Payments | Stripe Managed Payments (MPP) |
 | Oracle Pipeline | n8n · x402 Protocol · AI Vision |
 | Blockchain | Stellar Network · SEP-41 · SEP-1 (stellar.toml) |
@@ -177,38 +191,35 @@ distribute_green_cashback() ──── LEAF reaches consumer wallet
 social-forests-protocol/
 │
 ├── apps/
-│   └── web/                    # Next.js frontend — Florestas.Social ✅
-│       ├── src/app/            # B2B2C dashboard + B2B corporate panel
-│       ├── public/             # Static assets
-│       ├── next.config.ts
-│       └── package.json
+│   └── web/                    # Next.js frontend — Florestas.Social
+│       └── src/app/            # B2B2C dashboard + B2B corporate panel
 │
 ├── contracts/                  # Rust workspace — Soroban smart contracts
-│   ├── rwa_vault/              # SEP-41 LEAF Token + Mogno NFT ✅ testnet
-│   ├── sbt_reputation/         # Green Cashback + Soulbound SBT ✅ testnet
-│   ├── hero_journey/           # Leaves economy + NFT forge ✅ testnet
+│   ├── rwa_vault/              # SEP-41 LEAF Token + Mogno NFT ✅
+│   ├── sbt_reputation/         # Green Cashback + Soulbound SBT 🔨
+│   ├── hero_journey/           # LEAF economy + NFT forge 🔨
 │   ├── governance/             # $FLORA voting (roadmap)
 │   ├── c_cred/                 # Ex-post carbon credit (roadmap)
 │   ├── c_debt/                 # Corporate carbon ledger (roadmap)
 │   └── amm_impact/             # Non-speculative AMM (roadmap)
 │
 ├── services/
-│   ├── stripe_gateway/         # Fiat on-ramp via Stripe MPP 🔨
-│   └── pof_oracle/             # AI Vision + x402/MPP PoF engine (n8n) 🔨
+│   ├── stripe_gateway/         # Fiat on-ramp via Stripe MPP
+│   └── pof_oracle/             # AI Vision + x402/MPP PoF engine (n8n)
 │
 ├── docs/
-│   ├── ARCHITECTURE.md         # Trust model + storage schema ✅
-│   ├── SECURITY.md             # Security policy + audit tools ✅
-│   └── architecture/           # SEPs + Wallet strategy docs
+│   ├── ARCHITECTURE.md         # Trust model + storage schema
+│   ├── SECURITY.md             # Security policy + audit tools
+│   ├── SECURITY_AUDIT_MAP.md   # Certora audit readiness map
+│   ├── ANTGRAVITY_ESTRUTURA.md # Agent prompt: repo fixes
+│   ├── ANTGRAVITY_FRONTEND.md  # Agent prompt: frontend build
+│   └── ANTGRAVITY_SECURITY.md  # Agent prompt: security improvements
 │
 ├── .well-known/
 │   └── stellar.toml            # SEP-1: asset definitions + metadata
 │
 ├── Cargo.toml                  # Rust workspace root
-├── AGENTS.md                   # AI agent instructions
-├── CLAUDE.md                   # Claude context file
-├── CONTRIBUTING.md             # Dev setup, branch workflow, code standards
-├── LIGHTPAPER.md               # Full vision, strategy, tokenomics
+├── AGENTS.md · CLAUDE.md · CONTRIBUTING.md · LIGHTPAPER.md
 └── README.md
 ```
 
@@ -249,7 +260,7 @@ cd apps/web && npm install && npm run dev  # → http://localhost:3000
 | Phase | Status | Milestones |
 |-------|--------|-----------|
 | **Phase 1 — Seed** | 🔨 Building | `rwa_vault` + `sbt_reputation` + `hero_journey` on Testnet · Stripe MPP · First PoF registry · B2B pilot · Viveiro Maravilha "Client Zero" |
-| **Phase 2 — Growth** | 🔜 Planned | AI Vision oracle on Mainnet · LEAF cashback live · NFT Mogno evolution system · `vereda-core` cross-contract · $FLORA governance · Sómogno integration |
+| **Phase 2 — Growth** | 🔜 Planned | AI Vision oracle on Mainnet · LEAF cashback live · NFT Mogno evolution · `vereda-core` cross-contract · $FLORA governance · Sómogno integration |
 | **Phase 3 — Scale** | 🔜 Planned | `c_cred` + `c_debt` + `amm_impact` · Secondary RWA marketplace · DAO transition · Pecém Port export · Full institutional onboarding |
 
 ---
@@ -263,7 +274,7 @@ cd apps/web && npm install && npm run dev  # → http://localhost:3000
 | **6** | Ecosystem restoration protecting watersheds |
 | **8** | Decent work in inland Ceará; DeFi infrastructure innovation |
 | **9** | Digitization of natural assets; open NbS infrastructure |
-| **10** | Stellar enables vulnerable populations to access global markets without traditional financial intermediaries |
+| **10** | Stellar enables vulnerable populations to access global markets without intermediaries |
 | **12** | Regenerative Cashback model; responsible consumption and production |
 | **13** | Carbon sequestration; Paris Agreement + Kunming-Montreal alignment |
 | **15** | Forest management and biodiversity protection |
@@ -305,16 +316,16 @@ Law degree from UNICAP. Web3 legal architect specialized in environmental law an
 
 ## ⚡ [RE]³ — ReReGeneradora: The First Decelerator
 
-> **[RE]³ - ReReGeneradora** is the first known decelerator ⚡ and it is connected to what is already changing the logic of the world we live in: AI & Web3.
+> **[RE]³ - ReReGeneradora** is the first known decelerator ⚡ connected to what is already changing the logic of the world we live in: AI & Web3.
 >
-> For in an increasingly accelerated reality where new ideas & projects are captured by the gravitational pull of *trends* & *hypes*, decision-making becomes more an act of survival than of effective critical vision...
+> In an increasingly accelerated reality where new ideas & projects are captured by the gravitational pull of *trends* & *hypes*, decision-making becomes more an act of survival than of effective critical vision.
 >
-> Because today, right at this exact moment, more than ever, it is necessary to decelerate not only to eco-localize oneself, but also to become the master of your own acceleration.
+> Today, more than ever, it is necessary to decelerate — not only to eco-localize oneself, but to become the master of your own acceleration.
 
 GitHub: **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**
 
 **Pedro Bruder** · `[RE]³ Advisor`
-Entrepreneurial-minded individual with a passion for changing the world through innovative education, self-learning tools, regenerative finance, Web3 and DeFi mechanics. Skilled in token economy, governance minting, blockchain, marketing strategy, and crafting learning culture.
+Entrepreneurial-minded with a passion for changing the world through innovative education, self-learning tools, regenerative finance, Web3 and DeFi mechanics. Skilled in token economy, governance minting, blockchain, marketing strategy, and crafting learning culture.
 [LinkedIn](https://www.linkedin.com/in/pedrobruder) · [GitHub](https://github.com/BasedCaveman)
 
 **Vinícius Brás Rocha (glocalVR)** · `[RE]³ Advisor & Protocol Co-initiator`
@@ -348,6 +359,8 @@ Computer Science & Web3 enthusiast. Aims to transform gaming logic and blockchai
 
 **[Stellar](https://stellar.org)** · **[Soroban](https://soroban.stellar.org)** · **[Stellar37°](https://stellar37.nearx.com.br)**
 
+📧 [gutogn@gmail.com](mailto:gutogn@gmail.com) · 📱 [+55 88 99643-7794](https://wa.me/5588996437794)
+
 </div>
 
 ---
@@ -368,7 +381,7 @@ A maioria das promessas de sustentabilidade para na comunicação. A gente const
 
 **O Social Forest democratiza a sustentabilidade** conectando o consumo cotidiano à regeneração ambiental real. Cada Real gasto numa marca parceira vira patrimônio biológico — uma fração de um Mogno Africano (*Khaya senegalensis*) vivo, ancorado na blockchain Stellar, de propriedade de quem o ganhou.
 
-Chamamos isso de **RWA as a Service (RWAaaS)**: as empresas não "investem" no ativo — elas usam nossa infraestrutura para distribuir cashback regenerativo aos seus clientes. O ativo pertence a quem resgata.
+Chamamos isso de **RWA as a Service (RWAaaS)**: as empresas não "investem" no ativo — elas usam nossa infraestrutura para distribuir cashback regenerativo aos clientes. **A árvore pertence a quem resgata.**
 
 > **Vantagem competitiva única:** controle total da cadeia física — do Viveiro Maravilha (mudas) à Sómogno (beneficiamento) — elimina risco de contraparte e garante a permanência de cada ativo on-chain.
 
@@ -382,7 +395,7 @@ O mercado de créditos de carbono atual opera com dados autorreportados, verific
 
 ---
 
-## A Solução — Como Funciona
+## Como Funciona — O Fluxo B2B2C
 
 ```
 🏢 Parceiro B2B (Empresa)
@@ -394,15 +407,33 @@ O mercado de créditos de carbono atual opera com dados autorreportados, verific
 🌱 Usuário B2C (Consumidor)
   └─ Captura LEAF Tokens via compras / missões
      Acumula Folhas Comuns → Raras → Lendárias
-     Resgata: aciona o contrato → recebe NFT Mogno (RWA)
+     Resgata: forge_tree() → recebe NFT Mogno (RWA)
           │  A árvore é de quem resgata o cashback
           ▼
 🌍 Planeta
   └─ Árvore real crescendo no semiárido brasileiro
-     CO₂ sequestrado, biodiversidade preservada, renda rural gerada
+     CO₂ sequestrado · biodiversidade preservada · renda rural gerada
 ```
 
 **O capital entra pelo B2B. O ativo chega ao B2C. O planeta é o beneficiário.**
+
+---
+
+## 📚 Documentação
+
+| Documento | Descrição |
+|-----------|-----------|
+| [LIGHTPAPER.md](LIGHTPAPER.md) | Tese de Finanças Climáticas, estratégia B2B2C, tokenomics completo |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Setup do ambiente, workflow de branches, padrões de código |
+| [AGENTS.md](AGENTS.md) | Instruções para agentes de IA (Antgravity) |
+| [CLAUDE.md](CLAUDE.md) | Arquivo de contexto para o Claude AI |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Trust model, schema de storage, fluxos cross-contract |
+| [docs/SECURITY.md](docs/SECURITY.md) | Política de segurança, ferramentas de auditoria, invariantes |
+| [docs/SECURITY_AUDIT_MAP.md](docs/SECURITY_AUDIT_MAP.md) | Mapa de auditoria baseado no guia Certora + STRIDE |
+| [docs/ANTGRAVITY_ESTRUTURA.md](docs/ANTGRAVITY_ESTRUTURA.md) | Prompt agente: correções de estrutura do repo |
+| [docs/ANTGRAVITY_FRONTEND.md](docs/ANTGRAVITY_FRONTEND.md) | Prompt agente: build completo do frontend Next.js |
+| [docs/ANTGRAVITY_SECURITY.md](docs/ANTGRAVITY_SECURITY.md) | Prompt agente: melhorias de segurança (pronto pro Audit Bank) |
+| Whitepaper *(em breve)* | Arquitetura completa dos contratos Soroban + spec x402/MPP |
 
 ---
 
@@ -410,9 +441,9 @@ O mercado de créditos de carbono atual opera com dados autorreportados, verific
 
 | Token | Tipo | Função |
 |-------|------|---------|
-| **LEAF** | Fungível (SEP-41) | Combustível do cashback regenerativo. Distribuído por empresas, capturado por consumidores via compras e missões. O motor da economia B2B2C. |
-| **NFT Mogno** (RWA) | Não-Fungível / Soulbound | Fração de um Mogno Africano real. Evolui de Comum → Raro → Lendário com o engajamento. Resgatado a partir do LEAF acumulado. |
-| **C-CRED** | Crédito de Carbono | Ecocrédito *ex-post* baseado em captura real de CO₂ verificada. Segue metodologias científicas (GRI, SASB, SBTi). Negociável na camada DeFi B2B. |
+| **LEAF** | Fungível (SEP-41) | Combustível do cashback regenerativo. Distribuído por empresas, capturado por consumidores via compras e missões. |
+| **NFT Mogno** (RWA) | Não-Fungível · Soulbound | Fração de um Mogno Africano real. Evolui Comum → Raro → Lendário com o engajamento. Forjado a partir do LEAF acumulado. |
+| **C-CRED** | Crédito de Carbono | Ecocrédito *ex-post* com captura real de CO₂ verificada. Segue GRI, SASB, SBTi. Negociável na camada DeFi B2B. |
 | **S-CRED** | Stewardship (PSA) | Pagamento por Serviços Ambientais. Recompensa conservação e biodiversidade — independente do sequestro de carbono. |
 | **C-DEBT** | Ledger de Débito | Registro on-chain para empresas declararem pegadas de carbono (Escopos 1, 2 e 3) e comprovarem Net Zero. |
 | **$FLORA** | Governança | Votação no protocolo. Atua como *Credit Class Admin* — curadoria de novas áreas e metodologias. |
@@ -421,24 +452,22 @@ O mercado de créditos de carbono atual opera com dados autorreportados, verific
 
 ## Camada DeFi — Dois Motores Complementares
 
-### ⚖️ Camada Não-Especulativa — Eficiência ESG
+### ⚖️ Camada Não-Especulativa — Conformidade ESG
 
-Focada em conformidade corporativa. As empresas usam essa camada para gerenciar passivos ambientais com integridade, sem especulação.
+Para compliance corporativo. As empresas gerenciam passivos ambientais com integridade, sem especulação.
 
-- **Gestão de C-DEBT:** Empresas registram e monitoram a pegada de carbono (Escopos 1, 2 e 3) on-chain. Chega de planilhas autorreportadas.
-- **Liquidação de C-CRED:** Empresas que superam metas de sustentabilidade oferecem créditos verificados *ex-post* diretamente a organizações com débitos de carbono.
-- **Prova de Net Zero:** A aposentadoria de créditos ancorada na Stellar cria trilhas de auditoria irrefutáveis para GRI, SASB e SBTi.
-- **AMM Não-Especulativa:** Valores orientados pelo custo real de restauração florestal, curados pela DAO via `$FLORA` — sem volatilidade artificial.
+- **Gestão de C-DEBT:** Registro e monitoramento da pegada de carbono on-chain. Chega de planilhas autorreportadas.
+- **Liquidação de C-CRED:** Empresas que superam metas oferecem créditos verificados *ex-post* a organizações com débitos.
+- **Prova de Net Zero:** Aposentadoria de créditos na Stellar cria trilhas de auditoria irrefutáveis para GRI, SASB e SBTi.
+- **AMM Não-Especulativa:** Valores orientados pelo custo real de restauração florestal, curados pela DAO via `$FLORA`.
 
 ### 📈 Camada Especulativa — Mercado Secundário RWA *(Fase 3)*
 
 À medida que os NFTs Mogno evoluem em raridade e maturidade biológica, um mercado secundário emerge:
 
-- Holders de **NFTs Lendários** podem vender seus RWAs para empresas interessadas em adquirir madeira nobre ou ativos biológicos maduros.
-- **Compradores corporativos** adquirem ativos florestais reais e verificados — não promessas de compensação de carbono.
-- **Formação de preço** ancorada na economia real da silvicultura: DAP, altura, idade e dados de manejo certificados pelo oráculo PoF.
-
-> Isso transforma o consumidor de receptor passivo de cashback em participante ativo de um mercado de ativos do mundo real — sem precisar entender blockchain.
+- Holders de **NFTs Lendários** podem vender RWAs a empresas interessadas em adquirir madeira nobre ou ativos biológicos maduros.
+- **Formação de preço** ancorada na economia real da silvicultura: DAP, altura, idade e registros do oráculo PoF.
+- Transforma o consumidor de receptor passivo em participante ativo do mercado de ativos reais — sem precisar entender blockchain.
 
 ---
 
@@ -449,16 +478,15 @@ Focada em conformidade corporativa. As empresas usam essa camada para gerenciar 
 **`rwa_vault`** — Contrato Principal de Ativos
 - `admin_mint` restrito ao oráculo PoF — tokens só cunhados quando florescimento é criptograficamente provado
 - SEP-41 completo: `transfer`, `transfer_from`, `approve`, `allowance`, `balance`
-- Segurança: `require_auth()` em toda função de escrita · `extend_ttl()` em cada escrita de storage · enum de erros explícito · emergency pause
+- Segurança: `require_auth()` · `extend_ttl()` · enum de erros explícito · emergency pause
 
 **`sbt_reputation`** — Motor de Green Cashback
-- `distribute_green_cashback(company, user, amount)` — validação dupla: `require_auth` + verificação na whitelist on-chain
-- Pontos de Impacto **Soulbound por design** — `transfer_reputation()` sempre falha (`SoulboundNonTransferable`)
+- `distribute_green_cashback(company, user, amount)` — validação dupla: `require_auth` + whitelist on-chain
+- Pontos de Impacto **Soulbound por design** — `transfer_reputation()` sempre falha
 
-**`hero_journey`** — Economia de Folhas + Forja do NFT
-- Gerencia a lógica de acúmulo de LEAF e evolução de raridade (Comum → Raro → Lendário)
-- `forge_tree()` — acionado pelo consumidor ao atingir o limite de LEAF, cria o NFT Mogno
-- Folhas Lendárias desbloqueiam acesso ao mercado secundário na Fase 3
+**`hero_journey`** — Economia de LEAF + Forja do NFT
+- Gerencia acúmulo de LEAF e evolução de raridade (Comum → Raro → Lendário)
+- `forge_tree()` — acionado pelo consumidor ao atingir a meta, cria o NFT Mogno
 
 ### Motor Proof of Flourishing — x402 + MPP + IA Vision
 
@@ -473,7 +501,7 @@ IA Vision Layer ──── validação multiespectral (satélite + drone)
     │  PoF threshold atingido
     ▼
 x402 Payment Required ──── micropagamento de validação via Coinbase
-    │  evento econômico disparado
+    │
     ▼
 admin_mint() ──── rwa_vault cunha LEAF lastreado em árvore viva
     │
@@ -522,7 +550,7 @@ cd apps/web && npm install && npm run dev  # → http://localhost:3000
 | Fase | Status | Marcos |
 |------|--------|--------|
 | **Fase 1 — Seed** | 🔨 Construindo | `rwa_vault` + `sbt_reputation` + `hero_journey` na Testnet · Stripe MPP · Primeiro registro PoF · Piloto B2B · Viveiro Maravilha "Cliente Zero" |
-| **Fase 2 — Crescimento** | 🔜 Planejado | IA Vision oracle na Mainnet · LEAF cashback ativo · Sistema de evolução do NFT Mogno · Cross-contract `vereda-core` · $FLORA governance · Integração Sómogno |
+| **Fase 2 — Crescimento** | 🔜 Planejado | IA Vision oracle na Mainnet · LEAF cashback ativo · Sistema de evolução NFT Mogno · Cross-contract `vereda-core` · $FLORA governance · Integração Sómogno |
 | **Fase 3 — Escala** | 🔜 Planejado | `c_cred` + `c_debt` + `amm_impact` · Mercado secundário de RWA · Transição para DAO · Porto do Pecém exportação · Integração institucional completa |
 
 ---
@@ -621,13 +649,6 @@ Entusiasta de Ciência da Computação & Web3. Transformando a lógica dos games
 
 **[Stellar](https://stellar.org)** · **[Soroban](https://soroban.stellar.org)** · **[Stellar37°](https://stellar37.nearx.com.br)**
 
+📧 [gutogn@gmail.com](mailto:gutogn@gmail.com) · 📱 [+55 88 99643-7794](https://wa.me/5588996437794)
+
 </div>
-
----
-
-## 📞 Contato / Contact
-
-Para parcerias B2B, auditorias ou dúvidas sobre o protocolo:
-
-- **Email:** [gutogn@gmail.com](mailto:gutogn@gmail.com)
-- **WhatsApp:** [+55 88 99643-7794](https://wa.me/5588996437794)
