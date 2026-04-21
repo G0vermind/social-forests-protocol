@@ -286,7 +286,7 @@ cd apps/web && npm install && npm run dev  # → http://localhost:3000
 Silviculturist and entrepreneur in high-value hardwoods since the late 90s. Stellar Network Ambassador for Brazil/Ceará. Builder of the Green RWA tech-stack and strategic node within the ABC+ Ceará low-carbon agriculture and bioeconomy ecosystem.
 [LinkedIn](https://www.linkedin.com/in/gustavo-gon%C3%A7alves-9a4a1523/) · [GitHub](https://github.com/G0vermind)
 
-**Vinicius Brás Rocha** · `ReFi Architect`
+**Vinicius Braz Rocha** · `ReFi Architect`
 P2P glocal explorer and netweaver co-creating regenerative cyberculture in Web3 through ReRe (Regenerative Resources). Whitehat hacker from the 1990s cypherpunk movement with roots in the pre-launch Bitcoin ecosystem.
 [LinkedIn](https://www.linkedin.com/in/vrselfmedia/) · [GitHub](https://github.com/glocalVR)
 
@@ -324,7 +324,7 @@ GitHub: **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**
 Entrepreneurial-minded with a passion for changing the world through innovative education, self-learning tools, regenerative finance, Web3 and DeFi mechanics. Skilled in token economy, governance minting, blockchain, marketing strategy, and crafting learning culture.
 [LinkedIn](https://www.linkedin.com/in/pedrobruder) · [GitHub](https://github.com/BasedCaveman)
 
-**Vinícius Brás Rocha (glocalVR)** · `[RE]³ Advisor & Protocol Co-initiator`
+**Vinícius Braz Rocha (glocalVR)** · `[RE]³ Advisor & Protocol Co-initiator`
 Co-creator at [ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos). Expert in regenerative governance, bridging biological assets and sustainable impact models, ensuring the protocol follows circular economy best practices.
 [LinkedIn](https://www.linkedin.com/in/vrselfmedia/) · [GitHub](https://github.com/glocalVR)
 
@@ -573,7 +573,7 @@ cd apps/web && npm install && npm run dev  # → http://localhost:3000
 Silvicultor e empreendedor em madeiras nobres desde o final dos anos 90. Embaixador da Rede Stellar no Brasil/Ceará. Builder do tech-stack Green RWA e nó estratégico no ABC+ Ceará — bioeconomia e agricultura de baixo carbono.
 [LinkedIn](https://www.linkedin.com/in/gustavo-gon%C3%A7alves-9a4a1523/) · [GitHub](https://github.com/G0vermind)
 
-**Vinicius Brás Rocha** · `Arquiteto ReFi`
+**Vinicius Braz Rocha** · `Arquiteto ReFi`
 P2P glocal explorer e netweaver co-criando cibercultura regenerativa no Web3 via ReRe (Regenerative Resources). Hacker whitehat com raízes no movimento cypherpunk dos anos 90 e no ecossistema pré-lançamento do Bitcoin.
 [LinkedIn](https://www.linkedin.com/in/vrselfmedia/) · [GitHub](https://github.com/glocalVR)
 
@@ -611,7 +611,7 @@ GitHub: **[ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos)**
 Indivíduo com mentalidade empreendedora e paixão por mudar o mundo através de educação inovadora, ferramentas de autoaprendizagem, finanças regenerativas, mecânicas de Web3 e DeFi. Especialista em economia de tokens, cunhagem de governança, blockchain, estratégia de marketing e na criação de uma cultura de aprendizado.
 [LinkedIn](https://www.linkedin.com/in/pedrobruder) · [GitHub](https://github.com/BasedCaveman)
 
-**Vinícius Brás Rocha (glocalVR)** · `Conselheiro [RE]³ & Co-iniciador do Protocolo`
+**Vinícius Braz Rocha (glocalVR)** · `Conselheiro [RE]³ & Co-iniciador do Protocolo`
 Co-criador na [ReRegeneradora](https://github.com/ReRe-Recursos-Regenerativos). Especialista em governança regenerativa, fazendo a ponte entre ativos biológicos e modelos de impacto sustentável, garantindo que o protocolo siga as melhores práticas de economia circular.
 [LinkedIn](https://www.linkedin.com/in/vrselfmedia/) · [GitHub](https://github.com/glocalVR)
 
