@@ -52,7 +52,6 @@
         }
       ]
     ],
-    [],
     [
       [
         "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
@@ -144,6 +143,87 @@
           "function": {
             "contract_fn": {
               "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+              "function_name": "update_tree_record",
+              "args": [
+                {
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+                },
+                {
+                  "map": [
+                    {
+                      "key": {
+                        "symbol": "carbon_kg"
+                      },
+                      "val": {
+                        "u32": 3
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "geo_hash"
+                      },
+                      "val": {
+                        "u64": 43981
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "health_score"
+                      },
+                      "val": {
+                        "u32": 95
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "height_cm"
+                      },
+                      "val": {
+                        "u32": 80
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "nft_id"
+                      },
+                      "val": {
+                        "u32": 1
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "tree_id"
+                      },
+                      "val": {
+                        "u32": 501
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "year"
+                      },
+                      "val": {
+                        "u32": 2025
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "sub_invocations": []
+        }
+      ]
+    ],
+    [],
+    [],
+    [
+      [
+        "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+        {
+          "function": {
+            "contract_fn": {
+              "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
               "function_name": "reward_leaves",
               "args": [
                 {
@@ -155,7 +235,7 @@
                 {
                   "i128": {
                     "hi": 0,
-                    "lo": 100
+                    "lo": 1950
                   }
                 }
               ]
@@ -253,6 +333,89 @@
         }
       ]
     ],
+    [],
+    [
+      [
+        "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+        {
+          "function": {
+            "contract_fn": {
+              "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+              "function_name": "update_tree_record",
+              "args": [
+                {
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+                },
+                {
+                  "map": [
+                    {
+                      "key": {
+                        "symbol": "carbon_kg"
+                      },
+                      "val": {
+                        "u32": 10
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "geo_hash"
+                      },
+                      "val": {
+                        "u64": 43981
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "health_score"
+                      },
+                      "val": {
+                        "u32": 97
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "height_cm"
+                      },
+                      "val": {
+                        "u32": 150
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "nft_id"
+                      },
+                      "val": {
+                        "u32": 1
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "tree_id"
+                      },
+                      "val": {
+                        "u32": 501
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "year"
+                      },
+                      "val": {
+                        "u32": 2026
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "sub_invocations": []
+        }
+      ]
+    ],
+    [],
+    [],
+    [],
     []
   ],
   "ledger": {
@@ -320,7 +483,7 @@
                     },
                     {
                       "key": {
-                        "symbol": "legendary_bonus"
+                        "symbol": "lenda_bonus"
                       },
                       "val": {
                         "bool": true
@@ -581,7 +744,7 @@
                 "val": {
                   "vec": [
                     {
-                      "symbol": "Legendary"
+                      "symbol": "Lenda"
                     }
                   ]
                 }
@@ -629,6 +792,267 @@
                 "durability": "persistent",
                 "val": {
                   "bool": true
+                }
+              }
+            },
+            "ext": "v0"
+          },
+          1555200
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+            "key": {
+              "vec": [
+                {
+                  "symbol": "TreeLatestYear"
+                },
+                {
+                  "u32": 1
+                }
+              ]
+            },
+            "durability": "persistent"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+                "key": {
+                  "vec": [
+                    {
+                      "symbol": "TreeLatestYear"
+                    },
+                    {
+                      "u32": 1
+                    }
+                  ]
+                },
+                "durability": "persistent",
+                "val": {
+                  "u32": 2026
+                }
+              }
+            },
+            "ext": "v0"
+          },
+          1555200
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+            "key": {
+              "vec": [
+                {
+                  "symbol": "TreeRecord"
+                },
+                {
+                  "u32": 1
+                },
+                {
+                  "u32": 2025
+                }
+              ]
+            },
+            "durability": "persistent"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+                "key": {
+                  "vec": [
+                    {
+                      "symbol": "TreeRecord"
+                    },
+                    {
+                      "u32": 1
+                    },
+                    {
+                      "u32": 2025
+                    }
+                  ]
+                },
+                "durability": "persistent",
+                "val": {
+                  "map": [
+                    {
+                      "key": {
+                        "symbol": "carbon_kg"
+                      },
+                      "val": {
+                        "u32": 3
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "geo_hash"
+                      },
+                      "val": {
+                        "u64": 43981
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "health_score"
+                      },
+                      "val": {
+                        "u32": 95
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "height_cm"
+                      },
+                      "val": {
+                        "u32": 80
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "nft_id"
+                      },
+                      "val": {
+                        "u32": 1
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "tree_id"
+                      },
+                      "val": {
+                        "u32": 501
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "year"
+                      },
+                      "val": {
+                        "u32": 2025
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "ext": "v0"
+          },
+          1555200
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+            "key": {
+              "vec": [
+                {
+                  "symbol": "TreeRecord"
+                },
+                {
+                  "u32": 1
+                },
+                {
+                  "u32": 2026
+                }
+              ]
+            },
+            "durability": "persistent"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+                "key": {
+                  "vec": [
+                    {
+                      "symbol": "TreeRecord"
+                    },
+                    {
+                      "u32": 1
+                    },
+                    {
+                      "u32": 2026
+                    }
+                  ]
+                },
+                "durability": "persistent",
+                "val": {
+                  "map": [
+                    {
+                      "key": {
+                        "symbol": "carbon_kg"
+                      },
+                      "val": {
+                        "u32": 10
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "geo_hash"
+                      },
+                      "val": {
+                        "u64": 43981
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "health_score"
+                      },
+                      "val": {
+                        "u32": 97
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "height_cm"
+                      },
+                      "val": {
+                        "u32": 150
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "nft_id"
+                      },
+                      "val": {
+                        "u32": 1
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "tree_id"
+                      },
+                      "val": {
+                        "u32": 501
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "year"
+                      },
+                      "val": {
+                        "u32": 2026
+                      }
+                    }
+                  ]
                 }
               }
             },
@@ -856,6 +1280,39 @@
             "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
             "key": {
               "ledger_key_nonce": {
+                "nonce": 3126073502131104533
+              }
+            },
+            "durability": "temporary"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+                "key": {
+                  "ledger_key_nonce": {
+                    "nonce": 3126073502131104533
+                  }
+                },
+                "durability": "temporary",
+                "val": "void"
+              }
+            },
+            "ext": "v0"
+          },
+          6311999
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+            "key": {
+              "ledger_key_nonce": {
                 "nonce": 4270020994084947596
               }
             },
@@ -905,6 +1362,72 @@
                 "key": {
                   "ledger_key_nonce": {
                     "nonce": 4837995959683129791
+                  }
+                },
+                "durability": "temporary",
+                "val": "void"
+              }
+            },
+            "ext": "v0"
+          },
+          6311999
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+            "key": {
+              "ledger_key_nonce": {
+                "nonce": 8370022561469687789
+              }
+            },
+            "durability": "temporary"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+                "key": {
+                  "ledger_key_nonce": {
+                    "nonce": 8370022561469687789
+                  }
+                },
+                "durability": "temporary",
+                "val": "void"
+              }
+            },
+            "ext": "v0"
+          },
+          6311999
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M",
+            "key": {
+              "ledger_key_nonce": {
+                "nonce": 115220454072064130
+              }
+            },
+            "durability": "temporary"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M",
+                "key": {
+                  "ledger_key_nonce": {
+                    "nonce": 115220454072064130
                   }
                 },
                 "durability": "temporary",
@@ -1037,39 +1560,6 @@
                 "key": {
                   "ledger_key_nonce": {
                     "nonce": 6277191135259896685
-                  }
-                },
-                "durability": "temporary",
-                "val": "void"
-              }
-            },
-            "ext": "v0"
-          },
-          6311999
-        ]
-      ],
-      [
-        {
-          "contract_data": {
-            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M",
-            "key": {
-              "ledger_key_nonce": {
-                "nonce": 8370022561469687789
-              }
-            },
-            "durability": "temporary"
-          }
-        },
-        [
-          {
-            "last_modified_ledger_seq": 0,
-            "data": {
-              "contract_data": {
-                "ext": "v0",
-                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M",
-                "key": {
-                  "ledger_key_nonce": {
-                    "nonce": 8370022561469687789
                   }
                 },
                 "durability": "temporary",
@@ -1341,58 +1831,6 @@
               }
             ],
             "data": "void"
-          }
-        }
-      },
-      "failed_call": false
-    },
-    {
-      "event": {
-        "ext": "v0",
-        "contract_id": null,
-        "type_": "diagnostic",
-        "body": {
-          "v0": {
-            "topics": [
-              {
-                "symbol": "fn_call"
-              },
-              {
-                "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
-              },
-              {
-                "symbol": "get_mission_pool"
-              }
-            ],
-            "data": {
-              "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAITA4"
-            }
-          }
-        }
-      },
-      "failed_call": false
-    },
-    {
-      "event": {
-        "ext": "v0",
-        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
-        "type_": "diagnostic",
-        "body": {
-          "v0": {
-            "topics": [
-              {
-                "symbol": "fn_return"
-              },
-              {
-                "symbol": "get_mission_pool"
-              }
-            ],
-            "data": {
-              "i128": {
-                "hi": 0,
-                "lo": 1000
-              }
-            }
           }
         }
       },
@@ -1703,7 +2141,7 @@
                 },
                 {
                   "key": {
-                    "symbol": "legendary_bonus"
+                    "symbol": "lenda_bonus"
                   },
                   "val": {
                     "bool": false
@@ -1826,11 +2264,11 @@
                 "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
               },
               {
-                "symbol": "get_leaves"
+                "symbol": "get_nft_mogno_fraction"
               }
             ],
             "data": {
-              "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M"
+              "u32": 1
             }
           }
         }
@@ -1849,14 +2287,321 @@
                 "symbol": "fn_return"
               },
               {
-                "symbol": "get_leaves"
+                "symbol": "get_nft_mogno_fraction"
               }
             ],
             "data": {
               "i128": {
                 "hi": 0,
-                "lo": 100
+                "lo": 10000
               }
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": null,
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_call"
+              },
+              {
+                "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              {
+                "symbol": "update_tree_record"
+              }
+            ],
+            "data": {
+              "vec": [
+                {
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+                },
+                {
+                  "map": [
+                    {
+                      "key": {
+                        "symbol": "carbon_kg"
+                      },
+                      "val": {
+                        "u32": 3
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "geo_hash"
+                      },
+                      "val": {
+                        "u64": 43981
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "health_score"
+                      },
+                      "val": {
+                        "u32": 95
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "height_cm"
+                      },
+                      "val": {
+                        "u32": 80
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "nft_id"
+                      },
+                      "val": {
+                        "u32": 1
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "tree_id"
+                      },
+                      "val": {
+                        "u32": 501
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "year"
+                      },
+                      "val": {
+                        "u32": 2025
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "contract",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "tree_upd"
+              }
+            ],
+            "data": {
+              "vec": [
+                {
+                  "u32": 1
+                },
+                {
+                  "u32": 2025
+                },
+                {
+                  "u32": 3
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_return"
+              },
+              {
+                "symbol": "update_tree_record"
+              }
+            ],
+            "data": "void"
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": null,
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_call"
+              },
+              {
+                "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              {
+                "symbol": "get_tree_record"
+              }
+            ],
+            "data": {
+              "vec": [
+                {
+                  "u32": 1
+                },
+                {
+                  "u32": 2025
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_return"
+              },
+              {
+                "symbol": "get_tree_record"
+              }
+            ],
+            "data": {
+              "map": [
+                {
+                  "key": {
+                    "symbol": "carbon_kg"
+                  },
+                  "val": {
+                    "u32": 3
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "geo_hash"
+                  },
+                  "val": {
+                    "u64": 43981
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "health_score"
+                  },
+                  "val": {
+                    "u32": 95
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "height_cm"
+                  },
+                  "val": {
+                    "u32": 80
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "nft_id"
+                  },
+                  "val": {
+                    "u32": 1
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "tree_id"
+                  },
+                  "val": {
+                    "u32": 501
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "year"
+                  },
+                  "val": {
+                    "u32": 2025
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": null,
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_call"
+              },
+              {
+                "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              {
+                "symbol": "get_nft_rarity"
+              }
+            ],
+            "data": {
+              "u32": 1
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_return"
+              },
+              {
+                "symbol": "get_nft_rarity"
+              }
+            ],
+            "data": {
+              "vec": [
+                {
+                  "symbol": "Plantador"
+                }
+              ]
             }
           }
         }
@@ -1892,7 +2637,7 @@
                 {
                   "i128": {
                     "hi": 0,
-                    "lo": 100
+                    "lo": 1950
                   }
                 }
               ]
@@ -1922,7 +2667,7 @@
                 {
                   "i128": {
                     "hi": 0,
-                    "lo": 100
+                    "lo": 1950
                   }
                 }
               ]
@@ -2009,7 +2754,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Uncommon"
+                      "symbol": "Cultivador"
                     }
                   ]
                 }
@@ -2038,7 +2783,7 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Uncommon"
+                  "symbol": "Cultivador"
                 }
               ]
             }
@@ -2103,7 +2848,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Rare"
+                      "symbol": "Guardiao"
                     }
                   ]
                 }
@@ -2132,7 +2877,7 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Rare"
+                  "symbol": "Guardiao"
                 }
               ]
             }
@@ -2197,7 +2942,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Epic"
+                      "symbol": "Protetor"
                     }
                   ]
                 }
@@ -2226,7 +2971,7 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Epic"
+                  "symbol": "Protetor"
                 }
               ]
             }
@@ -2321,7 +3066,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Legendary"
+                      "symbol": "Lenda"
                     }
                   ]
                 }
@@ -2350,7 +3095,532 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Legendary"
+                  "symbol": "Lenda"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": null,
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_call"
+              },
+              {
+                "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              {
+                "symbol": "get_nft_mogno_fraction"
+              }
+            ],
+            "data": {
+              "u32": 1
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_return"
+              },
+              {
+                "symbol": "get_nft_mogno_fraction"
+              }
+            ],
+            "data": {
+              "i128": {
+                "hi": 0,
+                "lo": 1000000
+              }
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": null,
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_call"
+              },
+              {
+                "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              {
+                "symbol": "update_tree_record"
+              }
+            ],
+            "data": {
+              "vec": [
+                {
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+                },
+                {
+                  "map": [
+                    {
+                      "key": {
+                        "symbol": "carbon_kg"
+                      },
+                      "val": {
+                        "u32": 10
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "geo_hash"
+                      },
+                      "val": {
+                        "u64": 43981
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "health_score"
+                      },
+                      "val": {
+                        "u32": 97
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "height_cm"
+                      },
+                      "val": {
+                        "u32": 150
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "nft_id"
+                      },
+                      "val": {
+                        "u32": 1
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "tree_id"
+                      },
+                      "val": {
+                        "u32": 501
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "year"
+                      },
+                      "val": {
+                        "u32": 2026
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "contract",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "tree_upd"
+              }
+            ],
+            "data": {
+              "vec": [
+                {
+                  "u32": 1
+                },
+                {
+                  "u32": 2026
+                },
+                {
+                  "u32": 10
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_return"
+              },
+              {
+                "symbol": "update_tree_record"
+              }
+            ],
+            "data": "void"
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": null,
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_call"
+              },
+              {
+                "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              {
+                "symbol": "get_tree_record"
+              }
+            ],
+            "data": {
+              "vec": [
+                {
+                  "u32": 1
+                },
+                {
+                  "u32": 2025
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_return"
+              },
+              {
+                "symbol": "get_tree_record"
+              }
+            ],
+            "data": {
+              "map": [
+                {
+                  "key": {
+                    "symbol": "carbon_kg"
+                  },
+                  "val": {
+                    "u32": 3
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "geo_hash"
+                  },
+                  "val": {
+                    "u64": 43981
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "health_score"
+                  },
+                  "val": {
+                    "u32": 95
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "height_cm"
+                  },
+                  "val": {
+                    "u32": 80
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "nft_id"
+                  },
+                  "val": {
+                    "u32": 1
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "tree_id"
+                  },
+                  "val": {
+                    "u32": 501
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "year"
+                  },
+                  "val": {
+                    "u32": 2025
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": null,
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_call"
+              },
+              {
+                "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              {
+                "symbol": "get_tree_record"
+              }
+            ],
+            "data": {
+              "vec": [
+                {
+                  "u32": 1
+                },
+                {
+                  "u32": 2026
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_return"
+              },
+              {
+                "symbol": "get_tree_record"
+              }
+            ],
+            "data": {
+              "map": [
+                {
+                  "key": {
+                    "symbol": "carbon_kg"
+                  },
+                  "val": {
+                    "u32": 10
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "geo_hash"
+                  },
+                  "val": {
+                    "u64": 43981
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "health_score"
+                  },
+                  "val": {
+                    "u32": 97
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "height_cm"
+                  },
+                  "val": {
+                    "u32": 150
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "nft_id"
+                  },
+                  "val": {
+                    "u32": 1
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "tree_id"
+                  },
+                  "val": {
+                    "u32": 501
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "year"
+                  },
+                  "val": {
+                    "u32": 2026
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": null,
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_call"
+              },
+              {
+                "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              {
+                "symbol": "get_latest_tree_record"
+              }
+            ],
+            "data": {
+              "u32": 1
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_return"
+              },
+              {
+                "symbol": "get_latest_tree_record"
+              }
+            ],
+            "data": {
+              "map": [
+                {
+                  "key": {
+                    "symbol": "carbon_kg"
+                  },
+                  "val": {
+                    "u32": 10
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "geo_hash"
+                  },
+                  "val": {
+                    "u64": 43981
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "health_score"
+                  },
+                  "val": {
+                    "u32": 97
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "height_cm"
+                  },
+                  "val": {
+                    "u32": 150
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "nft_id"
+                  },
+                  "val": {
+                    "u32": 1
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "tree_id"
+                  },
+                  "val": {
+                    "u32": 501
+                  }
+                },
+                {
+                  "key": {
+                    "symbol": "year"
+                  },
+                  "val": {
+                    "u32": 2026
+                  }
                 }
               ]
             }
@@ -2420,7 +3690,7 @@
                 },
                 {
                   "key": {
-                    "symbol": "legendary_bonus"
+                    "symbol": "lenda_bonus"
                   },
                   "val": {
                     "bool": true

@@ -282,7 +282,7 @@
                 "val": {
                   "vec": [
                     {
-                      "symbol": "Legendary"
+                      "symbol": "Lenda"
                     }
                   ]
                 }
@@ -841,7 +841,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Uncommon"
+                      "symbol": "Cultivador"
                     }
                   ]
                 }
@@ -870,7 +870,7 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Uncommon"
+                  "symbol": "Cultivador"
                 }
               ]
             }
@@ -935,7 +935,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Rare"
+                      "symbol": "Guardiao"
                     }
                   ]
                 }
@@ -964,7 +964,7 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Rare"
+                  "symbol": "Guardiao"
                 }
               ]
             }
@@ -1029,7 +1029,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Epic"
+                      "symbol": "Protetor"
                     }
                   ]
                 }
@@ -1058,7 +1058,7 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Epic"
+                  "symbol": "Protetor"
                 }
               ]
             }
@@ -1123,7 +1123,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Legendary"
+                      "symbol": "Lenda"
                     }
                   ]
                 }
@@ -1152,7 +1152,7 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Legendary"
+                  "symbol": "Lenda"
                 }
               ]
             }

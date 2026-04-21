@@ -23,7 +23,7 @@
                 {
                   "i128": {
                     "hi": 0,
-                    "lo": 2150
+                    "lo": 2300
                   }
                 }
               ]
@@ -139,7 +139,8 @@
           "sub_invocations": []
         }
       ]
-    ]
+    ],
+    []
   ],
   "ledger": {
     "protocol_version": 21,
@@ -189,7 +190,7 @@
                 "val": {
                   "i128": {
                     "hi": 0,
-                    "lo": 0
+                    "lo": 150
                   }
                 }
               }
@@ -282,7 +283,7 @@
                 "val": {
                   "vec": [
                     {
-                      "symbol": "Legendary"
+                      "symbol": "Lenda"
                     }
                   ]
                 }
@@ -648,7 +649,7 @@
                 {
                   "i128": {
                     "hi": 0,
-                    "lo": 2150
+                    "lo": 2300
                   }
                 }
               ]
@@ -678,7 +679,7 @@
                 {
                   "i128": {
                     "hi": 0,
-                    "lo": 2150
+                    "lo": 2300
                   }
                 }
               ]
@@ -841,7 +842,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Uncommon"
+                      "symbol": "Cultivador"
                     }
                   ]
                 }
@@ -870,7 +871,7 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Uncommon"
+                  "symbol": "Cultivador"
                 }
               ]
             }
@@ -935,7 +936,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Rare"
+                      "symbol": "Guardiao"
                     }
                   ]
                 }
@@ -964,7 +965,7 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Rare"
+                  "symbol": "Guardiao"
                 }
               ]
             }
@@ -1029,7 +1030,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Epic"
+                      "symbol": "Protetor"
                     }
                   ]
                 }
@@ -1058,7 +1059,7 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Epic"
+                  "symbol": "Protetor"
                 }
               ]
             }
@@ -1123,7 +1124,7 @@
                 {
                   "vec": [
                     {
-                      "symbol": "Legendary"
+                      "symbol": "Lenda"
                     }
                   ]
                 }
@@ -1152,9 +1153,191 @@
             "data": {
               "vec": [
                 {
-                  "symbol": "Legendary"
+                  "symbol": "Lenda"
                 }
               ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": null,
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "fn_call"
+              },
+              {
+                "bytes": "0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              {
+                "symbol": "evolve_nft"
+              }
+            ],
+            "data": {
+              "vec": [
+                {
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M"
+                },
+                {
+                  "u32": 1
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "error"
+              },
+              {
+                "error": {
+                  "contract": 8
+                }
+              }
+            ],
+            "data": {
+              "vec": [
+                {
+                  "string": "failing with contract error"
+                },
+                {
+                  "u32": 8
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": true
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "error"
+              },
+              {
+                "error": {
+                  "contract": 8
+                }
+              }
+            ],
+            "data": {
+              "string": "escalating error to panic"
+            }
+          }
+        }
+      },
+      "failed_call": true
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "error"
+              },
+              {
+                "error": {
+                  "contract": 8
+                }
+              }
+            ],
+            "data": {
+              "string": "caught error from function"
+            }
+          }
+        }
+      },
+      "failed_call": true
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": null,
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "error"
+              },
+              {
+                "error": {
+                  "contract": 8
+                }
+              }
+            ],
+            "data": {
+              "vec": [
+                {
+                  "string": "contract call failed"
+                },
+                {
+                  "symbol": "evolve_nft"
+                },
+                {
+                  "vec": [
+                    {
+                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M"
+                    },
+                    {
+                      "u32": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "failed_call": false
+    },
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": null,
+        "type_": "diagnostic",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "error"
+              },
+              {
+                "error": {
+                  "contract": 8
+                }
+              }
+            ],
+            "data": {
+              "string": "escalating error to panic"
             }
           }
         }

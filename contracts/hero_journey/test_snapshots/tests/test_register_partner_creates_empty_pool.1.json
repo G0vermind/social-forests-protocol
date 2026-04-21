@@ -94,7 +94,7 @@
                     },
                     {
                       "key": {
-                        "symbol": "legendary_bonus"
+                        "symbol": "lenda_bonus"
                       },
                       "val": {
                         "bool": false
