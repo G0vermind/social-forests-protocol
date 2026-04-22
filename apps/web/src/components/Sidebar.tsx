@@ -89,20 +89,52 @@ export default function Sidebar() {
           })}
         </nav>
 
-        {/* Footer */}
-        <div className="mt-4 rounded-xl border border-slate-800/60 bg-slate-900/60 p-3">
-          <p className="text-[10px] text-slate-600 leading-relaxed mb-2">
-            Cada árvore forjada é plantada no mundo real via protocolo de impacto verificável.
-          </p>
-          <a
-            href="https://florestas.social"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-1.5 text-[11px] text-emerald-600 hover:text-emerald-400 transition-colors font-medium"
-          >
-            <ExternalLink className="h-3 w-3" />
-            florestas.social
-          </a>
+        {/* Footer com User Menu */}
+        <div className="mt-4 flex flex-col gap-2">
+          {/* Menu de Perfil / Ações (Sair) */}
+          <div className="rounded-xl border border-slate-800/60 bg-slate-900/40 p-2">
+            <div className="flex items-center justify-between px-2 py-1 mb-2">
+              <span className="text-[11px] font-semibold text-slate-400">Meu Espaço</span>
+            </div>
+            
+            <Link
+              href="/perfil/me" // Em um cenário real, usaria session.address
+              className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-slate-300 hover:bg-slate-800/60 hover:text-emerald-400 transition-colors"
+            >
+              <div className="bg-slate-800 h-5 w-5 rounded-md flex items-center justify-center">
+                <span className="text-[10px]">👤</span>
+              </div>
+              Perfil Público
+            </Link>
+
+            <button
+              onClick={() => {
+                // Aqui seria o disconnect do auth
+                window.location.href = '/';
+              }}
+              className="w-full flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-slate-300 hover:bg-red-500/10 hover:text-red-400 transition-colors mt-1"
+            >
+              <div className="bg-slate-800 h-5 w-5 rounded-md flex items-center justify-center">
+                <span className="text-[10px] text-red-400">🚪</span>
+              </div>
+              Sair da Conta
+            </button>
+          </div>
+
+          <div className="rounded-xl border border-slate-800/60 bg-slate-900/60 p-3">
+            <p className="text-[10px] text-slate-600 leading-relaxed mb-2">
+              Cada árvore forjada é plantada no mundo real via protocolo de impacto verificável.
+            </p>
+            <a
+              href="https://florestas.social"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-1.5 text-[11px] text-emerald-600 hover:text-emerald-400 transition-colors font-medium"
+            >
+              <ExternalLink className="h-3 w-3" />
+              florestas.social
+            </a>
+          </div>
         </div>
       </aside>
 
@@ -131,6 +163,18 @@ export default function Sidebar() {
             </Link>
           );
         })}
+        {/* Mobile Profile Icon */}
+        <Link
+          href="/perfil/me"
+          className="flex flex-1 flex-col items-center gap-1 rounded-xl py-2 px-1 transition-all duration-200 text-slate-500 hover:text-slate-300"
+        >
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors">
+             <span className="text-lg">👤</span>
+          </div>
+          <span className="text-[10px] font-semibold leading-none text-slate-600">
+            Perfil
+          </span>
+        </Link>
       </nav>
     </>
   );

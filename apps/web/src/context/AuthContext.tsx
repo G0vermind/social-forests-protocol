@@ -18,6 +18,9 @@ interface AuthContextType {
   setRole: (role: UserRole) => void;
 }
 
+const MOCK_ADMINS = ['G...ADMIN']; // Substitua pelo admin real
+const MOCK_EMPRESAS = ['G...EMPRESA1', 'G...EMPRESA2']; // Substitua pelas empresas reais
+
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -38,9 +41,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { address, error } = await requestAccess();
       if (error || !address) throw new Error(error || 'Acesso negado');
 
+      // Resolve a role baseada na whitelist
+      let resolvedRole: UserRole = 'consumidor';
+      if (MOCK_ADMINS.includes(address)) resolvedRole = 'admin';
+      else if (MOCK_EMPRESAS.includes(address)) resolvedRole = 'empresa';
+
       setSession({
         address,
-        role: null, // Will be set after on-chain verification
+        role: resolvedRole,
         isWeb2: false,
       });
     } catch (err) {
