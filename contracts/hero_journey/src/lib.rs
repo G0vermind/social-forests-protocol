@@ -1187,7 +1187,7 @@ mod tests {
     #[test]
     fn test_10_nfts_with_independent_tree_records() {
         // Caso principal: 10 NFTs Plantador, todos com crescimento independente
-        let (env, client, admin, user) = setup();
+        let (_env, client, admin, user) = setup();
         client.reward_leaves(&admin, &user, &1000i128); // 10 × 100
 
         let mut nft_ids = [0u32; 10];
@@ -1261,7 +1261,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_tree_record_nonexistent_nft_fails() {
-        let (env, client, admin, _user) = setup();
+        let (_env, client, admin, _user) = setup();
         // NFT 999 não existe
         let record = TreeAnnualRecord {
             nft_id: 999, tree_id: 1, year: 2025,
@@ -1273,7 +1273,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_tree_record_invalid_health_score_fails() {
-        let (env, client, admin, user) = setup();
+        let (_env, client, admin, user) = setup();
         client.reward_leaves(&admin, &user, &100i128);
         let nft_id = client.forge_common_rwa(&user);
         let record = TreeAnnualRecord {
@@ -1288,7 +1288,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_tree_record_year_zero_fails() {
-        let (env, client, admin, user) = setup();
+        let (_env, client, admin, user) = setup();
         client.reward_leaves(&admin, &user, &100i128);
         let nft_id = client.forge_common_rwa(&user);
         let record = TreeAnnualRecord {
