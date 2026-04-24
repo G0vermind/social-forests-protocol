@@ -51,8 +51,9 @@ export function useSorobanContracts() {
       .build();
 
       // Assinatura via Freighter (Wallet B2B ou B2C)
-      const signedTx = await signTransaction(tx.toXDR(), { network: 'TESTNET' });
-      tx = StellarSdk.TransactionBuilder.fromXDR(signedTx, NETWORK.networkPassphrase) as StellarSdk.Transaction;
+      const response = await signTransaction(tx.toXDR(), { networkPassphrase: NETWORK.networkPassphrase });
+      if (response.error) throw new Error(response.error);
+      tx = StellarSdk.TransactionBuilder.fromXDR(response.signedTxXdr, NETWORK.networkPassphrase) as StellarSdk.Transaction;
       
       // Enviar para a rede Stellar
       const result = await rpcServer.sendTransaction(tx);
@@ -98,8 +99,9 @@ export function useSorobanContracts() {
       .setTimeout(30)
       .build();
 
-      const signedTx = await signTransaction(tx.toXDR(), { network: 'TESTNET' });
-      tx = StellarSdk.TransactionBuilder.fromXDR(signedTx, NETWORK.networkPassphrase) as StellarSdk.Transaction;
+      const response = await signTransaction(tx.toXDR(), { networkPassphrase: NETWORK.networkPassphrase });
+      if (response.error) throw new Error(response.error);
+      tx = StellarSdk.TransactionBuilder.fromXDR(response.signedTxXdr, NETWORK.networkPassphrase) as StellarSdk.Transaction;
       
       const result = await rpcServer.sendTransaction(tx);
       console.log("Transação enviada:", result.hash);
