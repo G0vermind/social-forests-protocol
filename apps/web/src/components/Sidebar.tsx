@@ -7,7 +7,7 @@ import { TreePine, Sprout, Landmark, Vote, ExternalLink } from "lucide-react";
 const navItems = [
   {
     label: "Viveiro Digital",
-    href: "/",
+    href: "/dashboard",
     icon: Sprout,
     description: "Suas mudas & saldo",
   },
