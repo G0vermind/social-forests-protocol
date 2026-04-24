@@ -16,6 +16,8 @@ import {
   Lock
 } from 'lucide-react';
 
+import RoleGuard from '@/components/RoleGuard';
+
 export default function EmpresaDashboard() {
   const { session } = useAuth();
   const [showStripeModal, setShowStripeModal] = useState(false);
@@ -39,7 +41,8 @@ export default function EmpresaDashboard() {
   ];
 
   return (
-    <main className="min-h-screen bg-slate-950 p-4 sm:p-6 lg:p-8 relative overflow-hidden">
+    <RoleGuard allowedRoles={['empresa']}>
+      <main className="min-h-screen bg-slate-950 p-4 sm:p-6 lg:p-8 relative overflow-hidden">
       
       {/* Background Decorativo */}
       <div className="absolute top-0 right-0 w-[800px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
@@ -270,6 +273,7 @@ export default function EmpresaDashboard() {
       )}
 
     </main>
+    </RoleGuard>
   );
 }
 

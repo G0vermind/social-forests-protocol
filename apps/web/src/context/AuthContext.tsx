@@ -4,10 +4,12 @@ import {
   createContext,
   useContext,
   useState,
+  useEffect,
   useCallback,
   ReactNode,
 } from 'react';
 import { Session, UserRole } from '@/types';
+import { loginWithGoogle } from '@/lib/account-abstraction';
 
 interface AuthContextType {
   session: Session | null;
@@ -24,13 +26,35 @@ const MOCK_EMPRESAS = ['G...EMPRESA1', 'G...EMPRESA2']; // Substitua pelas empre
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [session, setSessionState] = useState<Session | null>(null);
+  const [isLoading, setIsLoading] = useState(true); // Começa true para checar storage
+
+  // Sincroniza com localStorage no carregamento inicial
+  useEffect(() => {
+    const stored = localStorage.getItem('sfp_session');
+    if (stored) {
+      try {
+        setSessionState(JSON.parse(stored));
+      } catch (e) {
+        console.error('Erro ao parsear sessão', e);
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
+  // Setter customizado que também salva no localStorage
+  const setSession = useCallback((newSession: Session | null) => {
+    setSessionState(newSession);
+    if (newSession) {
+      localStorage.setItem('sfp_session', JSON.stringify(newSession));
+    } else {
+      localStorage.removeItem('sfp_session');
+    }
+  }, []);
 
   const connectFreighter = useCallback(async () => {
     setIsLoading(true);
     try {
-      // Importação dinâmica — Freighter é browser-only
       const { isConnected, requestAccess } = await import('@stellar/freighter-api');
       const { isConnected: connected } = await isConnected();
 
@@ -57,29 +81,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [setSession]);
 
   const connectGoogle = useCallback(async () => {
-    // TODO: Integrar com NextAuth ou Privy para Account Abstraction real
     setIsLoading(true);
     try {
+      const abstractAccount = await loginWithGoogle();
       setSession({
-        address: 'GPLACEHOLDER000000000000000000000000000000000000000',
+        address: abstractAccount.address,
         role: 'consumidor',
-        displayName: 'Usuário Google',
+        displayName: abstractAccount.displayName,
         isWeb2: true,
       });
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [setSession]);
 
   const disconnect = useCallback(() => {
     setSession(null);
-  }, []);
+  }, [setSession]);
 
   const setRole = useCallback((role: UserRole) => {
-    setSession(prev => (prev ? { ...prev, role } : null));
+    setSessionState(prev => {
+      const updated = prev ? { ...prev, role } : null;
+      if (updated) localStorage.setItem('sfp_session', JSON.stringify(updated));
+      return updated;
+    });
   }, []);
 
   return (
