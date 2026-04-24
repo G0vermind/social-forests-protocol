@@ -112,33 +112,33 @@ export default function EmpresaDashboard() {
             </div>
 
             {/* Quick Actions / Campaigns */}
-            <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6">
+            <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 backdrop-blur-md">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-base font-bold text-white flex items-center gap-2">
                   Campanhas Ativas <Target className="w-4 h-4 text-blue-400" />
                 </h2>
-                <button className="text-blue-400 hover:text-blue-300 transition-colors">
+                <button className="text-blue-400 hover:text-blue-300 hover:scale-110 transition-transform">
                   <PlusCircle className="w-5 h-5" />
                 </button>
               </div>
 
               <div className="space-y-3">
                 {campanhasAtivas.map(camp => (
-                  <div key={camp.id} className="bg-slate-950 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-2">
+                  <div key={camp.id} className="bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 rounded-2xl p-4 flex flex-col gap-2 transition-all duration-300 cursor-pointer">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-sm font-semibold text-white">{camp.nome}</h3>
-                        <span className="text-[10px] text-slate-500 bg-slate-800 px-2 py-0.5 rounded">{camp.tipo}</span>
+                        <h3 className="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">{camp.nome}</h3>
+                        <span className="text-[10px] text-slate-400 bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm border border-white/5 mt-1 inline-block">{camp.tipo}</span>
                       </div>
                       <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded-lg">
                         -{camp.custoPorAcao} LEAF
                       </span>
                     </div>
-                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-800">
-                      <span className="text-xs text-slate-500 flex items-center gap-1">
+                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
+                      <span className="text-xs text-slate-400 flex items-center gap-1">
                         <Users className="w-3 h-3" /> {camp.totalUsos} usos
                       </span>
-                      <span className="text-xs text-blue-400 font-medium">Status: {camp.status}</span>
+                      <span className="text-xs text-blue-400 font-medium px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20">{camp.status}</span>
                     </div>
                   </div>
                 ))}
