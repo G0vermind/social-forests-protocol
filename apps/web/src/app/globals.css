@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FDFBF9; /* brand-bg-light */
+  --foreground: #26170E; /* brand-dark */
 }
 
 @theme inline {
@@ -10,12 +10,22 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Cores Oficiais da Marca (Florestas.Social) - Conforme Manual */
+  --color-brand-dark: #26170E;
+  --color-brand-brown-light: #947D71;
+  --color-brand-sepia: #C4A087;
+  --color-brand-yellow: #FFA500;
+  --color-brand-green-light: #13E89B;
+  --color-brand-green-mid: #44C495;
+  --color-brand-green-dark: #3E7755;
+  --color-brand-bg-light: #FDFBF9;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #26170E; /* brand-dark */
+    --foreground: #FDFBF9; /* brand-bg-light */
   }
 }
 

@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { UserRole } from '@/types';
 import { ReactNode } from 'react';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 
 // ─── Nav items por role ───────────────────────────────────────
 
@@ -40,7 +41,7 @@ function BottomNav({ role }: { role: NonNullable<UserRole> }) {
   return (
     <nav
       aria-label="Navegação principal"
-      className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur border-t border-white/10 safe-area-inset-bottom"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-brand-bg-light/95 dark:bg-brand-dark/95 backdrop-blur border-t border-brand-sepia/20 safe-area-inset-bottom"
     >
       <div className="flex items-stretch justify-around max-w-lg mx-auto">
         {items.map(({ href, emoji, label }) => {
@@ -76,14 +77,13 @@ function TopBar({ role, address }: { role: NonNullable<UserRole>; address: strin
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur border-b border-white/5 px-4 py-3">
+    <header className="sticky top-0 z-40 bg-brand-bg-light/90 dark:bg-brand-dark/90 backdrop-blur border-b border-brand-sepia/20 px-4 py-3">
       <div className="max-w-5xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-lg" aria-hidden="true">🌳</span>
-          <span className="font-bold text-white text-sm">Florestas<span className="text-green-400">.Social</span></span>
-        </div>
+        <Link href="/" className="flex items-center">
+          <BrandLogo className="h-8" />
+        </Link>
         <div className="flex items-center gap-3">
-          <span className="text-xs text-white/30 bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">
+          <span className="text-xs dark:text-white/80 bg-brand-sepia/10 border border-brand-sepia/20 px-2.5 py-1 rounded-full">
             {ROLE_LABEL[role]}
           </span>
           <span className="text-xs text-white/20 font-mono hidden sm:block">
@@ -115,7 +115,7 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
   const role = session.role;
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col">
+    <div className="min-h-screen bg-brand-bg-light dark:bg-brand-dark flex flex-col">
       <TopBar role={role} address={session.address} />
 
       {/* Conteúdo com padding-bottom para não ficar sob a nav */}
