@@ -11,31 +11,37 @@ jobs:
     name: Soroban Tests & Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
       - uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: '1.84'
+          toolchain: '1.85'
           targets: wasm32v1-none
-      - uses: actions/cache@v4
+      - uses: actions/cache@v4.2.2
         with:
           path: |
             ~/.cargo/registry
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-      - run: cargo test --manifest-path contracts/rwa_vault/Cargo.toml -- --nocapture
-      - run: cargo test --manifest-path contracts/sbt_reputation/Cargo.toml -- --nocapture
-      - run: cargo test --manifest-path contracts/hero_journey/Cargo.toml -- --nocapture
-      - run: cargo build --target wasm32v1-none --release --manifest-path contracts/rwa_vault/Cargo.toml
-      - run: cargo build --target wasm32v1-none --release --manifest-path contracts/sbt_reputation/Cargo.toml
-      - run: cargo build --target wasm32v1-none --release --manifest-path contracts/hero_journey/Cargo.toml
+      - name: Test rwa_vault
+        run: cargo test --manifest-path contracts/rwa_vault/Cargo.toml -- --nocapture
+      - name: Test sbt_reputation
+        run: cargo test --manifest-path contracts/sbt_reputation/Cargo.toml -- --nocapture
+      - name: Test hero_journey
+        run: cargo test --manifest-path contracts/hero_journey/Cargo.toml -- --nocapture
+      - name: Build rwa_vault WASM
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/rwa_vault/Cargo.toml
+      - name: Build sbt_reputation WASM
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/sbt_reputation/Cargo.toml
+      - name: Build hero_journey WASM
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/hero_journey/Cargo.toml
 
   frontend:
     name: Next.js Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-node@v4.4.0
         with:
           node-version: '20'
           cache: 'npm'
