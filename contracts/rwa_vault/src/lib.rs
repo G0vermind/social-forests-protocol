@@ -367,7 +367,7 @@ mod tests {
         let env = Env::default();
         env.mock_all_auths();
 
-        let contract_id = env.register_contract(None, MognoVault);
+        let contract_id = env.register(MognoVault, ());
         let client = MognoVaultClient::new(&env, &contract_id);
 
         let admin = Address::generate(&env);
@@ -460,7 +460,7 @@ mod tests {
     fn test_admin_mint_unauthorized() {
         // Env SEM mock_all_auths — require_auth() vai rejeitar
         let env = Env::default();
-        let contract_id = env.register_contract(None, MognoVault);
+        let contract_id = env.register(MognoVault, ());
         let client = MognoVaultClient::new(&env, &contract_id);
         let admin = Address::generate(&env);
         let user = Address::generate(&env);

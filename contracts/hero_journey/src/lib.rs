@@ -26,8 +26,8 @@
 #![no_std]
 
 use soroban_sdk::{
-    contract, contractimpl, contracttype, contracterror,
-    panic_with_error, symbol_short,
+    contract, contractevent, contractimpl, contracttype, contracterror,
+    panic_with_error,
     Address, BytesN, Env,
 };
 
@@ -185,6 +185,75 @@ pub enum ContractError {
 }
 
 // ==========================================
+// EVENTOS DO CONTRATO
+// ==========================================
+
+/// Emitido quando o Oráculo recompensa Folhas a um utilizador.
+#[contractevent]
+pub struct EventRewardLeaves {
+    pub user:   Address,
+    pub amount: i128,
+}
+
+/// Emitido quando o Oráculo atualiza o registro anual de uma árvore.
+#[contractevent]
+pub struct EventTreeUpdated {
+    pub nft_id:    u32,
+    pub year:      u32,
+    pub carbon_kg: u32,
+}
+
+/// Emitido quando uma empresa é registada como parceira B2B.
+#[contractevent]
+pub struct EventPartnerRegistered {
+    pub company: Address,
+}
+
+/// Emitido quando uma empresa deposita Folhas no pool de missões.
+#[contractevent]
+pub struct EventLeavesDistributed {
+    pub company: Address,
+    pub amount:  i128,
+}
+
+/// Emitido quando um utilizador captura Folhas de uma missão B2B.
+#[contractevent]
+pub struct EventMissionLeafClaimed {
+    pub company: Address,
+    pub user:    Address,
+    pub amount:  i128,
+}
+
+/// Emitido quando um NFT RWA é forjado.
+#[contractevent]
+pub struct EventNftForged {
+    pub user:   Address,
+    pub nft_id: u32,
+}
+
+/// Emitido quando um utilizador atinge o nível Lenda, ativando badges B2B.
+#[contractevent]
+pub struct EventLendaBonus {
+    pub company: Address,
+    pub user:    Address,
+    pub nft_id:  u32,
+}
+
+/// Emitido quando um NFT evolui de nível.
+#[contractevent]
+pub struct EventNftEvolved {
+    pub user:       Address,
+    pub nft_id:     u32,
+    pub new_rarity: Rarity,
+}
+
+/// Emitido quando o Merkle root ESG é atualizado.
+#[contractevent]
+pub struct EventEsgMerkleRootSet {
+    pub root: BytesN<32>,
+}
+
+// ==========================================
 // CONSTANTES
 // ==========================================
 
@@ -308,7 +377,7 @@ impl HeroJourney {
         env.storage().persistent().set(&key, &new_balance);
         env.storage().persistent().extend_ttl(&key, TTL_THRESHOLD, TTL_EXTEND);
 
-        env.events().publish((symbol_short!("reward"),), (user.clone(), amount));
+        env.events().publish_event(&EventRewardLeaves { user: user.clone(), amount });
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
     }
 
@@ -382,10 +451,7 @@ impl HeroJourney {
         }
 
         // Evento: capturado pelo indexer para dashboard de impacto real
-        env.events().publish(
-            (symbol_short!("tree_upd"),),
-            (nft_id, year, carbon),
-        );
+        env.events().publish_event(&EventTreeUpdated { nft_id, year, carbon_kg: carbon });
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
     }
 
@@ -428,7 +494,7 @@ impl HeroJourney {
                 .extend_ttl(&pool_key, TTL_THRESHOLD, TTL_EXTEND);
         }
 
-        env.events().publish((symbol_short!("reg_ptr"),), company.clone());
+        env.events().publish_event(&EventPartnerRegistered { company: company.clone() });
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
     }
 
@@ -466,7 +532,7 @@ impl HeroJourney {
         }
 
         env.events()
-            .publish((symbol_short!("dist_lf"),), (company.clone(), amount));
+            .publish_event(&EventLeavesDistributed { company: company.clone(), amount });
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
     }
 
@@ -552,10 +618,11 @@ impl HeroJourney {
             .persistent()
             .extend_ttl(&uc_key, TTL_THRESHOLD, TTL_EXTEND);
 
-        env.events().publish(
-            (symbol_short!("leaf_clm"),),
-            (company.clone(), user.clone(), amount),
-        );
+        env.events().publish_event(&EventMissionLeafClaimed {
+            company: company.clone(),
+            user: user.clone(),
+            amount,
+        });
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
     }
 
@@ -607,7 +674,7 @@ impl HeroJourney {
             .extend_ttl(&DataKey::NFTRarity(nft_id), TTL_THRESHOLD, TTL_EXTEND);
 
         env.events()
-            .publish((symbol_short!("forge"),), (user.clone(), nft_id));
+            .publish_event(&EventNftForged { user: user.clone(), nft_id });
 
         nft_id
     }
@@ -705,18 +772,20 @@ impl HeroJourney {
                         .persistent()
                         .extend_ttl(&badge_key, TTL_THRESHOLD, TTL_EXTEND);
 
-                    env.events().publish(
-                        (symbol_short!("lgnd_bon"),),
-                        (company.clone(), user.clone(), nft_id),
-                    );
+                    env.events().publish_event(&EventLendaBonus {
+                        company: company.clone(),
+                        user: user.clone(),
+                        nft_id,
+                    });
                 }
             }
         }
 
-        env.events().publish(
-            (symbol_short!("evolve"),),
-            (user.clone(), nft_id, new_rarity.clone()),
-        );
+        env.events().publish_event(&EventNftEvolved {
+            user: user.clone(),
+            nft_id,
+            new_rarity: new_rarity.clone(),
+        });
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
 
         new_rarity
@@ -738,7 +807,7 @@ impl HeroJourney {
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
 
         env.events()
-            .publish((symbol_short!("esg_root"),), root.clone());
+            .publish_event(&EventEsgMerkleRootSet { root: root.clone() });
     }
 
     /// Retorna o Merkle root ESG mais recente.
@@ -869,7 +938,7 @@ mod tests {
         let env = Env::default();
         env.mock_all_auths();
 
-        let contract_id = env.register_contract(None, HeroJourney);
+        let contract_id = env.register(HeroJourney, ());
         let client = HeroJourneyClient::new(&env, &contract_id);
 
         let admin = Address::generate(&env);

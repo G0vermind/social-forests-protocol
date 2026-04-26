@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowLeft, Target, Plus, Search, Timer, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Target, Plus, Search, Timer, CheckCircle2, Leaf } from 'lucide-react';
 import Link from 'next/link';
 
 import RoleGuard from '@/components/RoleGuard';
