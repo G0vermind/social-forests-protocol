@@ -14,12 +14,3 @@ soroban-sdk = "25"
 
 [dev-dependencies]
 soroban-sdk = { version = "25", features = ["testutils"] }
-
-[profile.release]
-opt-level = "z"
-overflow-checks = true
-debug = false
-strip = "symbols"
-lto = true
-codegen-units = 1
-panic = "abort"

@@ -14,7 +14,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
         with:
-          targets: wasm32-unknown-unknown
+          toolchain: '1.84'
+          targets: wasm32v1-none
       - uses: actions/cache@v4
         with:
           path: |
@@ -25,9 +26,9 @@ jobs:
       - run: cargo test --manifest-path contracts/rwa_vault/Cargo.toml -- --nocapture
       - run: cargo test --manifest-path contracts/sbt_reputation/Cargo.toml -- --nocapture
       - run: cargo test --manifest-path contracts/hero_journey/Cargo.toml -- --nocapture
-      - run: cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/rwa_vault/Cargo.toml
-      - run: cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/sbt_reputation/Cargo.toml
-      - run: cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/hero_journey/Cargo.toml
+      - run: cargo build --target wasm32v1-none --release --manifest-path contracts/rwa_vault/Cargo.toml
+      - run: cargo build --target wasm32v1-none --release --manifest-path contracts/sbt_reputation/Cargo.toml
+      - run: cargo build --target wasm32v1-none --release --manifest-path contracts/hero_journey/Cargo.toml
 
   frontend:
     name: Next.js Build
