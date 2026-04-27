@@ -13,11 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
       
-      - name: Instalar Rust 1.91.0
-        uses: dtolnay/rust-toolchain@v1
+      - name: Instalar Rust Stable
+        uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: 1.91.0
-          targets: wasm32-unknown-unknown
+          targets: wasm32v1-none
 
       - uses: actions/cache@v4.2.2
         with:
@@ -39,26 +38,25 @@ jobs:
       - name: Test hero_journey
         run: cargo test --manifest-path contracts/hero_journey/Cargo.toml -- --nocapture
 
-      # ── WASM: rwa_vault ────────────
+      # ── WASM Builds ──────────────────────────────────────────────────
       - name: Build rwa_vault WASM
         run: >
           cargo build
-          --target wasm32-unknown-unknown
+          --target wasm32v1-none
           --release
           --manifest-path contracts/rwa_vault/Cargo.toml
 
-      # ── WASM: sbt_reputation ─────────────────────────────
       - name: Build sbt_reputation WASM
         run: >
           cargo build
-          --target wasm32-unknown-unknown
+          --target wasm32v1-none
           --release
           --manifest-path contracts/sbt_reputation/Cargo.toml
           
       - name: Build hero_journey WASM
         run: >
           cargo build
-          --target wasm32-unknown-unknown
+          --target wasm32v1-none
           --release
           --manifest-path contracts/hero_journey/Cargo.toml
 
