@@ -2,15 +2,13 @@
 name    = "sbt-reputation"
 version = "0.1.0"
 edition = "2021"
+publish = false
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 
-[features]
-testutils = ["soroban-sdk/testutils"]
-
 [dependencies]
-soroban-sdk = "25"
+soroban-sdk = { version = "25", features = [] }
 
 [dev-dependencies]
 soroban-sdk = { version = "25", features = ["testutils"] }
