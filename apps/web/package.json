@@ -13,7 +13,7 @@
     "@stellar/stellar-sdk": "^15.0.1",
     "@supabase/supabase-js": "^2.103.0",
     "framer-motion": "^12.38.0",
-    "lucide-react": "^1.8.0",
+    "lucide-react": "0.577.0",
     "next": "16.2.3",
     "react": "19.2.4",
     "react-dom": "19.2.4"
@@ -30,6 +30,7 @@
   },
   "overrides": {
     "axios": ">=1.15.0",
-    "postcss": ">=8.5.10"
+    "postcss": ">=8.5.10",
+    "lucide-react": "0.577.0"
   }
 }
