@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 6 * * 1'   # toda segunda-feira — detecta novas CVEs upstream
+    - cron: '0 6 * * 1'
 
 jobs:
   test:
@@ -91,10 +91,9 @@ jobs:
           toolchain: 1.91.0
 
       - name: Install cargo-audit
-        run: cargo install cargo-audit --quiet
+        run: cargo install cargo-audit --quiet --locked
 
       - name: Audit dependencies
-        # .cargo/audit.toml ignora advisories não-acionáveis (soroban internals)
         run: cargo audit
 
   scout:
@@ -111,7 +110,7 @@ jobs:
           targets: wasm32-unknown-unknown
 
       - name: Install Scout
-        run: cargo install cargo-scout-audit
+        run: cargo install cargo-scout-audit --locked
 
       - name: Audit rwa_vault
         run: cargo scout-audit --manifest-path contracts/rwa_vault/Cargo.toml
