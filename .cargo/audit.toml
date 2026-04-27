@@ -1,0 +1,10 @@
+# cargo-audit configuration
+# These advisories are non-actionable: they affect transitive deps inside
+# soroban-sdk / soroban-wasmi / ark-* and cannot be fixed by this project.
+# They will be auto-resolved when the upstream SDK updates those crates.
+
+[advisories]
+ignore = [
+    "RUSTSEC-2024-0388",  # derivative unmaintained (via ark-ec inside soroban-env-host)
+    "RUSTSEC-2024-0436",  # paste unmaintained (via soroban-wasmi inside soroban-env-host)
+]

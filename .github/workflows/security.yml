@@ -5,26 +5,31 @@ on:
     branches: [main, develop]
   pull_request:
     branches: [main]
+  schedule:
+    - cron: '0 6 * * 1'   # toda segunda-feira — detecta novas CVEs upstream
 
 jobs:
   test:
     name: Contract Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - uses: dtolnay/rust-toolchain@stable
         with:
-          targets: wasm32-unknown-unknown
+          toolchain: '1.88'
+          targets: wasm32-unknown-unknown,wasm32v1-none
 
       - name: Cache cargo registry
-        uses: actions/cache@v4
+        uses: actions/cache@v4.2.2
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
 
       - name: Test rwa_vault
         run: cargo test --manifest-path contracts/rwa_vault/Cargo.toml -- --nocapture
@@ -39,39 +44,68 @@ jobs:
     name: WASM Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - uses: dtolnay/rust-toolchain@stable
         with:
-          targets: wasm32-unknown-unknown
+          toolchain: '1.88'
+          targets: wasm32-unknown-unknown,wasm32v1-none
 
       - name: Cache cargo registry
-        uses: actions/cache@v4
+        uses: actions/cache@v4.2.2
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             target
           key: ${{ runner.os }}-cargo-wasm-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-wasm-
 
+      # rwa_vault usa SDK 22 → wasm32-unknown-unknown
       - name: Build rwa_vault (WASM)
-        run: cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/rwa_vault/Cargo.toml
+        run: >
+          cargo build --target wasm32-unknown-unknown --release
+          --manifest-path contracts/rwa_vault/Cargo.toml
 
+      # SDK 25 exige wasm32v1-none
       - name: Build sbt_reputation (WASM)
-        run: cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/sbt_reputation/Cargo.toml
+        run: >
+          cargo build --target wasm32v1-none --release
+          --manifest-path contracts/sbt_reputation/Cargo.toml
 
       - name: Build hero_journey (WASM)
-        run: cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/hero_journey/Cargo.toml
+        run: >
+          cargo build --target wasm32v1-none --release
+          --manifest-path contracts/hero_journey/Cargo.toml
+
+  audit:
+    name: Rust CVE Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.88'
+
+      - name: Install cargo-audit
+        run: cargo install cargo-audit --quiet
+
+      - name: Audit dependencies
+        # .cargo/audit.toml ignora advisories não-acionáveis (soroban internals)
+        run: cargo audit
 
   scout:
     name: Scout Security Audit
     runs-on: ubuntu-latest
-    # Runs after tests to avoid wasting audit time on broken code
     needs: test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.88'
 
       - name: Install Scout
         run: cargo install cargo-scout-audit
