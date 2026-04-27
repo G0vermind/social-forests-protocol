@@ -7,8 +7,8 @@
 #![no_std]
 
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype,
-    panic_with_error, symbol_short,
+    contract, contracterror, contractevent, contractimpl, contracttype,
+    panic_with_error,
     Address, Env, String,
 };
 
@@ -18,6 +18,50 @@ use soroban_sdk::{
 
 /// 100 milhões de MOGNO com 7 casas decimais
 const MAX_SUPPLY: i128 = 100_000_000 * 10_000_000;
+
+// ─────────────────────────────────────────────
+// Eventos do Contrato                          [T3]
+// ─────────────────────────────────────────────
+
+#[contractevent]
+pub struct PausedEvent {}
+
+#[contractevent]
+pub struct UnpausedEvent {}
+
+#[contractevent]
+pub struct MintEvent {
+    pub to: Address,
+    pub amount: i128,
+}
+
+#[contractevent]
+pub struct BurnEvent {
+    pub from: Address,
+    pub amount: i128,
+}
+
+#[contractevent]
+pub struct ApproveEvent {
+    pub from: Address,
+    pub spender: Address,
+    pub amount: i128,
+}
+
+#[contractevent]
+pub struct TransferEvent {
+    pub from: Address,
+    pub to: Address,
+    pub amount: i128,
+}
+
+#[contractevent]
+pub struct TransferFromEvent {
+    pub spender: Address,
+    pub from: Address,
+    pub to: Address,
+    pub amount: i128,
+}
 
 // ─────────────────────────────────────────────
 // Chaves de Storage com namespace tipado        [T1-T2]
@@ -33,7 +77,7 @@ pub enum DataKey {
 }
 
 // ─────────────────────────────────────────────
-// Erros do Contrato (alargado)                 [T1-T2]
+// Erros do Contrato                            [T1-T2]
 // ─────────────────────────────────────────────
 
 #[contracterror]
@@ -141,7 +185,7 @@ impl MognoVault {
         let admin = get_admin(&env);
         admin.require_auth();
         env.storage().instance().set(&DataKey::Paused, &true);
-        env.events().publish((symbol_short!("paused"),), ()); // [T3]
+        PausedEvent {}.emit(&env); // [T3]
         env.storage().instance().extend_ttl(17_280, 518_400); // [T8]
     }
 
@@ -150,7 +194,7 @@ impl MognoVault {
         let admin = get_admin(&env);
         admin.require_auth();
         env.storage().instance().set(&DataKey::Paused, &false);
-        env.events().publish((symbol_short!("unpaused"),), ()); // [T3]
+        UnpausedEvent {}.emit(&env); // [T3]
         env.storage().instance().extend_ttl(17_280, 518_400); // [T8]
     }
 
@@ -185,7 +229,7 @@ impl MognoVault {
         // Persist total supply                                    [T5]
         env.storage().instance().set(&DataKey::TotalSupply, &new_supply);
 
-        env.events().publish((symbol_short!("mint"),), (to.clone(), amount)); // [T3]
+        MintEvent { to: to.clone(), amount }.emit(&env); // [T3]
         env.storage().instance().extend_ttl(17_280, 518_400); // [T8]
     }
 
@@ -214,7 +258,7 @@ impl MognoVault {
             .unwrap_or_else(|| panic_with_error!(&env, ContractError::ArithmeticOverflow));
         env.storage().instance().set(&DataKey::TotalSupply, &new_supply);
 
-        env.events().publish((symbol_short!("burn"),), (from.clone(), amount)); // [T3]
+        BurnEvent { from: from.clone(), amount }.emit(&env); // [T3]
         env.storage().instance().extend_ttl(17_280, 518_400); // [T8]
     }
 
@@ -263,10 +307,12 @@ impl MognoVault {
         }
         from.require_auth();
         set_allowance(&env, &from, &spender, amount);
-        env.events().publish(
-            (symbol_short!("approve"),),
-            (from.clone(), spender.clone(), amount),
-        ); // [T3]
+        ApproveEvent {
+            from: from.clone(),
+            spender: spender.clone(),
+            amount,
+        }
+        .emit(&env); // [T3]
         env.storage().instance().extend_ttl(17_280, 518_400); // [T8]
     }
 
@@ -300,8 +346,12 @@ impl MognoVault {
         set_balance(&env, &from, new_from);
         set_balance(&env, &to, new_to);
 
-        env.events()
-            .publish((symbol_short!("transfer"),), (from.clone(), to.clone(), amount)); // [T3]
+        TransferEvent {
+            from: from.clone(),
+            to: to.clone(),
+            amount,
+        }
+        .emit(&env); // [T3]
         env.storage().instance().extend_ttl(17_280, 518_400); // [T8]
     }
 
@@ -344,10 +394,13 @@ impl MognoVault {
         set_balance(&env, &from, new_from);
         set_balance(&env, &to, new_to);
 
-        env.events().publish(
-            (symbol_short!("xfr_from"),),
-            (spender.clone(), from.clone(), to.clone(), amount),
-        ); // [T3]
+        TransferFromEvent {
+            spender: spender.clone(),
+            from: from.clone(),
+            to: to.clone(),
+            amount,
+        }
+        .emit(&env); // [T3]
         env.storage().instance().extend_ttl(17_280, 518_400); // [T8]
     }
 }
@@ -446,7 +499,6 @@ mod tests {
 
     // ─── Novos testes de segurança ────────────────────────────
 
-    /// O admin autorizado pode mintar (sanidade)
     #[test]
     fn test_admin_mint_authorized() {
         let (_env, client, _admin, user) = setup();
@@ -454,36 +506,28 @@ mod tests {
         assert_eq!(client.balance(&user), 10_000_000i128);
     }
 
-    /// Sem auth, admin_mint deve falhar
     #[test]
     #[should_panic]
     fn test_admin_mint_unauthorized() {
-        // Env SEM mock_all_auths — require_auth() vai rejeitar
         let env = Env::default();
         let contract_id = env.register(MognoVault, ());
         let client = MognoVaultClient::new(&env, &contract_id);
         let admin = Address::generate(&env);
         let user = Address::generate(&env);
-        // initialize não tem require_auth — funciona sem mock
         client.initialize(&admin);
-        // admin_mint chama admin.require_auth() → pânico sem mock
         client.admin_mint(&user, &100_000_000i128);
     }
 
-    /// Mintagem além do MAX_SUPPLY deve falhar com SupplyCapExceeded
     #[test]
     #[should_panic]
     fn test_supply_cap_exceeded() {
         let (_env, client, _admin, user) = setup();
-        // MAX_SUPPLY = 100_000_000 * 10_000_000 = 1_000_000_000_000_000
         let half_max: i128 = 50_000_000 * 10_000_000;
         client.admin_mint(&user, &half_max);
         client.admin_mint(&user, &half_max);
-        // Supply agora está no limite; qualquer mint adicional falha
         client.admin_mint(&user, &1i128);
     }
 
-    /// Transfer feliz garante conservação de tokens
     #[test]
     fn test_transfer_happy_path() {
         let (env, client, _admin, sender) = setup();
@@ -494,7 +538,6 @@ mod tests {
         assert_eq!(client.balance(&receiver), 40_000_000i128);
     }
 
-    /// Transfer com saldo insuficiente deve falhar
     #[test]
     #[should_panic]
     fn test_transfer_insufficient_balance() {
@@ -504,7 +547,6 @@ mod tests {
         client.transfer(&sender, &receiver, &9_000_000i128);
     }
 
-    /// Após consumir todo o allowance, transfer_from adicional deve falhar
     #[test]
     #[should_panic]
     fn test_allowance_exhausted() {
@@ -513,11 +555,10 @@ mod tests {
         let receiver = Address::generate(&env);
         client.admin_mint(&owner, &100_000_000i128);
         client.approve(&owner, &spender, &30_000_000i128, &1_000_000u32);
-        client.transfer_from(&spender, &owner, &receiver, &30_000_000i128); // usa tudo
-        client.transfer_from(&spender, &owner, &receiver, &1_000_000i128); // deve falhar
+        client.transfer_from(&spender, &owner, &receiver, &30_000_000i128);
+        client.transfer_from(&spender, &owner, &receiver, &1_000_000i128);
     }
 
-    /// Contrato pausado deve rejeitar transferências
     #[test]
     #[should_panic]
     fn test_pause_blocks_transfers() {
@@ -525,10 +566,9 @@ mod tests {
         let receiver = Address::generate(&env);
         client.admin_mint(&sender, &100_000_000i128);
         client.pause();
-        client.transfer(&sender, &receiver, &50_000_000i128); // deve falhar
+        client.transfer(&sender, &receiver, &50_000_000i128);
     }
 
-    /// Após unpause, transferências devem voltar a funcionar
     #[test]
     fn test_unpause_restores_transfers() {
         let (env, client, _admin, sender) = setup();
@@ -540,7 +580,6 @@ mod tests {
         assert_eq!(client.balance(&receiver), 50_000_000i128);
     }
 
-    /// total_supply reflete mints e burns corretamente
     #[test]
     fn test_total_supply_tracking() {
         let (_env, client, _admin, user) = setup();
