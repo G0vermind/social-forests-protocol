@@ -4,18 +4,18 @@ import * as StellarSdk from '@stellar/stellar-sdk';
 import { rpcServer, CONTRACT_IDS, NETWORK } from '@/lib/soroban/config';
 
 export interface HeroStateOnChain {
-  commonLeaves:   number;
-  rareLeaves:     number;
-  legendaryLeaves:number;
-  totalWeighted:  number;
-  treesForged:    number;
-  progressPercent:number;
-  isLoading:      boolean;
-  error:          string | null;
-  refetch:        () => void;
+  commonLeaves: number;
+  rareLeaves: number;
+  legendaryLeaves: number;
+  totalWeighted: number;
+  treesForged: number;
+  progressPercent: number;
+  isLoading: boolean;
+  error: string | null;
+  refetch: () => void;
 }
 
-const FORGE_THRESHOLD = 1_000; // Espelha a constante do contrato
+const FORGE_THRESHOLD = 1_000;
 
 export function useHeroState(address: string | null): HeroStateOnChain {
   const [state, setState] = useState<Omit<HeroStateOnChain, 'isLoading' | 'error' | 'refetch'>>({
@@ -26,12 +26,11 @@ export function useHeroState(address: string | null): HeroStateOnChain {
   const [error, setError] = useState<string | null>(null);
 
   const fetchState = useCallback(async () => {
-    // Guard: só tenta se o contrato estiver configurado
+    // Se não tiver carteira ou contrato, resetamos para 0 (sem lixo na tela)
     if (!address || !CONTRACT_IDS.hero_journey) {
-      // Retorna mock enquanto contrato não está deployado
       setState({
-        commonLeaves: 320, rareLeaves: 45, legendaryLeaves: 3,
-        totalWeighted: 365, treesForged: 1, progressPercent: 36,
+        commonLeaves: 0, rareLeaves: 0, legendaryLeaves: 0,
+        totalWeighted: 0, treesForged: 0, progressPercent: 0,
       });
       return;
     }
@@ -42,7 +41,6 @@ export function useHeroState(address: string | null): HeroStateOnChain {
     try {
       const contract = new StellarSdk.Contract(CONTRACT_IDS.hero_journey);
 
-      // Chama get_hero_state(user: Address)
       const result = await rpcServer.simulateTransaction(
         new StellarSdk.TransactionBuilder(
           await rpcServer.getAccount(address),
@@ -57,24 +55,22 @@ export function useHeroState(address: string | null): HeroStateOnChain {
       );
 
       if (StellarSdk.rpc.Api.isSimulationSuccess(result) && result.result) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const parsed = StellarSdk.scValToNative(result.result.retval) as any;
         const totalWeighted = Number(parsed.total_weighted ?? 0);
         setState({
-          commonLeaves:    Number(parsed.common_leaves    ?? 0),
-          rareLeaves:      Number(parsed.rare_leaves      ?? 0),
+          commonLeaves: Number(parsed.common_leaves ?? 0),
+          rareLeaves: Number(parsed.rare_leaves ?? 0),
           legendaryLeaves: Number(parsed.legendary_leaves ?? 0),
           totalWeighted,
-          treesForged:     Number(parsed.trees_forged     ?? 0),
+          treesForged: Number(parsed.trees_forged ?? 0),
           progressPercent: Math.min(Math.floor((totalWeighted / FORGE_THRESHOLD) * 100), 100),
         });
       }
     } catch {
-      setError('Erro ao ler contrato. Usando dados locais.');
-      // Fallback gracioso para mock — não quebra a UI
+      // Se der erro, não mostramos 365, mostramos 0 para não confundir o usuário
       setState({
-        commonLeaves: 320, rareLeaves: 45, legendaryLeaves: 3,
-        totalWeighted: 365, treesForged: 1, progressPercent: 36,
+        commonLeaves: 0, rareLeaves: 0, legendaryLeaves: 0,
+        totalWeighted: 0, treesForged: 0, progressPercent: 0,
       });
     } finally {
       setIsLoading(false);

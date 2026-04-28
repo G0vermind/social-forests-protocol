@@ -1,129 +1,61 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { UserRole } from '@/types';
 import { ReactNode } from 'react';
 import { BrandLogo } from '@/components/ui/BrandLogo';
+import { LogOut } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-// ─── Nav items por role ───────────────────────────────────────
-
-interface NavItem { href: string; emoji: string; label: string }
-
-const NAV_ITEMS: Record<NonNullable<UserRole>, NavItem[]> = {
+const NAV_ITEMS = {
   consumidor: [
-    { href: '/consumidor/viveiro',   emoji: '🌱', label: 'Viveiro' },
-    { href: '/consumidor/missoes',   emoji: '🎯', label: 'Missões' },
-    { href: '/consumidor/historico', emoji: '📜', label: 'Histórico' },
-    { href: '/marketplace',          emoji: '🛒', label: 'Marketplace' },
-  ],
-  empresa: [
-    { href: '/empresa',           emoji: '📊', label: 'Dashboard' },
-    { href: '/empresa/cashback',  emoji: '💚', label: 'Cashback' },
-    { href: '/empresa/missoes',   emoji: '🎯', label: 'Missões' },
-    { href: '/empresa/analytics', emoji: '📈', label: 'Analytics' },
-  ],
-  admin: [
-    { href: '/admin',         emoji: '📋', label: 'Contratos' },
-    { href: '/admin/oracle',  emoji: '🔮', label: 'Oracle' },
-    { href: '/admin/empresas',emoji: '🏢', label: 'Empresas' },
-    { href: '/admin/lotes',   emoji: '🌿', label: 'Lotes' },
+    { href: '/consumidor/viveiro', emoji: '🌱', label: 'Viveiro' },
+    { href: '/consumidor/missoes', emoji: '🎯', label: 'Missões' },
+    { href: '/marketplace', emoji: '🛒', label: 'Marketplace' },
   ],
 };
 
-// ─── Bottom Navigation Bar ────────────────────────────────────
-
-function BottomNav({ role }: { role: NonNullable<UserRole> }) {
+export default function PortalLayout({ children }: { children: ReactNode }) {
+  const { session, disconnect, isLoading } = useAuth();
   const pathname = usePathname();
-  const items = NAV_ITEMS[role];
+
+  if (isLoading) return <div className="min-h-screen bg-slate-950 flex items-center justify-center text-emerald-500">Carregando...</div>;
+  if (!session) return null;
 
   return (
-    <nav
-      aria-label="Navegação principal"
-      className="fixed bottom-0 left-0 right-0 z-50 bg-brand-bg-light/95 dark:bg-brand-dark/95 backdrop-blur border-t border-brand-sepia/20 safe-area-inset-bottom"
-    >
-      <div className="flex items-stretch justify-around max-w-lg mx-auto">
-        {items.map(({ href, emoji, label }) => {
-          const active = pathname === href || pathname.startsWith(href + '/');
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex flex-col items-center justify-center gap-1 py-3 px-2 flex-1 text-center transition-colors ${
-                active ? 'text-green-400' : 'text-white/30 hover:text-white/60'
-              }`}
-              aria-current={active ? 'page' : undefined}
-            >
-              <span className="text-xl leading-none" aria-hidden="true">{emoji}</span>
-              <span className={`text-[10px] font-medium ${active ? 'text-green-400' : ''}`}>{label}</span>
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
-  );
-}
-
-// ─── Top Header Bar ───────────────────────────────────────────
-
-function TopBar({ role, address }: { role: NonNullable<UserRole>; address: string }) {
-  const { disconnect } = useAuth();
-
-  const ROLE_LABEL: Record<NonNullable<UserRole>, string> = {
-    consumidor: '🌱 Consumidor',
-    empresa: '🏢 Empresa',
-    admin: '🔐 Admin',
-  };
-
-  return (
-    <header className="sticky top-0 z-40 bg-brand-bg-light/90 dark:bg-brand-dark/90 backdrop-blur border-b border-brand-sepia/20 px-4 py-3">
-      <div className="max-w-5xl mx-auto flex items-center justify-between">
-        <Link href="/" className="flex items-center">
-          <BrandLogo className="h-8" />
-        </Link>
-        <div className="flex items-center gap-3">
-          <span className="text-xs dark:text-white/80 bg-brand-sepia/10 border border-brand-sepia/20 px-2.5 py-1 rounded-full">
-            {ROLE_LABEL[role]}
-          </span>
-          <span className="text-xs text-white/20 font-mono hidden sm:block">
-            {address.slice(0, 6)}…{address.slice(-4)}
-          </span>
+    <div className="min-h-screen bg-[#020617] text-slate-50">
+      {/* HEADER LIMPO E MODERNO */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#020617]/80 backdrop-blur-md border-b border-slate-800/50 px-6 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <BrandLogo className="h-8 w-auto" />
           <button
-            onClick={disconnect}
-            className="text-xs text-white/30 hover:text-red-400 transition-colors"
-            aria-label="Desconectar carteira"
+            onClick={() => disconnect()}
+            className="p-2 text-slate-400 hover:text-red-400 transition-colors"
           >
-            Sair
+            <LogOut size={20} />
           </button>
         </div>
-      </div>
-    </header>
-  );
-}
+      </header>
 
-// ─── Layout Wrapper ───────────────────────────────────────────
-
-export default function PortalLayout({ children }: { children: ReactNode }) {
-  const { session } = useAuth();
-
-  // Sem sessão ou role: apenas renderiza (dashboard/redirect vai cuidar disso)
-  if (!session?.role) {
-    return <>{children}</>;
-  }
-
-  const role = session.role;
-
-  return (
-    <div className="min-h-screen bg-brand-bg-light dark:bg-brand-dark flex flex-col">
-      <TopBar role={role} address={session.address} />
-
-      {/* Conteúdo com padding-bottom para não ficar sob a nav */}
-      <main className="flex-1 pb-24">
+      <main className="pt-24 pb-24 px-6 max-w-7xl mx-auto">
         {children}
       </main>
 
-      <BottomNav role={role} />
+      {/* NAV INFERIOR DISCRETA */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#020617] border-t border-slate-800/50 pb-safe">
+        <div className="flex items-center justify-around max-w-lg mx-auto">
+          {(NAV_ITEMS.consumidor).map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex flex-1 flex-col items-center py-4 transition-all ${pathname === item.href ? 'text-emerald-400' : 'text-slate-500'}`}
+            >
+              <span className="text-xl mb-1">{item.emoji}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider">{item.label}</span>
+            </Link>
+          ))}
+        </div>
+      </nav>
     </div>
   );
 }

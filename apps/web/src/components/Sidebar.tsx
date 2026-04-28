@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { TreePine, Sprout, Landmark, Vote, ExternalLink } from "lucide-react";
+import { TreePine, Sprout, Landmark, Vote, ExternalLink, Wallet } from "lucide-react";
+
+// ✨ IMPORTAÇÕES CORRETAS PARA O SEU PROJETO ✨
+import { useAuth } from "@/context/AuthContext";
+import { useAccountBalance } from "@/hooks/useAccountBalance";
 
 const navItems = [
   {
@@ -28,12 +32,20 @@ const navItems = [
 export default function Sidebar() {
   const pathname = usePathname();
 
+  // 🔗 Conectando com a sua conta real do AuthContext
+  const { session, disconnect } = useAuth();
+  const address = session?.address || null;
+
+  // 💰 Buscando o saldo de LEAF usando o endereço da sessão
+  const { leafBalance, isLoading } = useAccountBalance(address);
+
   return (
     <>
-      {/* ── DESKTOP SIDEBAR ── */}
+      {/* ── SIDEBAR DESKTOP ── */}
       <aside className="hidden md:flex flex-col w-64 min-h-screen bg-slate-950 border-r border-slate-800/60 px-4 py-6 shrink-0">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 px-3 mb-10 group">
+
+        {/* LOGO */}
+        <Link href="/" className="flex items-center gap-2.5 px-3 mb-8 group">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 group-hover:bg-emerald-500/20 transition-colors">
             <TreePine className="h-5 w-5 text-emerald-400" strokeWidth={1.5} />
           </div>
@@ -43,7 +55,25 @@ export default function Sidebar() {
           </div>
         </Link>
 
-        {/* Nav */}
+        {/* 🌿 CARD DE SALDO LEAF (Onde os 50.00 aparecerão) 🌿 */}
+        <div className="px-3 mb-8">
+          <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4 shadow-md">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-500/70">
+                Saldo de Leaf
+              </span>
+            </div>
+            <div className="flex items-baseline gap-1">
+              <span className="text-3xl font-bold text-slate-100">
+                {isLoading ? "..." : leafBalance}
+              </span>
+              <span className="text-xs font-medium text-emerald-400">LEAF</span>
+            </div>
+          </div>
+        </div>
+
+        {/* MENU DE NAVEGAÇÃO */}
         <nav className="flex flex-col gap-1.5 flex-1">
           <p className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-600">
             Navegação
@@ -63,7 +93,6 @@ export default function Sidebar() {
                   }
                 `}
               >
-                {/* Active pill */}
                 {isActive && (
                   <span className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-0.5 rounded-r-full bg-emerald-400" />
                 )}
@@ -89,92 +118,39 @@ export default function Sidebar() {
           })}
         </nav>
 
-        {/* Footer com User Menu */}
+        {/* BOTÃO DE SAIR */}
         <div className="mt-4 flex flex-col gap-2">
-          {/* Menu de Perfil / Ações (Sair) */}
-          <div className="rounded-xl border border-slate-800/60 bg-slate-900/40 p-2">
-            <div className="flex items-center justify-between px-2 py-1 mb-2">
-              <span className="text-[11px] font-semibold text-slate-400">Meu Espaço</span>
+          <button
+            onClick={() => disconnect()}
+            className="w-full flex items-center gap-2 rounded-xl border border-slate-800/60 bg-slate-900/40 px-3 py-3 text-xs text-slate-300 hover:bg-red-500/10 hover:text-red-400 transition-colors"
+          >
+            <div className="bg-slate-800 h-5 w-5 rounded-md flex items-center justify-center">
+              <span className="text-[10px] text-red-400">🚪</span>
             </div>
-            
-            <Link
-              href="/perfil/me" // Em um cenário real, usaria session.address
-              className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-slate-300 hover:bg-slate-800/60 hover:text-emerald-400 transition-colors"
-            >
-              <div className="bg-slate-800 h-5 w-5 rounded-md flex items-center justify-center">
-                <span className="text-[10px]">👤</span>
-              </div>
-              Perfil Público
-            </Link>
+            Sair da Conta
+          </button>
 
-            <button
-              onClick={() => {
-                // Aqui seria o disconnect do auth
-                window.location.href = '/';
-              }}
-              className="w-full flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-slate-300 hover:bg-red-500/10 hover:text-red-400 transition-colors mt-1"
-            >
-              <div className="bg-slate-800 h-5 w-5 rounded-md flex items-center justify-center">
-                <span className="text-[10px] text-red-400">🚪</span>
-              </div>
-              Sair da Conta
-            </button>
-          </div>
-
-          <div className="rounded-xl border border-slate-800/60 bg-slate-900/60 p-3">
-            <p className="text-[10px] text-slate-600 leading-relaxed mb-2">
-              Cada árvore forjada é plantada no mundo real via protocolo de impacto verificável.
-            </p>
-            <a
-              href="https://florestas.social"
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1.5 text-[11px] text-emerald-600 hover:text-emerald-400 transition-colors font-medium"
-            >
-              <ExternalLink className="h-3 w-3" />
-              florestas.social
-            </a>
+          <div className="px-3 py-2">
+            <p className="text-[10px] text-slate-600">Protocolo Florestas.Social</p>
           </div>
         </div>
       </aside>
 
-      {/* ── MOBILE BOTTOM NAV ── */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 flex md:hidden border-t border-slate-800/80 bg-slate-950/90 backdrop-blur-xl px-2 py-2 safe-area-inset-bottom">
+      {/* ── MENU MOBILE (Apenas celulares) ── */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 flex md:hidden border-t border-slate-800/80 bg-slate-950/90 backdrop-blur-xl px-2 py-2">
         {navItems.map(({ label, href, icon: Icon }) => {
           const isActive = pathname === href;
           return (
             <Link
               key={href}
               href={href}
-              className={`
-                flex flex-1 flex-col items-center gap-1 rounded-xl py-2 px-1 transition-all duration-200
-                ${isActive ? "text-emerald-400" : "text-slate-500 hover:text-slate-300"}
-              `}
+              className={`flex flex-1 flex-col items-center gap-1 py-2 ${isActive ? "text-emerald-400" : "text-slate-500"}`}
             >
-              <div className={`
-                flex h-8 w-8 items-center justify-center rounded-lg transition-colors
-                ${isActive ? "bg-emerald-500/15" : ""}
-              `}>
-                <Icon className="h-5 w-5" strokeWidth={1.5} />
-              </div>
-              <span className={`text-[10px] font-semibold leading-none ${isActive ? "text-emerald-400" : "text-slate-600"}`}>
-                {label.split(" ")[0]}
-              </span>
+              <Icon className="h-5 w-5" />
+              <span className="text-[10px]">{label.split(" ")[0]}</span>
             </Link>
           );
         })}
-        {/* Mobile Profile Icon */}
-        <Link
-          href="/perfil/me"
-          className="flex flex-1 flex-col items-center gap-1 rounded-xl py-2 px-1 transition-all duration-200 text-slate-500 hover:text-slate-300"
-        >
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors">
-             <span className="text-lg">👤</span>
-          </div>
-          <span className="text-[10px] font-semibold leading-none text-slate-600">
-            Perfil
-          </span>
-        </Link>
       </nav>
     </>
   );

@@ -1,200 +1,119 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import { 
-  Sprout, 
-  Leaf, 
-  TreePine, 
-  Wind, 
-  Droplets,
-  Award,
-  ArrowRight,
-  TrendingUp,
-  History,
-  ShieldCheck,
-  AlertTriangle
-} from 'lucide-react';
-import Link from 'next/link';
+import { useAuth } from "@/context/AuthContext";
+import { useHeroState } from "@/hooks/useHeroState";
+import GlobalStatus from "@/components/GlobalStatus";
+// ✅ IMPORTAÇÃO CORRIGIDA ABAIXO (Adicionado o Leaf)
+import { Award, Star, Zap, ShieldCheck, Trophy, ArrowUp, Leaf } from "lucide-react";
 
-import RoleGuard from '@/components/RoleGuard';
-import { useAccountBalance } from '@/hooks/useAccountBalance';
-import { useHeroState } from '@/hooks/useHeroState';
-import { useUserImpact } from '@/hooks/useUserImpact';
-import { StickerAlbum } from '@/components/gamification/StickerAlbum';
-import { MedalBoard } from '@/components/gamification/MedalBoard';
-import { mockNfts, mockMedals } from '@/lib/mocks/gamification';
-
-export default function ConsumidorDashboard() {
+export default function ViveiroPage() {
   const { session } = useAuth();
-  
-  // Hydration com Hooks Soroban SDK
-  const { xlmBalance, isLoading: isBalanceLoading, error: balanceError } = useAccountBalance(session?.address ?? null);
-  const heroState = useHeroState(session?.address ?? null);
-  const { impactPoints, isLoading: isImpactLoading, error: impactError } = useUserImpact(session?.address ?? null);
-
-  const isGlobalLoading = isBalanceLoading || heroState.isLoading || isImpactLoading;
-  const hasError = balanceError || heroState.error || impactError;
+  const address = session?.address || "";
+  const hero = useHeroState(address);
 
   return (
-    <RoleGuard allowedRoles={['consumidor']}>
-      <main className="min-h-screen bg-slate-950 p-4 sm:p-6 lg:p-8 relative overflow-hidden">
-      
-      {/* Elementos Decorativos de Fundo */}
-      <div className="absolute top-[-10%] left-[-5%] w-[600px] h-[600px] bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-green-500/10 rounded-full blur-[100px] pointer-events-none" />
+    <div className="max-w-6xl mx-auto p-6 pb-24 animate-in fade-in duration-700">
 
-      <div className="max-w-6xl mx-auto space-y-6 relative z-10">
-        
-        {/* Banner de Fallback (Graecful Degradation) */}
-        {hasError && !isGlobalLoading && (
-          <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 flex items-center gap-3 mb-4 animate-in fade-in">
-            <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0" />
-            <p className="text-sm text-amber-400/90 font-medium">
-              Dados locais ativos — blockchain temporariamente indisponível. Seu impacto está salvo no seu dispositivo.
-            </p>
+      {/* 💳 WIDGET DE STATUS (O que você quer em todo o app) */}
+      <GlobalStatus />
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+        {/* 🎮 LADO ESQUERDO: PROGRESSO DO GAME */}
+        <div className="lg:col-span-2 space-y-10">
+
+          {/* Card de Nível Principal */}
+          <div className="bg-[#26170E] border-2 border-slate-800 rounded-[40px] p-12 relative overflow-hidden shadow-2xl">
+            <div className="relative z-10">
+              <div className="flex justify-between items-center mb-10">
+                <div>
+                  <h3 className="text-[#947D71] text-sm font-black uppercase tracking-[0.3em] mb-2">Rank Atual</h3>
+                  <p className="text-[#FFA800] text-5xl font-black italic tracking-tighter shadow-orange-900/20">
+                    GUARDIÃO BRONZE II
+                  </p>
+                </div>
+                <Trophy size={80} className="text-[#FFA800] opacity-10 absolute right-4 top-4" />
+              </div>
+
+              {/* Barra de XP (Experiência) */}
+              <div className="space-y-4">
+                <div className="flex justify-between text-xs font-black uppercase tracking-widest text-[#C4A087]">
+                  <span>Progresso para o Nível Prata</span>
+                  <span className="bg-[#13E89B]/20 text-[#13E89B] px-3 py-1 rounded-lg">{hero.progressPercent}%</span>
+                </div>
+                <div className="w-full h-8 bg-black/60 rounded-full border border-white/5 overflow-hidden p-1.5 shadow-inner">
+                  <div
+                    className="h-full bg-gradient-to-r from-[#13E89B] to-emerald-400 rounded-full transition-all duration-1000 shadow-[0_0_20px_rgba(19,232,155,0.5)]"
+                    style={{ width: `${hero.progressPercent}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+            {/* Brilho de fundo decorativo */}
+            <div className="absolute -right-20 -bottom-20 bg-[#13E89B]/5 w-96 h-96 rounded-full blur-[100px]" />
           </div>
-        )}
 
-        {/* Header de Boas-Vindas */}
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-              Seu Viveiro Digital <Sprout className="w-8 h-8 text-emerald-400" />
-            </h1>
-            <p className="text-slate-400 mt-2 text-sm">
-              Bem-vindo de volta! Acompanhe seu impacto ambiental e evolução das suas mudas.
-            </p>
+          {/* Grid de Inventário de Folhas */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { label: "Comuns", value: hero.commonLeaves, color: "text-slate-400", bg: "bg-slate-500/10", icon: Leaf },
+              { label: "Raras", value: hero.rareLeaves, color: "text-[#C4A087]", bg: "bg-[#C4A087]/10", icon: Star },
+              { label: "Lendárias", value: hero.legendaryLeaves, color: "text-[#FFA800]", bg: "bg-[#FFA800]/10", icon: Zap },
+            ].map((item, i) => (
+              <div key={i} className="bg-slate-900/40 border-2 border-slate-800 p-8 rounded-[32px] flex items-center gap-6 group hover:border-[#13E89B]/40 transition-all cursor-default">
+                <div className={`p-4 rounded-2xl ${item.bg} ${item.color} shadow-lg`}>
+                  <item.icon size={32} />
+                </div>
+                <div>
+                  <p className="text-[#947D71] text-xs font-black uppercase tracking-wider">{item.label}</p>
+                  <p className="text-3xl font-black text-white">{item.value}</p>
+                </div>
+              </div>
+            ))}
           </div>
-          
-          <div className="flex items-center gap-3 bg-slate-900/80 border border-slate-800 rounded-2xl p-2 pr-4 shadow-lg backdrop-blur-md">
-            <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-green-600 rounded-xl flex items-center justify-center text-white font-bold shadow-inner border border-white/20">
-              {session?.address ? session.address.substring(0, 2).toUpperCase() : 'U'}
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xs text-slate-400 font-medium uppercase tracking-wider">Conta Conectada</span>
-              <div className="flex items-center gap-2">
-                 <span className="text-sm font-mono text-emerald-400">
-                  {session?.address ? `${session.address.slice(0, 6)}...${session.address.slice(-4)}` : 'Usuário'}
-                </span>
-                <span className="text-xs text-slate-500">| {xlmBalance} XLM</span>
+        </div>
+
+        {/* 🏆 LADO DIREITO: CONQUISTAS E AÇÃO */}
+        <div className="space-y-8">
+          <div className="bg-[#26170E]/50 border-2 border-slate-800 rounded-[40px] p-10 shadow-xl">
+            <h4 className="text-white font-black text-md uppercase tracking-[0.2em] mb-10 border-b border-white/5 pb-4 italic">
+              Badges de Honra
+            </h4>
+
+            <div className="space-y-8">
+              {/* Badge Desbloqueada */}
+              <div className="flex items-center gap-5">
+                <div className="bg-emerald-500/10 p-4 rounded-full border-2 border-[#13E89B]/30 shadow-[0_0_15px_rgba(19,232,155,0.2)]">
+                  <ShieldCheck className="text-[#13E89B]" size={32} />
+                </div>
+                <div>
+                  <p className="text-white font-black text-sm uppercase">Pioneiro RWA</p>
+                  <p className="text-[#13E89B] text-[10px] uppercase font-black tracking-widest">Ativo</p>
+                </div>
+              </div>
+
+              {/* Badge Bloqueada */}
+              <div className="flex items-center gap-5 opacity-30 grayscale">
+                <div className="bg-slate-800 p-4 rounded-full border-2 border-slate-700">
+                  <Award className="text-slate-500" size={32} />
+                </div>
+                <div>
+                  <p className="text-slate-400 font-black text-sm uppercase text-wrap">Mestre do Mogno</p>
+                  <p className="text-slate-500 text-[9px] uppercase font-black tracking-widest">Bloqueado</p>
+                </div>
               </div>
             </div>
           </div>
-        </header>
 
-        {isGlobalLoading ? (
-           <div className="h-64 flex items-center justify-center">
-             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
-           </div>
-        ) : (
-          <>
-            {/* Grid Principal de Status */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              
-              {/* Saldo de Folhas */}
-              <div className="bg-gradient-to-br from-emerald-900/40 to-slate-900 border border-emerald-500/20 rounded-3xl p-6 relative overflow-hidden group hover:border-emerald-500/40 transition-all">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-emerald-500/20 transition-all" />
-                
-                <div className="flex justify-between items-start mb-4 relative z-10">
-                  <div className="p-3 bg-emerald-500/20 rounded-2xl">
-                    <Leaf className="w-6 h-6 text-emerald-400" />
-                  </div>
-                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    Token de Utilidade
-                  </span>
-                </div>
-                
-                <div className="relative z-10">
-                  <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Saldo de Folhas</h2>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-extrabold text-white">{heroState.totalWeighted.toLocaleString()}</span>
-                    <span className="text-emerald-400 font-medium">Folhas</span>
-                  </div>
-                </div>
-              </div>
+          <button className="group w-full bg-[#13E89B] hover:bg-emerald-400 text-[#26170E] font-black py-8 rounded-[28px] shadow-[0_10px_40px_rgba(19,232,155,0.2)] transition-all flex flex-col items-center justify-center gap-2 uppercase tracking-[0.2em] text-sm">
+            <span className="flex items-center gap-3">
+              Subir de Nível <ArrowUp size={22} className="group-hover:-translate-y-1 transition-transform" />
+            </span>
+            <span className="text-[10px] opacity-60 normal-case font-bold italic">Consumir folhas para evoluir</span>
+          </button>
+        </div>
 
-              {/* Impacto Ambiental (CO2) */}
-              <div className="bg-gradient-to-br from-blue-900/40 to-slate-900 border border-blue-500/20 rounded-3xl p-6 relative overflow-hidden group hover:border-blue-500/40 transition-all">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-blue-500/20 transition-all" />
-                
-                <div className="flex justify-between items-start mb-4 relative z-10">
-                  <div className="p-3 bg-blue-500/20 rounded-2xl">
-                    <Wind className="w-6 h-6 text-blue-400" />
-                  </div>
-                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                    SBT Impact
-                  </span>
-                </div>
-                
-                <div className="relative z-10">
-                  <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Impacto Verificado</h2>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-extrabold text-white">{impactPoints}</span>
-                    <span className="text-blue-400 font-medium">PTS</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Árvores e Evolução */}
-              <div className="bg-gradient-to-br from-purple-900/40 to-slate-900 border border-purple-500/20 rounded-3xl p-6 relative overflow-hidden group hover:border-purple-500/40 transition-all">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-purple-500/20 transition-all" />
-                
-                <div className="flex justify-between items-start mb-4 relative z-10">
-                  <div className="p-3 bg-purple-500/20 rounded-2xl">
-                    <TreePine className="w-6 h-6 text-purple-400" />
-                  </div>
-                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3" /> RWA
-                  </span>
-                </div>
-                
-                <div className="relative z-10">
-                  <div className="flex justify-between items-end mb-2">
-                    <div>
-                      <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Árvores Reais</h2>
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-4xl font-extrabold text-white">{heroState.treesForged}</span>
-                        <span className="text-purple-400 font-medium">Forjadas</span>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Barra de Progresso para próxima árvore */}
-                  <div className="mt-4">
-                    <div className="flex justify-between text-xs text-slate-400 mb-1.5">
-                      <span>Progresso para próxima semente</span>
-                      <span className="text-purple-300 font-medium">{heroState.progressPercent}%</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-out"
-                        style={{ width: `${heroState.progressPercent}%` }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Seção Principal Inferior - GAMIFICAÇÃO */}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mt-10">
-              
-              {/* Álbum de Figurinhas (Ativos Financeiros / RWAs) */}
-              <div className="xl:col-span-2">
-                <StickerAlbum stickers={mockNfts} />
-              </div>
-
-              {/* Quadro de Medalhas (Reputação / SBTs) */}
-              <div className="xl:col-span-1">
-                <MedalBoard medals={mockMedals} />
-              </div>
-
-            </div>
-          </>
-        )}
       </div>
-    </main>
-    </RoleGuard>
+    </div>
   );
 }
