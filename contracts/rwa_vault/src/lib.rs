@@ -1,6 +1,6 @@
 // ============================================================
 // Social Forest Protocol — RWA Vault Contract
-// Token: Social Forest Mahogany RWA (MOGNO)
+// Token: Social Forest Leaf (LEAF)
 // Padrão: SEP-41 (Stellar Token Interface)
 // Segurança: Certora Soroban Audit Guide Compliant
 // ============================================================
@@ -15,7 +15,7 @@ use soroban_sdk::{
 // Supply Cap
 // ─────────────────────────────────────────────
 
-/// 100 milhões de MOGNO com 7 casas decimais
+/// 100 milhões de LEAF com 7 casas decimais
 const MAX_SUPPLY: i128 = 100_000_000 * 10_000_000;
 
 // ─────────────────────────────────────────────
@@ -283,12 +283,12 @@ impl MognoVault {
 
     /// Nome completo do token
     pub fn name(env: Env) -> String {
-        String::from_str(&env, "Social Forest Mahogany RWA")
+        String::from_str(&env, "Social Forest Leaf")
     }
 
     /// Símbolo do token
     pub fn symbol(env: Env) -> String {
-        String::from_str(&env, "MOGNO")
+        String::from_str(&env, "LEAF")
     }
 
     // ───── SEP-41: Balance & Supply ──────────
