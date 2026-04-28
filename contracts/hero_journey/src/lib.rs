@@ -377,7 +377,7 @@ impl HeroJourney {
         env.storage().persistent().set(&key, &new_balance);
         env.storage().persistent().extend_ttl(&key, TTL_THRESHOLD, TTL_EXTEND);
 
-        env.events().publish_event(&EventRewardLeaves { user: user.clone(), amount });
+        EventRewardLeaves { user: user.clone(), amount }.publish(&env);
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
     }
 
@@ -451,7 +451,7 @@ impl HeroJourney {
         }
 
         // Evento: capturado pelo indexer para dashboard de impacto real
-        env.events().publish_event(&EventTreeUpdated { nft_id, year, carbon_kg: carbon });
+        EventTreeUpdated { nft_id, year, carbon_kg: carbon }.publish(&env);
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
     }
 
@@ -494,7 +494,7 @@ impl HeroJourney {
                 .extend_ttl(&pool_key, TTL_THRESHOLD, TTL_EXTEND);
         }
 
-        env.events().publish_event(&EventPartnerRegistered { company: company.clone() });
+        EventPartnerRegistered { company: company.clone() }.publish(&env);
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
     }
 
@@ -531,8 +531,7 @@ impl HeroJourney {
                 .extend_ttl(&badge_key, TTL_THRESHOLD, TTL_EXTEND);
         }
 
-        env.events()
-            .publish_event(&EventLeavesDistributed { company: company.clone(), amount });
+        EventLeavesDistributed { company: company.clone(), amount }.publish(&env);
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
     }
 
@@ -618,11 +617,11 @@ impl HeroJourney {
             .persistent()
             .extend_ttl(&uc_key, TTL_THRESHOLD, TTL_EXTEND);
 
-        env.events().publish_event(&EventMissionLeafClaimed {
+        EventMissionLeafClaimed {
             company: company.clone(),
             user: user.clone(),
             amount,
-        });
+        }.publish(&env);
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
     }
 
@@ -673,8 +672,7 @@ impl HeroJourney {
             .persistent()
             .extend_ttl(&DataKey::NFTRarity(nft_id), TTL_THRESHOLD, TTL_EXTEND);
 
-        env.events()
-            .publish_event(&EventNftForged { user: user.clone(), nft_id });
+        EventNftForged { user: user.clone(), nft_id }.publish(&env);
 
         nft_id
     }
@@ -772,20 +770,20 @@ impl HeroJourney {
                         .persistent()
                         .extend_ttl(&badge_key, TTL_THRESHOLD, TTL_EXTEND);
 
-                    env.events().publish_event(&EventLendaBonus {
+                    EventLendaBonus {
                         company: company.clone(),
                         user: user.clone(),
                         nft_id,
-                    });
+                    }.publish(&env);
                 }
             }
         }
 
-        env.events().publish_event(&EventNftEvolved {
+        EventNftEvolved {
             user: user.clone(),
             nft_id,
             new_rarity: new_rarity.clone(),
-        });
+        }.publish(&env);
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
 
         new_rarity
@@ -806,8 +804,7 @@ impl HeroJourney {
             .set(&DataKey::EsgMerkleRoot, &root);
         env.storage().instance().extend_ttl(TTL_THRESHOLD, TTL_EXTEND);
 
-        env.events()
-            .publish_event(&EventEsgMerkleRootSet { root: root.clone() });
+        EventEsgMerkleRootSet { root: root.clone() }.publish(&env);
     }
 
     /// Retorna o Merkle root ESG mais recente.
