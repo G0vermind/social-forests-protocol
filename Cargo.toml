@@ -2,18 +2,23 @@
 members = [
     "contracts/rwa_vault",
     "contracts/sbt_reputation",
-    "contracts/hero_journey", "contracts/florestas-protocol",
+    "contracts/hero_journey", 
+    "contracts/florestas-protocol"
 ]
 resolver = "2"
 
 [workspace.dependencies]
 soroban-sdk = "25.3.1"
 
+# =====================================================================
+# CONFIGURAÇÃO DE BUILD (Otimizado para Smart Contracts na Stellar)
+# =====================================================================
 [profile.release]
-opt-level = "z"
-overflow-checks = true
-debug = false
-lto = true
-codegen-units = 1
-panic = "abort"
-strip = "symbols"
+opt-level = "z"             # Otimiza o binário para ter o menor tamanho possível
+overflow-checks = true      # Mantém a proteção matemática contra overflow
+debug = 0                   # Remove as informações de depuração (debug)
+strip = "symbols"           # Remove símbolos ocultos não utilizados
+debug-assertions = false    # Desliga asserções pesadas em produção
+panic = "abort"             # Aborta erros diretamente (comportamento obrigatório em WASM)
+codegen-units = 1           # Força o compilador a olhar o código todo de uma vez (melhora o LTO)
+lto = true                  # Link-Time Optimization (comprime drasticamente o arquivo final)
