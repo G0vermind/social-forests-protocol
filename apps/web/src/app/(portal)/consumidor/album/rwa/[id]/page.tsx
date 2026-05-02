@@ -13,7 +13,7 @@ export default function RwaDetailPage() {
   const { id } = useParams() as { id: string };
   const router = useRouter();
   const { getTreeRecord, forgeTree, isLoading: isContractLoading } = useSorobanContracts();
-  
+
   const [oracleData, setOracleData] = useState<TreeRecord | null>(null);
   const [isForging, setIsForging] = useState(false);
 
@@ -55,7 +55,7 @@ export default function RwaDetailPage() {
         </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-start">
-          
+
           {/* Lado Esquerdo - A Carta */}
           <div className="flex justify-center md:justify-end">
             <div className="w-full max-w-[320px] lg:max-w-[400px]">
@@ -81,7 +81,7 @@ export default function RwaDetailPage() {
                 Dados do Oráculo
                 {isContractLoading && <span className="w-3 h-3 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />}
               </h3>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-black/30 rounded-2xl p-4 border border-white/5">
                   <Wind className="w-5 h-5 text-emerald-400 mb-2" />
@@ -97,11 +97,11 @@ export default function RwaDetailPage() {
                   <div>
                     <Activity className="w-5 h-5 text-purple-400 mb-2" />
                     <p className="text-xs text-slate-500 uppercase tracking-wider">Saúde da Árvore</p>
-                    <p className="text-lg font-bold text-white">{oracleData?.health_index ?? '...'} / 100</p>
+                    <p className="text-lg font-bold text-white">{oracleData?.health_score ?? '...'} / 100</p>
                   </div>
                   <div className="text-right">
                     <p className="text-[10px] text-slate-500 uppercase">Verificado por</p>
-                    <p className="text-xs font-mono text-emerald-500/70">{oracleData?.verified_by ?? '...'}</p>
+                    <p className="text-xs font-mono text-emerald-500/70">{oracleData?.geo_hash ?? '...'}</p>
                   </div>
                 </div>
               </div>
@@ -115,13 +115,13 @@ export default function RwaDetailPage() {
               <p className="text-sm text-slate-300 mb-6">
                 Queime tokens LEAF (Folhas) para forjar este ativo e elevá-lo ao próximo nível de raridade. NFTs raros geram maior rendimento (Revenue Share).
               </p>
-              
+
               {sticker.rarity === 'Lenda' ? (
                 <div className="w-full py-4 text-center text-amber-500 font-bold bg-amber-500/10 rounded-xl border border-amber-500/20">
                   Nível Máximo Alcançado!
                 </div>
               ) : (
-                <button 
+                <button
                   onClick={handleForge}
                   disabled={isForging}
                   className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold rounded-xl shadow-lg transition-transform hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex justify-center items-center gap-2"
