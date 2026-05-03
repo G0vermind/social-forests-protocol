@@ -3,8 +3,9 @@ members = [
     "contracts/rwa_vault",
     "contracts/sbt_reputation",
     "contracts/hero_journey", 
-    "contracts/florestas-protocol"
-]
+    "contracts/florestas-protocol",
+    "contracts/leaf_token"
+, "contracts/sbt_empresa"]
 resolver = "2"
 
 [workspace.dependencies]
