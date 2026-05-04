@@ -1,21 +1,17 @@
-import * as StellarSdk from '@stellar/stellar-sdk';
+// apps/web/src/lib/soroban/config.ts
 
-export const NETWORK = {
-  name: 'testnet',
-  networkPassphrase: StellarSdk.Networks.TESTNET,
-  rpcUrl: 'https://soroban-testnet.stellar.org',
-  horizonUrl: 'https://horizon-testnet.stellar.org', // Link para saldo de XLM
-} as const;
+export const FLORESTAS_CONFIG = {
+  network: "testnet",
+  rpcUrl: "https://soroban-testnet.stellar.org",
+  contracts: {
+    // Motor econômico ($LEAF)
+    leafToken: "CD7NBJTUCFPVWWQW7I4LM7GOTX7VBDHNP3TGN4IQFQHUEGY7GOBQVSJX",
 
-export const CONTRACT_IDS = {
-  rwa_vault: 'CBBECVILQYMFY3FQ3EEKQYGY3AIW2MVVQLSDXWSYPLITZXCF4SPHZPSL',
-  hero_journey: 'CBNPPKTNIO3GRMDMSFK2YLBDBMYM3CPG6KY7XER6KBYD56UV3W4WH72X',
-  leaf_token: 'CBBECVILQYMFY3FQ3EEKQYGY3AIW2MVVQLSDXWSYPLITZXCF4SPHZPSL',
-  sbt_reputation: 'CBBECVILQYMFY3FQ3EEKQYGY3AIW2MVVQLSDXWSYPLITZXCF4SPHZPSL',
-} as const;
+    // Cofre RWA (Lastro do Mogno)
+    rwaVault: "CDI4A5EY6SMUYD7PGSV3SASRXCXCPZQXGHN4EUB3Q7Y2HDC6APNKJM3L",
 
-// Motor para Smart Contracts (Soroban)
-export const rpcServer = new StellarSdk.rpc.Server(NETWORK.rpcUrl);
-
-// 🟢 MOTOR PARA SALDO DE MOEDAS (Horizon) - ADICIONADO PARA TIRAR O ERRO
-export const horizonServer = new StellarSdk.Horizon.Server(NETWORK.horizonUrl);
+    // Maestro (Hero Journey - Orquestrador)
+    heroJourney: "CDIUZBFDX3H3PA6L2FTTABRVMXQ7GOJ3RGTSQPRVDNMPVXIU6A62SXBD",
+  },
+  adminAddress: "GAG6GXCMAHKBHZLGFOMG2XZUX4W4ETLOPJ6YB6VSJOPOYLWORQLF3XI6"
+};

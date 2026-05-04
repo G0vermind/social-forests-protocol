@@ -1,0 +1,58 @@
+// apps/web/src/lib/soroban/transactions.ts
+import { rpc, TransactionBuilder, Networks, Contract, Address } from '@stellar/stellar-sdk';
+import * as freighter from '@stellar/freighter-api';
+import { FLORESTAS_CONFIG } from './config';
+
+// Agora usamos rpc.Server nas versões mais novas da Stellar SDK
+const server = new rpc.Server(FLORESTAS_CONFIG.rpcUrl);
+
+export async function forgeTreeTransaction(userPublicKey: string) {
+    try {
+        const account = await server.getAccount(userPublicKey);
+        const contract = new Contract(FLORESTAS_CONFIG.contracts.heroJourney);
+        const userAddressScVal = new Address(userPublicKey).toScVal();
+
+        let tx = new TransactionBuilder(account, {
+            fee: "10000",
+            networkPassphrase: Networks.TESTNET,
+        })
+            .addOperation(contract.call("forge_dnft", userAddressScVal))
+            .setTimeout(60)
+            .build();
+
+        const simulated = await server.simulateTransaction(tx);
+
+        if (!rpc.Api.isSimulationSuccess(simulated)) {
+            console.error("Erro na simulação:", simulated);
+            throw new Error("A simulação falhou. Verifique se você tem 100 LEAF e XLM para o gás.");
+        }
+
+        // A versão nova do assembleTransaction requer o networkPassphrase no meio
+        tx = rpc.assembleTransaction(tx, simulated).build();
+        // Atualizado: Freighter agora pede networkPassphrase explicitamente
+        const signResponse = await freighter.signTransaction(tx.toXDR(), {
+            networkPassphrase: Networks.TESTNET
+        });
+
+        // Atualizado: Lida com a nova estrutura de resposta em objeto da Freighter
+        if (typeof signResponse === 'object' && 'error' in signResponse && signResponse.error) {
+            throw new Error(signResponse.error);
+        }
+
+        const signedXdr = typeof signResponse === 'object' && 'signedTxXdr' in signResponse
+            ? signResponse.signedTxXdr
+            : signResponse;
+
+        if (typeof signedXdr !== 'string') {
+            throw new Error("Assinatura cancelada ou formato inválido.");
+        }
+
+        const txToSubmit = TransactionBuilder.fromXDR(signedXdr, Networks.TESTNET);
+        const sendResponse = await server.sendTransaction(txToSubmit);
+
+        return sendResponse.hash;
+    } catch (error) {
+        console.error("Erro ao forjar árvore:", error);
+        throw error;
+    }
+}

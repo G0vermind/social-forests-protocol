@@ -2,7 +2,7 @@
 
 build:
 	@echo "A compilar os contratos Soroban..."
-	cargo build --target wasm32-unknown-unknown --release --manifest-path contracts/hero_journey/Cargo.toml
+	cargo build --target wasm32v1-none --release --manifest-path contracts/hero_journey/Cargo.toml
 
 test:
 	@echo "A executar testes locais..."
