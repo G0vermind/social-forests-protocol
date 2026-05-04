@@ -8,7 +8,7 @@ on:
 
 jobs:
   contracts:
-    name: Soroban Tests & Build
+    name: Soroban Build & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.2
@@ -29,6 +29,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
 
+      # PASSO CRÍTICO: Compilar o Leaf Token primeiro para que o hero_journey possa importá-lo
+      - name: Build Leaf Token WASM (Dependency)
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/leaf_token/Cargo.toml
+
+      - name: Build rwa_vault WASM
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/rwa_vault/Cargo.toml
+
+      - name: Build sbt_reputation WASM
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/sbt_reputation/Cargo.toml
+
+      # Agora o hero_journey encontrará o arquivo .wasm necessário
+      - name: Build hero_journey WASM
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/hero_journey/Cargo.toml
+
+      # Testes após o build garantem que as macros de importação funcionem
       - name: Test rwa_vault
         run: cargo test --manifest-path contracts/rwa_vault/Cargo.toml -- --nocapture
 
@@ -38,17 +53,9 @@ jobs:
       - name: Test hero_journey
         run: cargo test --manifest-path contracts/hero_journey/Cargo.toml -- --nocapture
 
-      - name: Build rwa_vault WASM
-        run: cargo build --target wasm32v1-none --release --manifest-path contracts/rwa_vault/Cargo.toml
-
-      - name: Build sbt_reputation WASM
-        run: cargo build --target wasm32v1-none --release --manifest-path contracts/sbt_reputation/Cargo.toml
-
-      - name: Build hero_journey WASM
-        run: cargo build --target wasm32v1-none --release --manifest-path contracts/hero_journey/Cargo.toml
-
   frontend:
     name: Next.js Build
+    needs: contracts # Garante que o frontend só compile se os contratos passarem
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.2
