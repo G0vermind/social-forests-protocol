@@ -129,8 +129,8 @@ cd apps/web && npm install && npm run dev  # → http://localhost:3000
 
 - **Gustavo Gonçalves** · `Founder & Tech Lead` ([LinkedIn](https://www.linkedin.com/in/gustavo-gon%C3%A7alves-9a4a1523/) · [GitHub](https://github.com/G0vermind))
 - **Vinicius Braz Rocha** · `ReFi Architect` ([LinkedIn](https://www.linkedin.com/in/vrselfmedia/) · [GitHub](https://github.com/glocalVR))
-- **Clarkson Luiz Buriche** · `Environmental Dev & AI` ([LinkedIn](https://www.linkedin.com/in/clarkson-luiz-buriche-bartalini-80446a6b/))
-- **Iara Magalhães** · `Web3 Developer` ([LinkedIn](https://www.linkedin.com/in/iaiakedemy))
+- **Clarkson Luiz Buriche** · `Environmental Dev & AI` ([LinkedIn](https://www.linkedin.com/in/clarkson-luiz-buriche-bartalini-80446a6b/) · [GitHub](https://github.com/catitodev))
+- **Iara Magalhães** · `Web3 Developer` ([LinkedIn](https://www.linkedin.com/in/iaiakedemy) · [GitHub](https://github.com/iaiamaga))
 
 ### Advisors — Council of Guardians
 - **Francisco das Chagas Rosa** · `Agronomic Advisor`
