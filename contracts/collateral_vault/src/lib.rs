@@ -89,13 +89,14 @@ fn get_oracle(env: &Env) -> Address {
 }
 
 // =========================================================================
-// CONTRATO PRINCIPAL — RWA VAULT
+// CONTRATO PRINCIPAL — COLLATERAL VAULT
 // =========================================================================
 #[contract]
-pub struct RwaVault;
+pub struct CollateralVault; // CORREÇÃO AQUI: De RwaVault para CollateralVault
 
 #[contractimpl]
-impl RwaVault {
+impl CollateralVault {
+    // CORREÇÃO AQUI: De RwaVault para CollateralVault
     // -------------------------------------------------------------------------
     // INICIALIZAÇÃO
     // -------------------------------------------------------------------------
@@ -244,7 +245,7 @@ impl RwaVault {
 }
 
 // =============================================================================
-// TESTES
+// TESTES (ATUALIZADOS PARA SOROBAN v26)
 // =============================================================================
 
 #[cfg(test)]
@@ -271,7 +272,7 @@ mod tests {
 
     fn setup() -> (
         Env,
-        RwaVaultClient<'static>,
+        CollateralVaultClient<'static>,
         Address,
         Address,
         Address,
@@ -288,8 +289,8 @@ mod tests {
         let dnft_client = dnft_mock::DnftMockClient::new(&env, &dnft_id);
         dnft_client.set_owner(&user);
 
-        let vault_id = env.register(RwaVault, ());
-        let vault_client = RwaVaultClient::new(&env, &vault_id);
+        let vault_id = env.register(CollateralVault, ());
+        let vault_client = CollateralVaultClient::new(&env, &vault_id);
         vault_client.initialize(&admin, &oracle, &dnft_id);
 
         (env, vault_client, admin, oracle, user, dnft_id)
@@ -304,7 +305,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "InvalidNft")]
+    #[should_panic(expected = "Error(Contract, #7)")] // 🛡️ InvalidNft
     fn test_deposit_fails_if_not_owner() {
         let (env, vault, _admin, _oracle, _user, _dnft) = setup();
         let hacker = Address::generate(&env);
@@ -312,7 +313,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "AssetLocked")]
+    #[should_panic(expected = "Error(Contract, #4)")] // 🛡️ AssetLocked
     fn test_double_deposit_fails() {
         let (_env, vault, _admin, _oracle, user, _dnft) = setup();
         vault.deposit_dnft(&user, &99);
@@ -353,7 +354,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "InvalidAmount")]
+    #[should_panic(expected = "Error(Contract, #5)")] // 🛡️ InvalidAmount
     fn test_mint_negative_c_cred_fails() {
         let (env, vault, _admin, oracle, user, _dnft) = setup();
 
@@ -371,7 +372,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "InvalidAmount")]
+    #[should_panic(expected = "Error(Contract, #5)")] // 🛡️ InvalidAmount
     fn test_burn_negative_c_cred_fails() {
         let (env, vault, _admin, oracle, user, _dnft) = setup();
 
@@ -401,7 +402,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "InsufficientCollateral")]
+    #[should_panic(expected = "Error(Contract, #3)")] // 🛡️ InsufficientCollateral
     fn test_burn_more_than_balance_fails() {
         let (env, vault, _admin, oracle, user, _dnft) = setup();
 

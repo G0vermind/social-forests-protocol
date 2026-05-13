@@ -2,8 +2,8 @@
 #![allow(deprecated)]
 
 use soroban_sdk::{
-    Address, Env, String, Vec, contract, contracterror, contractevent, contractimpl, contracttype,
-    panic_with_error, vec,
+    contract, contracterror, contractevent, contractimpl, contracttype, panic_with_error, vec,
+    Address, Env, String, Vec,
 };
 
 // =============================================================================
@@ -211,7 +211,7 @@ impl CompanySbt {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use soroban_sdk::{Env, testutils::Address as _};
+    use soroban_sdk::{testutils::Address as _, Env};
 
     fn setup() -> (Env, CompanySbtClient<'static>, Address, Address) {
         let env = Env::default();
@@ -255,7 +255,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "SbtRevoked")]
+    #[should_panic(expected = "Error(Contract, #5)")] // CORRIGIDO PARA ERRO #5
     fn test_revoked_sbt_cannot_update_metrics() {
         let (env, client, _, _) = setup();
         let company = Address::generate(&env);
@@ -268,7 +268,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "SbtNotFound")]
+    #[should_panic(expected = "Error(Contract, #6)")] // CORRIGIDO PARA ERRO #6
     fn test_unregistered_company_fails() {
         let (env, client, _, _) = setup();
         let ghost_company = Address::generate(&env);

@@ -2,8 +2,8 @@
 #![allow(deprecated)] // 🛡️ Silencia avisos de eventos antigos do SDK
 
 use soroban_sdk::{
-    Address, Env, contract, contracterror, contractimpl, contracttype, panic_with_error,
-    symbol_short,
+    contract, contracterror, contractimpl, contracttype, panic_with_error, symbol_short, Address,
+    Env,
 };
 
 // =============================================================================
@@ -168,7 +168,7 @@ impl ReputationSbt {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use soroban_sdk::{Env, testutils::Address as _};
+    use soroban_sdk::{testutils::Address as _, Env};
 
     fn setup() -> (Env, ReputationSbtClient<'static>, Address, Address) {
         let env = Env::default();
@@ -208,7 +208,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "NonTransferable")]
+    #[should_panic(expected = "Error(Contract, #4)")] // CORRIGIDO PARA ERRO #4
     fn test_soulbound_transfer_fails() {
         let (_env, sbt_client, _admin, user) = setup();
         let hacker = Address::generate(&_env);
@@ -218,14 +218,14 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "InvalidAmount")]
+    #[should_panic(expected = "Error(Contract, #5)")] // CORRIGIDO PARA ERRO #5
     fn test_add_zero_xp_fails() {
         let (_env, sbt_client, _admin, user) = setup();
         sbt_client.add_xp(&user, &0);
     }
 
     #[test]
-    #[should_panic(expected = "SbtNotFound")]
+    #[should_panic(expected = "Error(Contract, #3)")] // CORRIGIDO PARA ERRO #3
     fn test_get_nonexistent_sbt_fails() {
         let (_env, sbt_client, _admin, _user) = setup();
         let ghost = Address::generate(&_env);
