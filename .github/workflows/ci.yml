@@ -29,29 +29,41 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
 
-      # PASSO CRÍTICO: Compilar o Leaf Token primeiro para que o hero_journey possa importá-lo
-      - name: Build Leaf Token WASM (Dependency)
+      # PASSO CRÍTICO: Compilar o Leaf Token primeiro
+      - name: Build Leaf Token WASM
         run: cargo build --target wasm32v1-none --release --manifest-path contracts/leaf_token/Cargo.toml
 
-      - name: Build rwa_vault WASM
-        run: cargo build --target wasm32v1-none --release --manifest-path contracts/rwa_vault/Cargo.toml
+      # BUILD DOS NOVOS CONTRATOS MODULARES
+      - name: Build collateral_vault WASM
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/collateral_vault/Cargo.toml
 
-      - name: Build sbt_reputation WASM
-        run: cargo build --target wasm32v1-none --release --manifest-path contracts/sbt_reputation/Cargo.toml
+      - name: Build guardian_id WASM
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/guardian_id/Cargo.toml
 
-      # Agora o hero_journey encontrará o arquivo .wasm necessário
-      - name: Build hero_journey WASM
-        run: cargo build --target wasm32v1-none --release --manifest-path contracts/hero_journey/Cargo.toml
+      - name: Build company_id WASM
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/company_id/Cargo.toml
 
-      # Testes após o build garantem que as macros de importação funcionem
-      - name: Test rwa_vault
-        run: cargo test --manifest-path contracts/rwa_vault/Cargo.toml -- --nocapture
+      - name: Build forest_mythos_vault WASM
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/forest_mythos_vault/Cargo.toml
 
-      - name: Test sbt_reputation
-        run: cargo test --manifest-path contracts/sbt_reputation/Cargo.toml -- --nocapture
+      - name: Build journey_orchestrator WASM
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/journey_orchestrator/Cargo.toml
 
-      - name: Test hero_journey
-        run: cargo test --manifest-path contracts/hero_journey/Cargo.toml -- --nocapture
+      # TESTES DOS NOVOS CONTRATOS
+      - name: Test collateral_vault
+        run: cargo test --manifest-path contracts/collateral_vault/Cargo.toml -- --nocapture
+
+      - name: Test guardian_id
+        run: cargo test --manifest-path contracts/guardian_id/Cargo.toml -- --nocapture
+
+      - name: Test company_id
+        run: cargo test --manifest-path contracts/company_id/Cargo.toml -- --nocapture
+        
+      - name: Test forest_mythos_vault
+        run: cargo test --manifest-path contracts/forest_mythos_vault/Cargo.toml -- --nocapture
+
+      - name: Test journey_orchestrator
+        run: cargo test --manifest-path contracts/journey_orchestrator/Cargo.toml -- --nocapture
 
   frontend:
     name: Next.js Build

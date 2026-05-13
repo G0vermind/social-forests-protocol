@@ -31,18 +31,25 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
 
-      # PASSO OBRIGATÓRIO: Gerar o WASM do Leaf Token para que o hero_journey possa compilar seus testes
+      # PASSO OBRIGATÓRIO: Gerar o WASM do Leaf Token (Dependência Core)
       - name: Build Leaf Token (Dependency)
         run: cargo build --target wasm32v1-none --release --manifest-path contracts/leaf_token/Cargo.toml
 
-      - name: Test rwa_vault
-        run: cargo test --manifest-path contracts/rwa_vault/Cargo.toml -- --nocapture
+      # Testes da Nova Arquitetura Modular
+      - name: Test collateral_vault
+        run: cargo test --manifest-path contracts/collateral_vault/Cargo.toml -- --nocapture
 
-      - name: Test sbt_reputation
-        run: cargo test --manifest-path contracts/sbt_reputation/Cargo.toml -- --nocapture
+      - name: Test guardian_id
+        run: cargo test --manifest-path contracts/guardian_id/Cargo.toml -- --nocapture
 
-      - name: Test hero_journey
-        run: cargo test --manifest-path contracts/hero_journey/Cargo.toml -- --nocapture
+      - name: Test company_id
+        run: cargo test --manifest-path contracts/company_id/Cargo.toml -- --nocapture
+
+      - name: Test forest_mythos_vault
+        run: cargo test --manifest-path contracts/forest_mythos_vault/Cargo.toml -- --nocapture
+
+      - name: Test journey_orchestrator
+        run: cargo test --manifest-path contracts/journey_orchestrator/Cargo.toml -- --nocapture
 
   build:
     name: WASM Build
@@ -66,18 +73,24 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-wasm-
 
-      # Build em ordem de dependência
+      # Build em ordem de dependência (Arquitetura v3)
       - name: Build Leaf Token (WASM)
         run: cargo build --target wasm32v1-none --release --manifest-path contracts/leaf_token/Cargo.toml
 
-      - name: Build rwa_vault (WASM)
-        run: cargo build --target wasm32v1-none --release --manifest-path contracts/rwa_vault/Cargo.toml
+      - name: Build collateral_vault (WASM)
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/collateral_vault/Cargo.toml
 
-      - name: Build sbt_reputation (WASM)
-        run: cargo build --target wasm32v1-none --release --manifest-path contracts/sbt_reputation/Cargo.toml
+      - name: Build guardian_id (WASM)
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/guardian_id/Cargo.toml
 
-      - name: Build hero_journey (WASM)
-        run: cargo build --target wasm32v1-none --release --manifest-path contracts/hero_journey/Cargo.toml
+      - name: Build company_id (WASM)
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/company_id/Cargo.toml
+
+      - name: Build forest_mythos_vault (WASM)
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/forest_mythos_vault/Cargo.toml
+
+      - name: Build journey_orchestrator (WASM)
+        run: cargo build --target wasm32v1-none --release --manifest-path contracts/journey_orchestrator/Cargo.toml
 
   audit:
     name: Rust CVE Audit
@@ -103,12 +116,17 @@ jobs:
           targets: wasm32v1-none
       - name: Install Scout
         run: cargo install cargo-scout-audit --locked
-      # Adicionando build prévio para o Scout não falhar na macro import!
+        
+      # Build prévio para o Scout não falhar na macro import!
       - name: Build Leaf Token for Scout
         run: cargo build --target wasm32v1-none --release --manifest-path contracts/leaf_token/Cargo.toml
-      - name: Audit rwa_vault
-        run: cargo scout-audit --manifest-path contracts/rwa_vault/Cargo.toml
-      - name: Audit sbt_reputation
-        run: cargo scout-audit --manifest-path contracts/sbt_reputation/Cargo.toml
-      - name: Audit hero_journey
-        run: cargo scout-audit --manifest-path contracts/hero_journey/Cargo.toml
+        
+      # Auditoria da Nova Arquitetura
+      - name: Audit collateral_vault
+        run: cargo scout-audit --manifest-path contracts/collateral_vault/Cargo.toml
+        
+      - name: Audit guardian_id
+        run: cargo scout-audit --manifest-path contracts/guardian_id/Cargo.toml
+        
+      - name: Audit company_id
+        run: cargo scout-audit --manifest-path contracts/company_id/Cargo.toml
