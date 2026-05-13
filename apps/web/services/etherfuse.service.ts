@@ -1,5 +1,5 @@
 // apps/web/services/etherfuse.service.ts
-// Serviço de integração com a Etherfuse para emissão de RWAs na rede Stellar
+import { Keypair, Asset, Horizon, TransactionBuilder, Operation, Networks, Memo } from '@stellar/stellar-sdk';
 
 export interface RwaReceipt {
     status: "success" | "failed";
@@ -7,47 +7,73 @@ export interface RwaReceipt {
     asset_type: string;
     amount_locked: number;
     timestamp: string;
-    network: "stellar-mainnet" | "stellar-testnet";
+    network: "stellar-testnet";
     issuer: string;
 }
 
 export interface BuyRwaParams {
     companyId: string;
     treeCount: number;
+    stellarAddress?: string;
 }
 
 export class EtherfuseService {
-    private static readonly ASSET_CODE = "KHAYA_SENEGALENSIS";
-    private static readonly ISSUER = "GETHERFUSE_MOCK_ISSUER_FLORESTAS_SOCIAL";
+    private static readonly ASSET_CODE = "KHAYA_SENE";
+    private static readonly ISSUER = "FLORESTAS_SOCIAL_PROTOCOL";
 
-    static async buyRwaToken(companyId: string, treeCount: number): Promise<RwaReceipt> {
+    static async buyRwaToken(params: BuyRwaParams): Promise<RwaReceipt> {
+        const { treeCount } = params;
+        const secret = process.env.STELLAR_PROTOCOL_SECRET || "";
+
         console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        console.log("[Etherfuse] 🌳 Iniciando emissão de ativos RWA");
-        console.log(`[Etherfuse]  ├─ Empresa:    ${companyId}`);
-        console.log(`[Etherfuse]  ├─ Ativo:      ${this.ASSET_CODE}`);
-        console.log(`[Etherfuse]  ├─ Quantidade: ${treeCount} árvore(s)`);
-        console.log(`[Etherfuse]  └─ Rede:       Stellar Testnet`);
-        console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        console.log("[FLORESTAS.SOCIAL] 🌳 Finalizando Registro RWA...");
 
-        // Simula latência de rede do protocolo Etherfuse
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        try {
+            const protocolKeypair = Keypair.fromSecret(secret);
+            const publicKey = protocolKeypair.publicKey();
+            const server = new Horizon.Server('https://horizon-testnet.stellar.org');
 
-        const txHash = `0x_etherfuse_${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
+            // 1. Carregar a conta
+            const sourceAccount = await server.loadAccount(publicKey);
 
-        const receipt: RwaReceipt = {
-            status: "success",
-            tx_hash: txHash,
-            asset_type: this.ASSET_CODE,
-            amount_locked: treeCount,
-            timestamp: new Date().toISOString(),
-            network: "stellar-testnet",
-            issuer: this.ISSUER,
-        };
+            // 2. Montar transação com prazo de validade estendido (3 minutos)
+            const tx = new TransactionBuilder(sourceAccount, {
+                fee: '10000',
+                networkPassphrase: Networks.TESTNET
+            })
+                .addOperation(Operation.payment({
+                    destination: publicKey,
+                    asset: Asset.native(),
+                    amount: "0.00001"
+                }))
+                .addMemo(Memo.text(`MINT:${treeCount} KHAYA`))
+                .setTimeout(180) // 🎯 AUMENTADO: De 30 para 180 segundos para evitar tx_too_late
+                .build();
 
-        console.log("[Etherfuse] ✅ Emissão concluída com sucesso!");
-        console.log(`[Etherfuse]  └─ TX Hash: ${txHash}`);
-        console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            // 3. Assinar e Enviar
+            tx.sign(protocolKeypair);
+            console.log(`[Stellar] ├─ Enviando para a Testnet...`);
 
-        return receipt;
+            const response = await server.submitTransaction(tx);
+
+            console.log("[Stellar] ✅ SUCESSO TOTAL!");
+            console.log(`[Stellar] └─ Hash: ${response.hash}`);
+            console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+            return {
+                status: "success",
+                tx_hash: response.hash,
+                asset_type: this.ASSET_CODE,
+                amount_locked: treeCount,
+                timestamp: new Date().toISOString(),
+                network: "stellar-testnet",
+                issuer: this.ISSUER,
+            };
+
+        } catch (error: any) {
+            const stellarError = error.response?.data?.extras?.result_codes?.transaction || error.message;
+            console.error('[Stellar Error]:', stellarError);
+            throw new Error(`Falha na rede: ${stellarError}`);
+        }
     }
 }

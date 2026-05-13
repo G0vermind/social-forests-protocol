@@ -1,209 +1,105 @@
+// apps/web/src/app/checkout/page.tsx
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-// Paleta Deep Forest
-// Background: #0B0F0D | Cards: #1A2E24 | Accent: #00F5A0
-
-export default function B2BCheckout() {
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [activePackage, setActivePackage] = useState<number | null>(null);
+export default function CheckoutPage() {
     const router = useRouter();
+    const [quantity, setQuantity] = useState<number>(1);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [hash, setHash] = useState<string | null>(null);
 
-    const handlePayment = async (trees: number) => {
+    const precoUnitario = 500; // Valor de face do Mogno em BRL
+
+    const handleMockPayment = async () => {
         setLoading(true);
-        setActivePackage(trees);
-
         try {
-            const res = await fetch('/api/v1/etherfuse', {
+            // 1. Chama o nosso "Banco Falso" que aciona a Blockchain Real
+            const res = await fetch('/api/v1/checkout/mock', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    companyId: 'Parceiro_Marata_Oficial',
-                    trees_bought: trees,
-                }),
+                    quantity: quantity,
+                    address: null, // 🎯 CORREÇÃO: Enviamos null para evitar o erro de endereço inválido
+                })
             });
 
-            if (res.ok) {
-                setSuccess(true);
-                // Redireciona para o dashboard após breve feedback visual
+            const data = await res.json();
+
+            if (data.success) {
+                // Guarda o hash para mostrar na tela antes de redirecionar
+                setHash(data.receipt.tx_hash);
+
+                // Aguarda 3 segundos para o utilizador ver o sucesso, depois vai para o dashboard
                 setTimeout(() => {
-                    router.push('/empresa/dashboard');
-                }, 2500);
+                    router.push('/empresa/dashboard?success=true');
+                }, 4000);
             } else {
-                const data = await res.json();
-                alert(`Erro ao processar o pagamento: ${data.error ?? 'Verifique o terminal.'}`);
+                throw new Error(data.error);
             }
-        } catch (error) {
-            console.error('[Checkout] Erro na transação:', error);
-            alert('Falha de conexão com o servidor. Tente novamente.');
-        } finally {
+        } catch (e: any) {
+            alert(`Erro na simulação: ${e.message}`);
             setLoading(false);
         }
     };
 
-    // ─── TELA DE SUCESSO ────────────────────────────────────────────────────────
-    if (success) {
-        return (
-            <div
-                style={{ background: '#0B0F0D' }}
-                className="min-h-screen flex flex-col items-center justify-center p-10 font-sans text-[#E0E2E1]"
-            >
-                <div
-                    style={{
-                        background: '#1A2E24',
-                        border: '1px solid #00F5A0',
-                        boxShadow: '0 0 40px rgba(0,245,160,0.25)',
-                    }}
-                    className="p-10 text-center rounded-2xl max-w-lg w-full animate-pulse"
-                >
-                    <div className="text-7xl mb-6">🌲</div>
-                    <h2 style={{ color: '#00F5A0' }} className="text-3xl font-bold mb-4">
-                        Impacto Garantido!
-                    </h2>
-                    <p className="mb-6 text-gray-300 leading-relaxed">
-                        O ativo <strong>RWA</strong> foi emitido via{' '}
-                        <strong style={{ color: '#00F5A0' }}>Etherfuse</strong>. As Folhas já
-                        foram creditadas na rede <strong>Stellar</strong> e vinculadas ao seu
-                        perfil empresarial.
-                    </p>
-                    <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mb-8">
-                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                            <circle
-                                className="opacity-25"
-                                cx="12" cy="12" r="10"
-                                stroke="currentColor" strokeWidth="4"
-                            />
-                            <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8v8H4z"
-                            />
-                        </svg>
-                        Redirecionando para o Dashboard...
-                    </div>
-                    <button
-                        onClick={() => router.push('/empresa/dashboard')}
-                        style={{ background: '#00F5A0', color: '#0B0F0D' }}
-                        className="w-full px-6 py-4 rounded-xl font-bold hover:brightness-110 transition-all shadow-lg"
-                    >
-                        Acessar Dashboard B2B →
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    // ─── VITRINE DE PACOTES ──────────────────────────────────────────────────────
     return (
-        <div
-            style={{ background: '#0B0F0D' }}
-            className="min-h-screen text-[#E0E2E1] p-6 md:p-10 flex flex-col items-center justify-center font-sans"
-        >
-            <div className="text-center mb-12">
-                <p className="text-xs uppercase tracking-widest mb-3" style={{ color: '#00F5A0' }}>
-                    Florestas.Social — Protocolo B2B
-                </p>
-                <h1 style={{ color: '#00F5A0' }} className="text-4xl md:text-5xl font-bold mb-4">
-                    Viveiro Corporativo
-                </h1>
-                <p className="text-lg text-gray-400 max-w-2xl">
-                    Transforme sua marca em uma força regenerativa. Escolha um pacote de Mognos
-                    Africanos e recompense seus clientes com <strong>Cashback Verde</strong>.
-                </p>
-            </div>
+        <div className="min-h-screen bg-[#0B0F0D] text-[#E0E2E1] flex items-center justify-center p-6 font-sans">
+            <div className="max-w-md w-full bg-[#1A2E24] border border-[#00F5A0]/20 rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(0,245,160,0.05)]">
 
-            <div className="flex flex-col md:flex-row gap-8 w-full max-w-5xl">
-
-                {/* ── PACOTE SEMENTE ──────────────────────────────────────── */}
-                <div
-                    style={{ background: '#1A2E24', border: '1px solid rgba(255,255,255,0.06)' }}
-                    className="p-8 rounded-3xl w-full flex flex-col hover:border-[#00F5A0]/30 transition-all duration-300 group"
-                >
-                    <h3 className="text-2xl font-bold mb-2">Pacote Semente</h3>
-                    <p className="text-gray-400 mb-6 flex-grow">
-                        Ideal para pequenos empreendedores. 1 Árvore real que gera{' '}
-                        <strong>100 Folhas</strong> para distribuição.
-                    </p>
-                    <div className="mb-8">
-                        <p className="text-5xl font-bold text-white">R$ 50</p>
-                        <p className="text-sm text-gray-500 uppercase tracking-widest mt-1">
-                            Pagamento único
-                        </p>
-                    </div>
-                    <button
-                        onClick={() => handlePayment(1)}
-                        disabled={loading}
-                        style={{ border: '1px solid rgba(255,255,255,0.12)' }}
-                        className="w-full bg-white/5 text-white py-4 rounded-2xl font-bold group-hover:bg-[#00F5A0] group-hover:text-[#0B0F0D] group-hover:border-[#00F5A0] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {loading && activePackage === 1 ? (
-                            <span className="flex items-center justify-center gap-2">
-                                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                                </svg>
-                                Conectando Etherfuse...
-                            </span>
-                        ) : 'Adquirir Semente'}
-                    </button>
+                <div className="text-center mb-10">
+                    <div className="text-5xl mb-4">🌳</div>
+                    <h1 className="text-3xl font-black tracking-tight text-white">Pacote Bosque</h1>
+                    <p className="text-[#00F5A0] text-sm font-bold uppercase tracking-widest mt-2">Modo Hackathon</p>
                 </div>
 
-                {/* ── PACOTE BOSQUE (DESTAQUE) ────────────────────────────── */}
-                <div
-                    style={{
-                        background: '#1A2E24',
-                        border: '2px solid #00F5A0',
-                        boxShadow: '0 0 30px rgba(0,245,160,0.12)',
-                    }}
-                    className="p-8 rounded-3xl w-full flex flex-col relative md:scale-105"
-                >
-                    <div
-                        style={{ background: '#00F5A0', color: '#0B0F0D' }}
-                        className="absolute top-0 right-0 text-[10px] font-black px-4 py-1 rounded-bl-xl uppercase"
-                    >
-                        Mais Vendido
+                <div className="space-y-8">
+                    <div className="bg-[#0B0F0D] p-5 rounded-2xl border border-white/5">
+                        <label className="text-[11px] uppercase font-black text-gray-400 block mb-2">Quantidade de Árvores</label>
+                        <div className="flex items-center justify-between">
+                            <button
+                                onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                                disabled={loading || hash !== null}
+                                className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 font-bold text-xl flex items-center justify-center disabled:opacity-50"
+                            >-</button>
+
+                            <span className="text-3xl font-black text-white">{quantity}</span>
+
+                            <button
+                                onClick={() => setQuantity(q => q + 1)}
+                                disabled={loading || hash !== null}
+                                className="w-10 h-10 rounded-full bg-[#00F5A0]/10 text-[#00F5A0] hover:bg-[#00F5A0]/20 font-bold text-xl flex items-center justify-center disabled:opacity-50"
+                            >+</button>
+                        </div>
                     </div>
-                    <h3 style={{ color: '#00F5A0' }} className="text-2xl font-bold mb-2">
-                        Pacote Bosque
-                    </h3>
-                    <p className="text-gray-300 mb-6 flex-grow">
-                        Para marcas em crescimento. 5 Árvores reais (<strong>500 Folhas</strong>)
-                        e Selo de Parceiro Sustentável.
-                    </p>
-                    <div className="mb-8">
-                        <p className="text-5xl font-bold text-white">R$ 200</p>
-                        <p style={{ color: 'rgba(0,245,160,0.6)' }} className="text-sm uppercase tracking-widest mt-1">
-                            Economia de 20%
-                        </p>
+
+                    <div className="flex justify-between items-end px-2">
+                        <div>
+                            <p className="text-gray-400 text-sm">Total Estimado</p>
+                            <p className="text-[10px] text-[#00F5A0] mt-1">Stripe Bypass Ativo</p>
+                        </div>
+                        <span className="text-3xl font-black text-white">R$ {(quantity * precoUnitario).toLocaleString('pt-BR')}</span>
                     </div>
-                    <button
-                        onClick={() => handlePayment(5)}
-                        disabled={loading}
-                        style={{ background: '#00F5A0', color: '#0B0F0D' }}
-                        className="w-full py-4 rounded-2xl font-bold hover:brightness-110 hover:shadow-[0_0_20px_rgba(0,245,160,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {loading && activePackage === 5 ? (
-                            <span className="flex items-center justify-center gap-2">
-                                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                                </svg>
-                                Conectando Etherfuse...
-                            </span>
-                        ) : 'Adquirir Bosque'}
-                    </button>
+
+                    {hash ? (
+                        <div className="bg-[#00F5A0]/10 border border-[#00F5A0]/30 p-4 rounded-2xl text-center animate-pulse">
+                            <p className="text-[#00F5A0] font-bold text-sm mb-1">✅ Ativo RWA Emitido!</p>
+                            <p className="text-[10px] text-gray-400 mb-2 italic">Hash da Transação:</p>
+                            <p className="text-[9px] text-gray-400 break-all bg-black/30 p-2 rounded-lg">{hash}</p>
+                            <p className="text-[10px] text-gray-500 mt-3 uppercase font-bold tracking-tighter">A redirecionar para o dashboard...</p>
+                        </div>
+                    ) : (
+                        <button
+                            onClick={handleMockPayment}
+                            disabled={loading}
+                            className="w-full bg-[#00F5A0] text-[#0B0F0D] py-5 rounded-2xl font-black text-lg hover:shadow-[0_0_30px_rgba(0,245,160,0.3)] transition-all disabled:opacity-50"
+                        >
+                            {loading ? "A EMITIR NA STELLAR..." : "SIMULAR PAGAMENTO"}
+                        </button>
+                    )}
                 </div>
-
             </div>
-
-            <p className="mt-12 text-gray-600 text-sm">
-                Infraestrutura de ativos garantida por{' '}
-                <strong style={{ color: 'rgba(0,245,160,0.7)' }}>Etherfuse</strong> &amp; Rede{' '}
-                <strong style={{ color: 'rgba(0,245,160,0.7)' }}>Stellar</strong>.
-            </p>
         </div>
     );
 }

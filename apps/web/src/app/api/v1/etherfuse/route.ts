@@ -1,61 +1,55 @@
 // apps/web/src/app/api/v1/etherfuse/route.ts
-// Endpoint de Protocolo — Aquisição de Ativos RWA via Etherfuse
 
 import { NextRequest, NextResponse } from 'next/server';
-import { EtherfuseService } from '../../../../../services/etherfuse.service';
+import Stripe from 'stripe';
+import { EtherfuseService } from '@/../../services/etherfuse.service';
 
-const IS_DEV = process.env.NODE_ENV === 'development';
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2025-01-27' as any,
+});
 
 export async function POST(req: NextRequest) {
+    const body = await req.text();
+    const signature = req.headers.get('stripe-signature')!;
+
+    let event: Stripe.Event;
+
     try {
-        console.log(`[API /v1/etherfuse] 📡 Requisição recebida${IS_DEV ? ' [DEV MODE]' : ''}`);
+        event = stripe.webhooks.constructEvent(
+            body,
+            signature,
+            process.env.STRIPE_WEBHOOK_SECRET!
+        );
+    } catch (err: any) {
+        console.error('❌ Erro na assinatura do Webhook:', err.message);
+        return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
+    }
 
-        const body = await req.json();
-        const { companyId, trees_bought } = body as {
-            companyId: string;
-            trees_bought: number;
-        };
+    // 🎯 O GATILHO: Quando o pagamento é concluído com sucesso
+    if (event.type === 'checkout.session.completed') {
+        const session = event.data.object as Stripe.Checkout.Session;
 
-        // Em produção, valide os dados de entrada obrigatoriamente
-        if (!IS_DEV) {
-            if (!companyId || typeof companyId !== 'string') {
-                return NextResponse.json(
-                    { error: 'Campo obrigatório ausente: companyId' },
-                    { status: 400 }
-                );
-            }
-            if (!trees_bought || typeof trees_bought !== 'number' || trees_bought < 1) {
-                return NextResponse.json(
-                    { error: 'Campo inválido: trees_bought deve ser um inteiro >= 1' },
-                    { status: 400 }
-                );
+        // Recuperamos os metadados guardados na rota de criação da sessão
+        const stellarAddress = session.metadata?.stellarAddress;
+        const treeCount = Number(session.metadata?.treeCount);
+        const companyId = session.metadata?.companyId || 'N/A';
+
+        if (stellarAddress && treeCount) {
+            try {
+                // 🚀 INTEGRAÇÃO: Transforma o pagamento em RWA via Etherfuse
+                const receipt = await EtherfuseService.buyRwaToken({
+                    companyId,
+                    treeCount,
+                    stellarAddress
+                });
+
+                console.log(`[Protocolo SFP] ✅ RWA Registado: ${receipt.tx_hash}`);
+                // FUTURO: Aqui gravaríamos o tx_hash na base de dados Supabase da empresa
+            } catch (error) {
+                console.error('[Protocolo SFP] ❌ Falha na emissão via Etherfuse:', error);
             }
         }
-
-        // Em Dev Mode, usa valores padrão se os campos estiverem ausentes
-        const resolvedCompanyId = companyId ?? 'DEV_COMPANY_MOCK';
-        const resolvedTreeCount = trees_bought ?? 1;
-
-        console.log(`[API /v1/etherfuse]  ├─ companyId:   ${resolvedCompanyId}`);
-        console.log(`[API /v1/etherfuse]  └─ trees_bought: ${resolvedTreeCount}`);
-
-        const receipt = await EtherfuseService.buyRwaToken(resolvedCompanyId, resolvedTreeCount);
-
-        return NextResponse.json(
-            {
-                success: true,
-                dev_mode: IS_DEV,
-                receipt,
-            },
-            { status: 200 }
-        );
-
-    } catch (err: unknown) {
-        const errorMessage = err instanceof Error ? err.message : 'Erro interno do servidor';
-        console.error(`[API /v1/etherfuse] ❌ Erro: ${errorMessage}`);
-        return NextResponse.json(
-            { success: false, error: errorMessage },
-            { status: 500 }
-        );
     }
+
+    return NextResponse.json({ received: true });
 }

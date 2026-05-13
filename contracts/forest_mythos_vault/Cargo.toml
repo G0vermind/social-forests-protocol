@@ -1,5 +1,5 @@
 [package]
-name = "florestas-protocol"
+name = "forest_mythos_vault"
 version = "0.1.0"
 edition = "2024"
 description = "Motor dNFT e SBT para o ecossistema Florestas.Social"
