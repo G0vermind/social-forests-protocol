@@ -1,8 +1,9 @@
 #![no_std]
+#![forbid(unsafe_code)]
 
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype, vec, Address, Env, IntoVal, String,
-    Symbol, Vec,
+    contract, contracterror, contractimpl, contracttype, panic_with_error, vec, Address, Env,
+    IntoVal, String, Symbol, Vec,
 };
 
 // =============================================================================
@@ -45,8 +46,9 @@ impl JourneyOrchestrator {
         mythos: Address,
     ) {
         if env.storage().instance().has(&DataKey::Admin) {
-            panic!("ALREADY_INIT");
+            panic_with_error!(&env, OrchestratorError::AlreadyInitialized);
         }
+        admin.require_auth();
         env.storage().instance().set(&DataKey::Admin, &admin);
         env.storage().instance().set(&DataKey::LeafToken, &leaf);
         env.storage().instance().set(&DataKey::SbtGuardian, &sbt_g);

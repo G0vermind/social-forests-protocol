@@ -8,9 +8,15 @@ import { CONTRACT_IDS, NETWORK_CONFIG } from "../soroban/config";
  * Endereço Stellar que recebe os pagamentos USDC via x402.
  * Em produção, substituir pelo endereço da treasury do protocolo.
  */
-export const X402_PAY_TO =
-  process.env.NEXT_PUBLIC_X402_PAY_TO ??
-  "GAG6GXCMAHKBHZLGFOMG2XZUX4W4ETLOPJ6YB6VSJOPOYLWORQLF3XI6";
+export const X402_PAY_TO = (() => {
+  const addr = process.env.NEXT_PUBLIC_X402_PAY_TO;
+  if (!addr) {
+    throw new Error(
+      "[x402] NEXT_PUBLIC_X402_PAY_TO not configured. Set it in .env.local"
+    );
+  }
+  return addr;
+})();
 
 /**
  * URL do facilitador x402 (OpenZeppelin Relayer on Stellar).

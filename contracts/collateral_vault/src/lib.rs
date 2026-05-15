@@ -1,4 +1,5 @@
 #![no_std]
+#![forbid(unsafe_code)]
 
 use soroban_sdk::{
     contract, contracterror, contractevent, contractimpl, contracttype, panic_with_error, vec,
@@ -53,6 +54,7 @@ pub enum MasterError {
     InsufficientCredits = 2,
     Unauthorized = 3,
     ArithmeticOverflow = 4,
+    AlreadyInitialized = 5,
 }
 
 // 🛡️ Helper para o compilador entender o struct vindo do SBT Empresa
@@ -76,8 +78,9 @@ pub struct CollateralMasterChief;
 impl CollateralMasterChief {
     pub fn initialize(env: Env, admin: Address, sbt_contract: Address) {
         if env.storage().instance().has(&DataKey::Admin) {
-            return;
+            panic_with_error!(&env, MasterError::AlreadyInitialized);
         }
+        admin.require_auth();
         env.storage().instance().set(&DataKey::Admin, &admin);
         env.storage()
             .instance()

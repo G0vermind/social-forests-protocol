@@ -27,8 +27,17 @@ import { NETWORK_CONFIG, CONTRACT_IDS } from "@/lib/soroban/config";
  */
 export async function POST(req: NextRequest) {
   try {
+    // Autenticação via API key no header (nunca aceitar secrets no body)
+    const apiKey = req.headers.get("X-Oracle-Api-Key");
+    if (!apiKey || apiKey !== process.env.ORACLE_API_KEY) {
+      return NextResponse.json(
+        { error: "Unauthorized. Invalid or missing X-Oracle-Api-Key header." },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
-    const { tokenId, biomassKg, carbonG, phase, oracleSecret } = body;
+    const { tokenId, biomassKg, carbonG, phase } = body;
 
     // Validação
     if (!tokenId || biomassKg == null || carbonG == null || !phase) {
@@ -38,11 +47,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Autenticação do oráculo via secret key
-    const secret = oracleSecret || process.env.ORACLE_SECRET_KEY;
+    // Chave secreta do oráculo — apenas via env var server-side
+    const secret = process.env.ORACLE_SECRET_KEY;
     if (!secret) {
       return NextResponse.json(
-        { error: "Oracle not configured. Set ORACLE_SECRET_KEY." },
+        { error: "Oracle not configured. Set ORACLE_SECRET_KEY env var." },
         { status: 503 }
       );
     }

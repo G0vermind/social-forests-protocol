@@ -8,3 +8,4 @@ export {
 } from "./config";
 
 export { createFacilitatorClient } from "./middleware";
+export { isDuplicatePayment } from "./replay-guard";
