@@ -1,5 +1,5 @@
 #![no_std]
-#![forbid(unsafe_code)]
+#![deny(unsafe_code)]
 
 use soroban_sdk::{
     contract, contracterror, contractevent, contractimpl, contracttype, panic_with_error, Address,
@@ -100,7 +100,8 @@ impl LeafToken {
         }
 
         let current_supply = Self::total_supply(env.clone());
-        let new_supply = current_supply.checked_add(amount)
+        let new_supply = current_supply
+            .checked_add(amount)
             .unwrap_or_else(|| panic_with_error!(&env, TokenError::NegativeAmount));
         if new_supply > MAX_SUPPLY {
             panic_with_error!(&env, TokenError::NegativeAmount); // reuse error for cap exceeded
@@ -110,7 +111,9 @@ impl LeafToken {
         env.storage()
             .persistent()
             .set(&DataKey::Balance(to.clone()), &(balance + amount));
-        env.storage().instance().set(&DataKey::TotalSupply, &new_supply);
+        env.storage()
+            .instance()
+            .set(&DataKey::TotalSupply, &new_supply);
 
         EventMint { to, amount }.publish(&env);
     }
@@ -132,7 +135,9 @@ impl LeafToken {
             .set(&DataKey::Balance(from.clone()), &(balance - amount));
 
         let current_supply = Self::total_supply(env.clone());
-        env.storage().instance().set(&DataKey::TotalSupply, &(current_supply - amount));
+        env.storage()
+            .instance()
+            .set(&DataKey::TotalSupply, &(current_supply - amount));
 
         EventBurn { from, amount }.publish(&env);
     }
@@ -164,7 +169,9 @@ impl LeafToken {
         let key = DataKey::Balance(id);
         let bal: i128 = env.storage().persistent().get(&key).unwrap_or(0);
         if bal > 0 {
-            env.storage().persistent().extend_ttl(&key, BALANCE_TTL_THRESHOLD, BALANCE_TTL_BUMP);
+            env.storage()
+                .persistent()
+                .extend_ttl(&key, BALANCE_TTL_THRESHOLD, BALANCE_TTL_BUMP);
         }
         bal
     }
@@ -205,19 +212,23 @@ impl LeafToken {
     pub fn propose_admin(env: Env, new_admin: Address) {
         let admin: Address = env.storage().instance().get(&DataKey::Admin).unwrap();
         admin.require_auth();
-        env.storage().instance().set(&DataKey::PendingAdmin, &new_admin);
+        env.storage()
+            .instance()
+            .set(&DataKey::PendingAdmin, &new_admin);
     }
 
     /// Two-step admin transfer: new admin accepts
     pub fn accept_admin(env: Env) {
-        let pending: Address = env.storage().instance().get(&DataKey::PendingAdmin)
+        let pending: Address = env
+            .storage()
+            .instance()
+            .get(&DataKey::PendingAdmin)
             .unwrap_or_else(|| panic_with_error!(&env, TokenError::Unauthorized));
         pending.require_auth();
         env.storage().instance().set(&DataKey::Admin, &pending);
         env.storage().instance().remove(&DataKey::PendingAdmin);
     }
 }
-
 
 // =============================================================================
 // TESTES UNITÁRIOS

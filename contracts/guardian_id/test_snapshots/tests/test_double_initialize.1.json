@@ -1,6 +1,6 @@
 {
   "generators": {
-    "address": 2,
+    "address": 4,
     "nonce": 0,
     "mux_id": 0
   },
@@ -45,55 +45,6 @@
                       "val": {
                         "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                       }
-                    },
-                    {
-                      "key": {
-                        "vec": [
-                          {
-                            "symbol": "Metadata"
-                          }
-                        ]
-                      },
-                      "val": {
-                        "map": [
-                          {
-                            "key": {
-                              "symbol": "decimals"
-                            },
-                            "val": {
-                              "u32": 7
-                            }
-                          },
-                          {
-                            "key": {
-                              "symbol": "name"
-                            },
-                            "val": {
-                              "string": "Social Forest Leaf Token"
-                            }
-                          },
-                          {
-                            "key": {
-                              "symbol": "symbol"
-                            },
-                            "val": {
-                              "string": "LEAF"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "key": {
-                        "vec": [
-                          {
-                            "symbol": "TotalSupply"
-                          }
-                        ]
-                      },
-                      "val": {
-                        "i128": "0"
-                      }
                     }
                   ]
                 }
@@ -102,7 +53,7 @@
           },
           "ext": "v0"
         },
-        "live_until": 4095
+        "live_until": 1036800
       },
       {
         "entry": {
@@ -116,7 +67,7 @@
           },
           "ext": "v0"
         },
-        "live_until": 4095
+        "live_until": 1036800
       }
     ]
   },
