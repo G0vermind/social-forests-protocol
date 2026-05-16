@@ -1,142 +1,84 @@
-/* App shell — language + persona state */
+import React, { useMemo, useState } from "react";
+import { ResponsiveShell } from "../components/layout/ResponsiveShell.jsx";
+import { memberTabs, profileTabs, profiles } from "./profiles.js";
+import { MemberHome } from "../flows/member/MemberHome.jsx";
+import { MemberActivities } from "../flows/member/MemberActivities.jsx";
+import { MemberNursery } from "../flows/member/MemberNursery.jsx";
+import { MemberImpact } from "../flows/member/MemberImpact.jsx";
+import { MemberAccount } from "../flows/member/MemberAccount.jsx";
+import { InstitutionFlow } from "../flows/institution/InstitutionFlow.jsx";
+import { InstitutionPublicPage } from "../flows/public/InstitutionPublicPage.jsx";
+import { ProducerFlow } from "../flows/producer/ProducerFlow.jsx";
+import { ValidatorFlow } from "../flows/validator/ValidatorFlow.jsx";
 
-import React, { useEffect, useState } from "react";
+const flows = {
+  member: {
+    home: MemberHome,
+    activities: MemberActivities,
+    nursery: MemberNursery,
+    impact: MemberImpact,
+    account: MemberAccount,
+  },
+  institution: {
+    home: InstitutionFlow,
+    trees: InstitutionFlow,
+    activities: InstitutionFlow,
+    page: InstitutionFlow,
+    share: InstitutionFlow,
+  },
+  producer: {
+    home: ProducerFlow,
+    lots: ProducerFlow,
+    evidence: ProducerFlow,
+    history: ProducerFlow,
+    account: ProducerFlow,
+  },
+  validator: {
+    home: ValidatorFlow,
+    review: ValidatorFlow,
+    records: ValidatorFlow,
+    history: ValidatorFlow,
+    account: ValidatorFlow,
+  },
+};
 
-import { TR } from "../i18n/i18n.js";
-import { MemberScreens } from "../screens/screen-member.jsx";
-import { BrandScreens } from "../screens/screen-brand.jsx";
-import {
-  PartnerScreens,
-  ValidatorScreen,
-  AdminScreen,
-} from "../screens/screen-ops.jsx";
-
-const PERSONAS = [
-  { id: "member", key: "persona.member", Comp: MemberScreens },
-  { id: "brand", key: "persona.brand", Comp: BrandScreens },
-  { id: "partner", key: "persona.partner", Comp: PartnerScreens },
-  { id: "validator", key: "persona.validator", Comp: ValidatorScreen },
-  { id: "admin", key: "persona.admin", Comp: AdminScreen },
-];
+function getPublicInstitutionSlug() {
+  const match = window.location.pathname.match(/^\/i\/([a-z0-9-]+)/i);
+  return match?.[1] || null;
+}
 
 function App() {
-  const [lang, setLang] = useState(() => localStorage.getItem("fs_lang") || "pt");
-  const [persona, setPersona] = useState(
-    () => localStorage.getItem("fs_persona") || "member"
-  );
-  const [theme, setTheme] = useState(
-    () => localStorage.getItem("fs_theme") || "light"
-  );
+  const publicSlug = getPublicInstitutionSlug();
+  const [profileId, setProfileId] = useState("member");
+  const [tabId, setTabId] = useState("home");
 
-  useEffect(() => {
-    window.__TR = TR[lang];
-    localStorage.setItem("fs_lang", lang);
-    document.documentElement.lang = lang;
-  }, [lang]);
-
-  useEffect(() => {
-    localStorage.setItem("fs_persona", persona);
-  }, [persona]);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("fs_theme", theme);
-  }, [theme]);
-
-  if (!window.__TR) {
-    window.__TR = TR[lang];
+  if (publicSlug) {
+    return <InstitutionPublicPage slug={publicSlug} />;
   }
 
-  const active = PERSONAS.find((p) => p.id === persona) || PERSONAS[0];
-  const ActiveScreen = active.Comp;
+  const activeProfile = profiles.find((profile) => profile.id === profileId) || profiles[0];
+  const tabs = profileId === "member" ? memberTabs : profileTabs[profileId];
+
+  const ActiveScreen = useMemo(() => {
+    return flows[profileId]?.[tabId] || flows[profileId]?.home || MemberHome;
+  }, [profileId, tabId]);
+
+  function handleProfileChange(nextProfileId) {
+    setProfileId(nextProfileId);
+    setTabId("home");
+  }
 
   return (
-    <div>
-      <header className="app-header" data-screen-label="00 Header">
-        <div className="brand-mark">
-          <span className="logo">
-            <i />
-            <i className="g" />
-            <i className="g" />
-            <i />
-            <i className="g" />
-            <i className="g" />
-            <i className="g" />
-            <i className="g" />
-            <i className="g" />
-            <i className="g" />
-            <i className="g" />
-            <i className="g" />
-            <i />
-            <i className="g" />
-            <i className="g" />
-            <i />
-          </span>
-          <span>florestas.social</span>
-        </div>
-
-        <nav className="persona-tabs" aria-label="Persona switcher">
-          {PERSONAS.map((p, i) => (
-            <button
-              key={p.id}
-              className={`persona-tab ${persona === p.id ? "active" : ""}`}
-              onClick={() => setPersona(p.id)}
-              type="button"
-            >
-              <span className="num">{String(i + 1).padStart(2, "0")}</span>
-              <span>{TR[lang]?.[p.key] || p.id}</span>
-            </button>
-          ))}
-        </nav>
-
-        <div
-          className="lang-switch"
-          role="tablist"
-          aria-label="Theme"
-          style={{ marginRight: 6 }}
-        >
-          <button
-            className={theme === "light" ? "active" : ""}
-            onClick={() => setTheme("light")}
-            title="Light mode"
-            type="button"
-          >
-            ☼
-          </button>
-          <button
-            className={theme === "dark" ? "active" : ""}
-            onClick={() => setTheme("dark")}
-            title="Dark mode"
-            type="button"
-          >
-            ☾
-          </button>
-        </div>
-
-        <div className="lang-switch" role="tablist" aria-label="Language">
-          {["pt", "es", "en"].map((language) => (
-            <button
-              key={language}
-              className={lang === language ? "active" : ""}
-              onClick={() => setLang(language)}
-              type="button"
-            >
-              {language.toUpperCase()}
-            </button>
-          ))}
-        </div>
-      </header>
-
-      <main
-        className="persona-pane"
-        key={`${persona}-${lang}`}
-        data-screen-label={`0${
-          PERSONAS.findIndex((p) => p.id === persona) + 1
-        } ${persona}`}
-      >
-        <ActiveScreen />
-      </main>
-    </div>
+    <ResponsiveShell
+      profiles={profiles}
+      activeProfile={activeProfile}
+      onProfileChange={handleProfileChange}
+      tabs={tabs}
+      activeTab={tabId}
+      onTabChange={setTabId}
+    >
+      <ActiveScreen profile={activeProfile} tab={tabId} onTabChange={setTabId} />
+    </ResponsiveShell>
   );
 }
 
