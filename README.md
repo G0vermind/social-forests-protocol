@@ -28,7 +28,7 @@ Most sustainability promises stop at marketing. We build the infrastructure that
 
 **Social Forest democratizes sustainability** by connecting everyday consumption to real environmental regeneration. Every dollar spent at a partner brand becomes biological heritage — a fraction of a living African Mahogany tree (*Khaya senegalensis*), anchored on the Stellar blockchain, owned by the person who earned it.
 
-We call this model **RWA as a Service (RWAaaS)**: companies don't invest in the asset — they use our infrastructure to distribute regenerative cashback to their customers. **The tree belongs to whoever redeems it.**
+We call this model **RWA as a Service (RWAaaS)**: companies don't invest in the asset — they use our infrastructure to distribute regenerative cashback to their customers. The consumer accumulates $LEAF tokens and **forges a dNFT** — a dynamic NFT that represents ownership of a real, growing tree. **The tree belongs to whoever forges it.**
 
 > **Unique competitive moat:** Full control of the physical supply chain — from Viveiro Maravilha (seedlings) to Sómogno (processing) — eliminates counterparty risk and guarantees the permanence of every on-chain asset.
 
@@ -38,9 +38,23 @@ We call this model **RWA as a Service (RWAaaS)**: companies don't invest in the 
 
 | Actor | Action & Value Proposition |
 |-------|----------------------------|
-| 🏢 **Company (B2B)** | Enters via x402 USDC payment, buys RWA fractions, and gains verifiable ESG impact. They configure rules to distribute "Green Cashback" to their clients. |
-| 🛰️ **Oracle (PoF)** | AI and satellite data validate biomass and carbon levels in the physical world. This is the "Engine" that guarantees the asset is thriving (Proof of Flourishing). |
-| 🌱 **Consumer (B2C)** | Earns Green Cashback (LEAF tokens and SBT achievements). They forge and evolve their ecological wealth in the Virtual Oasis, driving real-world reforestation. |
+| 🏢 **Company (B2B)** | Enters via x402 USDC payment, buys RWA fractions (real Mogno trees), and gains verifiable ESG impact. Distributes $LEAF tokens as "Green Cashback" to their customers. |
+| 🛰️ **Oracle (PoF)** | AI and satellite data validate biomass and carbon levels in the physical world. Injects growth data into the dNFT via `process_oracle_report`. |
+| 🌱 **Consumer (B2C)** | Earns $LEAF tokens from partner brands. Accumulates leaves and **forges a dNFT** — a dynamic NFT representing a real African Mahogany tree that grows on-chain as the physical tree grows. |
+
+### The dNFT Journey
+
+```
+Company buys RWA → Protocol mints $LEAF → Consumer earns $LEAF
+                                              ↓
+                              Consumer burns $LEAF → Forges dNFT (Tier 1)
+                                              ↓
+                              Oracle feeds growth data → dNFT evolves
+                                              ↓
+                              Consumer merges dNFTs → Higher Tier (Rare → Epic → Legend)
+```
+
+Each **dNFT** is a living digital asset backed by a real tree. It tracks biomass, carbon sequestration, and biological phase — all verified on-chain by the Proof of Flourishing oracle.
 
 ---
 
@@ -291,7 +305,7 @@ A maioria das promessas de sustentabilidade para na comunicação. Nós constru�
 
 **O Social Forest democratiza a sustentabilidade** conectando o consumo cotidiano à regeneração ambiental real. Cada Real gasto numa marca parceira vira patrimônio biológico — uma fração de um Mogno Africano (*Khaya senegalensis*) vivo, ancorado na blockchain Stellar, de propriedade de quem o ganhou.
 
-Chamamos isso de **RWA as a Service (RWAaaS)**: as empresas não "investem" no ativo — elas usam nossa infraestrutura para distribuir cashback regenerativo aos clientes. **A árvore pertence a quem resgata.**
+Chamamos isso de **RWA as a Service (RWAaaS)**: as empresas não "investem" no ativo — elas usam nossa infraestrutura para distribuir cashback regenerativo aos clientes. O consumidor acumula tokens $LEAF e **forja um dNFT** — um NFT dinâmico que representa a propriedade de uma árvore real em crescimento. **A árvore pertence a quem a forja.**
 
 > **Vantagem competitiva única:** controle total da cadeia física — do Viveiro Maravilha (mudas) à Sómogno (beneficiamento) — elimina risco de contraparte e garante a permanência de cada ativo on-chain.
 
@@ -301,9 +315,23 @@ Chamamos isso de **RWA as a Service (RWAaaS)**: as empresas não "investem" no a
 
 | Ator | Ação e Proposta de Valor |
 |------|--------------------------|
-| 🏢 **Empresa (B2B)** | Entra via pagamento USDC (x402), compra frações de RWA e ganha impacto ESG comprovado. Configura o "Cashback Verde" pros seus clientes. |
-| 🛰️ **Oráculo (PoF)** | IA e dados de satélite validam a biomassa e o carbono (O Motor). Garante que a árvore está crescendo. |
-| 🌱 **Consumidor (B2C)** | Ganha Cashback Verde (LEAF e SBTs), construindo o seu patrimônio ecológico no Oásis. |
+| 🏢 **Empresa (B2B)** | Entra via pagamento USDC (x402), compra frações de RWA (árvores reais de Mogno) e ganha impacto ESG comprovado. Distribui tokens $LEAF como "Cashback Verde" aos seus clientes. |
+| 🛰️ **Oráculo (PoF)** | IA e dados de satélite validam a biomassa e o carbono no mundo físico. Injeta dados de crescimento no dNFT via `process_oracle_report`. |
+| 🌱 **Consumidor (B2C)** | Ganha tokens $LEAF das marcas parceiras. Acumula folhas e **forja um dNFT** — um NFT dinâmico que representa uma árvore real de Mogno Africano que cresce on-chain conforme a árvore física cresce. |
+
+### A Jornada do dNFT
+
+```
+Empresa compra RWA → Protocolo emite $LEAF → Consumidor ganha $LEAF
+                                                  ↓
+                                Consumidor queima $LEAF → Forja dNFT (Tier 1)
+                                                  ↓
+                                Oráculo alimenta dados → dNFT evolui
+                                                  ↓
+                                Consumidor funde dNFTs → Tier Superior (Raro → Épico → Lenda)
+```
+
+Cada **dNFT** é um ativo digital vivo, lastreado por uma árvore real. Ele rastreia biomassa, sequestro de carbono e fase biológica — tudo verificado on-chain pelo oráculo Proof of Flourishing.
 
 ---
 
