@@ -1,16 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./app/App.jsx";
-import { AppProviders } from "./app/providers.jsx";
-import { registerServiceWorker } from "./pwa/registerServiceWorker.js";
-import "./styles/globals.css";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './app/App.jsx';
+import { AppProviders } from './app/providers.jsx';
+import './styles/globals.css';
+import './styles/institutionCustomization.css';
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AppProviders>
       <App />
     </AppProviders>
   </React.StrictMode>
 );
-
-registerServiceWorker();
