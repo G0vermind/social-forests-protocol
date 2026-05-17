@@ -1,121 +1,142 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { usePrivy } from '@privy-io/react-auth';
 import { getActiveRoleProfile, setActiveRoleProfile } from '../auth/roleProfileStore.js';
+import { fetchProtocolAccount, isRelayerConfigured } from './protocolRelayerClient.js';
 
 function isStellarPublicKey(value) {
-  return typeof value === 'string' && /^G[A-Z2-7]{55}$/.test(value.trim());
-}
-
-function normalizeAddress(value) {
-  if (typeof value !== 'string') return null;
-  const trimmed = value.trim();
-  return isStellarPublicKey(trimmed) ? trimmed : null;
+  return typeof value === 'string' && /^G[A-Z2-7]{55}$/.test(value);
 }
 
 function getEmail(user) {
-  return (
-    user?.email?.address ||
-    user?.google?.email ||
-    user?.discord?.email ||
-    user?.twitter?.email ||
-    user?.github?.email ||
-    null
-  );
+  return user?.email?.address || user?.google?.email || user?.discord?.email || null;
 }
 
-function getLinkedAccounts(user) {
-  return Array.isArray(user?.linkedAccounts) ? user.linkedAccounts : [];
-}
-
-function getWalletLikeObjects(user) {
-  const linkedAccounts = getLinkedAccounts(user);
-
-  return [
-    user?.wallet,
-    user?.embeddedWallet,
-    user?.smartWallet,
-    user?.stellarWallet,
-    user?.privyWallet,
-    ...(Array.isArray(user?.wallets) ? user.wallets : []),
-    ...(Array.isArray(user?.embeddedWallets) ? user.embeddedWallets : []),
-    ...linkedAccounts,
-  ].filter(Boolean);
-}
-
-function getWalletAddress(user) {
-  const walletObjects = getWalletLikeObjects(user);
+function getWalletAddressFromPrivy(user) {
+  const linkedAccounts = Array.isArray(user?.linkedAccounts) ? user.linkedAccounts : [];
 
   const directCandidates = [
     user?.wallet?.address,
-    user?.wallet?.publicKey,
     user?.embeddedWallet?.address,
-    user?.embeddedWallet?.publicKey,
     user?.smartWallet?.address,
-    user?.smartWallet?.publicKey,
-    user?.stellarWallet?.address,
-    user?.stellarWallet?.publicKey,
   ];
 
-  const objectCandidates = walletObjects.flatMap((account) => [
+  const linkedCandidates = linkedAccounts.flatMap((account) => [
     account?.address,
     account?.walletAddress,
     account?.publicKey,
-    account?.public_key,
-    account?.stellarAddress,
-    account?.stellarPublicKey,
-    account?.chainId === 'stellar' ? account?.address : null,
-    account?.chain === 'stellar' ? account?.address : null,
-    account?.type === 'wallet' ? account?.address : null,
-    account?.type === 'stellar_wallet' ? account?.address : null,
-    account?.walletClientType === 'stellar' ? account?.address : null,
   ]);
 
-  const allCandidates = [...directCandidates, ...objectCandidates]
-    .map(normalizeAddress)
-    .filter(Boolean);
+  const allCandidates = [...directCandidates, ...linkedCandidates].filter(Boolean);
 
-  const stellarAddress = allCandidates[0];
+  const stellarAddress = allCandidates.find(isStellarPublicKey);
   if (stellarAddress) return stellarAddress;
-
-  const fallbackInstitutionWallet = normalizeAddress(import.meta.env.VITE_INSTITUTION_TEST_WALLET);
-  if (fallbackInstitutionWallet) return fallbackInstitutionWallet;
 
   return null;
 }
 
-function getPrivyDebugWallets(user) {
-  if (!user) return [];
+function getFallbackWalletAddress() {
+  const fallbackInstitutionWallet = import.meta.env.VITE_INSTITUTION_TEST_WALLET;
+  if (isStellarPublicKey(fallbackInstitutionWallet)) return fallbackInstitutionWallet;
+  return null;
+}
 
-  return getWalletLikeObjects(user).map((account) => ({
-    type: account?.type || null,
-    chain: account?.chain || account?.chainId || null,
-    walletClientType: account?.walletClientType || null,
-    address: account?.address || account?.walletAddress || account?.publicKey || null,
-  }));
+function getProtocolWalletAddress(protocolAccount) {
+  const candidates = [
+    protocolAccount?.stellarWalletAddress,
+    protocolAccount?.walletAddress,
+    protocolAccount?.institutionWalletAddress,
+    protocolAccount?.companyAddress,
+  ].filter(Boolean);
+
+  return candidates.find(isStellarPublicKey) || null;
 }
 
 export function useProtocolAccount() {
   const { ready, authenticated, user, login, logout, getAccessToken } = usePrivy();
 
+  const [protocolAccount, setProtocolAccount] = useState(null);
+  const [protocolAccountLoading, setProtocolAccountLoading] = useState(false);
+  const [protocolAccountError, setProtocolAccountError] = useState(null);
+
   const activeRole = useMemo(() => {
     return getActiveRoleProfile()?.role || 'institution';
   }, []);
 
-  const walletAddress = useMemo(() => getWalletAddress(user), [user]);
-  const debugWallets = useMemo(() => getPrivyDebugWallets(user), [user]);
+  const baseAccount = useMemo(() => {
+    return {
+      ready,
+      authenticated,
+      privyUserId: user?.id || null,
+      email: getEmail(user),
+      activeRole,
+      login,
+      logout,
+      getAccessToken,
+      setActiveRole: setActiveRoleProfile,
+    };
+  }, [ready, authenticated, user, activeRole, login, logout, getAccessToken]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadProtocolAccount() {
+      if (!ready || !authenticated || !user?.id) {
+        setProtocolAccount(null);
+        setProtocolAccountError(null);
+        setProtocolAccountLoading(false);
+        return;
+      }
+
+      if (!isRelayerConfigured()) {
+        setProtocolAccount(null);
+        setProtocolAccountError('Relayer não configurado.');
+        setProtocolAccountLoading(false);
+        return;
+      }
+
+      try {
+        setProtocolAccountLoading(true);
+        setProtocolAccountError(null);
+
+        const data = await fetchProtocolAccount({
+          ...baseAccount,
+          user,
+        });
+
+        if (!cancelled) {
+          setProtocolAccount(data);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setProtocolAccount(null);
+          setProtocolAccountError(error instanceof Error ? error.message : 'Erro ao carregar conta de protocolo.');
+        }
+      } finally {
+        if (!cancelled) {
+          setProtocolAccountLoading(false);
+        }
+      }
+    }
+
+    loadProtocolAccount();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [ready, authenticated, user?.id]);
+
+  const walletAddress =
+    getProtocolWalletAddress(protocolAccount) ||
+    getWalletAddressFromPrivy(user) ||
+    getFallbackWalletAddress();
 
   return {
-    ready,
-    authenticated,
-    privyUserId: user?.id || null,
-    email: getEmail(user),
+    ...baseAccount,
+    user,
+    protocolAccount,
+    protocolAccountLoading,
+    protocolAccountError,
     walletAddress,
-    hasWalletAddress: Boolean(walletAddress),
-    activeRole,
-    login,
-    logout,
-    getAccessToken,
-    setActiveRole: setActiveRoleProfile,
-    debugWallets,
+    hasProtocolWallet: isStellarPublicKey(walletAddress),
   };
 }

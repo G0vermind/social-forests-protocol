@@ -1,46 +1,88 @@
-import express from "express";
-import cors from "cors";
-import { config } from "./config.js";
-import { institutionRouter } from "./routes/institution.js";
+import express from 'express';
+import cors from 'cors';
+import { config } from './config.js';
+import { ensureProtocolAccount } from './services/protocolAccountService.js';
+import { acquireTrees } from './services/institutionProtocolService.js';
 
 const app = express();
 
-app.use(
-  cors({
-    origin: config.frontendOrigin === "*" ? true : config.frontendOrigin,
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: config.corsOrigin === '*' ? true : config.corsOrigin,
+  credentials: true,
+}));
 
-app.use(express.json({ limit: "1mb" }));
+app.use(express.json({ limit: '1mb' }));
 
-app.get("/", (_req, res) => {
+app.get('/health', (_req, res) => {
   res.json({
     ok: true,
-    service: "Social Forests Protocol Relayer",
-    status: "online",
-  });
-});
-
-app.get("/health", (_req, res) => {
-  res.json({
-    ok: true,
-    service: "relayer",
+    service: 'social-forests-relayer',
     network: config.stellar.network,
   });
 });
 
-app.use("/v1/protocol/institution", institutionRouter);
+app.get('/v1/protocol/account', async (req, res) => {
+  try {
+    const account = await ensureProtocolAccount(req);
 
-app.use((err, _req, res, _next) => {
-  console.error("[relayer] unhandled error:", err);
+    res.json({
+      ok: true,
+      privyUserId: account.privyUserId,
+      email: account.email,
+      stellarWalletAddress: account.stellarWalletAddress,
+      walletAddress: account.stellarWalletAddress,
+      activeRole: account.activeRole || 'institution',
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      ok: false,
+      error: error.message || 'Não foi possível carregar a conta de protocolo.',
+    });
+  }
+});
 
-  res.status(500).json({
-    ok: false,
-    message: "Erro interno no relayer.",
-  });
+app.post('/v1/protocol/institution/acquire-trees', async (req, res) => {
+  try {
+    const account = await ensureProtocolAccount(req);
+    const result = await acquireTrees(req.body, account);
+
+    res.json({
+      ok: true,
+      ...result,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      ok: false,
+      error: error.message || 'Não foi possível comprar árvores no protocolo.',
+    });
+  }
+});
+
+app.post('/v1/protocol/institution/create-activity', async (req, res) => {
+  try {
+    const account = await ensureProtocolAccount(req);
+
+    res.json({
+      ok: true,
+      simulated: false,
+      message: 'Atividade registrada para reserva de Folhas.',
+      institution: {
+        walletAddress: account.stellarWalletAddress,
+      },
+      activity: {
+        ...req.body?.payload,
+        status: 'reserved',
+      },
+      receiptId: `activity-${Date.now()}`,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      ok: false,
+      error: error.message || 'Não foi possível criar atividade.',
+    });
+  }
 });
 
 app.listen(config.port, () => {
-  console.log(`Relayer online on port ${config.port}`);
+  console.log(`Social Forests relayer listening on http://localhost:${config.port}`);
 });

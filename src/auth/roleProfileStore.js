@@ -1,78 +1,77 @@
 const STORAGE_KEY = 'florestas.activeRoleProfile';
 
-const DEFAULT_PROFILE = {
-  role: 'institution',
-  label: 'Instituição',
+export const ROLE_PROFILES = {
+  institution: {
+    role: 'institution',
+    label: 'Instituição',
+    description: 'Compra árvores, recebe Folhas e cria atividades para membros.',
+  },
+  member: {
+    role: 'member',
+    label: 'Membro',
+    description: 'Participa de atividades, recebe Folhas e evolui seu viveiro.',
+  },
+  producer: {
+    role: 'producer',
+    label: 'Produtor',
+    description: 'Acompanha ativos reais, lastro biológico e verificações.',
+  },
+  validator: {
+    role: 'validator',
+    label: 'Validador',
+    description: 'Acesso restrito para perfis previamente autorizados.',
+  },
 };
 
-const ROLE_LABELS = {
-  institution: 'Instituição',
-  member: 'Membro',
-  producer: 'Produtor',
-  validator: 'Validador',
-  admin: 'Admin',
-};
-
-function canUseLocalStorage() {
-  return typeof window !== 'undefined' && Boolean(window.localStorage);
-}
-
-function normalizeRoleProfile(profile = {}) {
-  const role = profile?.role || DEFAULT_PROFILE.role;
-
-  return {
-    ...profile,
-    role,
-    label: profile?.label || ROLE_LABELS[role] || role,
-    updatedAt: profile?.updatedAt || new Date().toISOString(),
-  };
+function canUseStorage() {
+  return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 }
 
 export function getActiveRoleProfile() {
-  if (!canUseLocalStorage()) return DEFAULT_PROFILE;
+  if (!canUseStorage()) return ROLE_PROFILES.institution;
 
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return DEFAULT_PROFILE;
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    if (!stored) return ROLE_PROFILES.institution;
 
-    return normalizeRoleProfile(JSON.parse(raw));
+    const parsed = JSON.parse(stored);
+    const role = parsed?.role;
+
+    if (role && ROLE_PROFILES[role]) {
+      return ROLE_PROFILES[role];
+    }
+
+    return ROLE_PROFILES.institution;
   } catch {
-    return DEFAULT_PROFILE;
+    return ROLE_PROFILES.institution;
   }
 }
 
-export function setActiveRoleProfile(profileOrRole) {
-  const nextProfile =
-    typeof profileOrRole === 'string'
-      ? normalizeRoleProfile({ role: profileOrRole })
-      : normalizeRoleProfile(profileOrRole);
+export function setActiveRoleProfile(roleOrProfile) {
+  const role =
+    typeof roleOrProfile === 'string'
+      ? roleOrProfile
+      : roleOrProfile?.role;
 
-  if (canUseLocalStorage()) {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextProfile));
+  const profile = ROLE_PROFILES[role] || ROLE_PROFILES.institution;
+
+  if (canUseStorage()) {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
   }
 
-  return nextProfile;
+  return profile;
 }
 
 export function clearActiveRoleProfile() {
-  if (canUseLocalStorage()) {
+  if (canUseStorage()) {
     window.localStorage.removeItem(STORAGE_KEY);
   }
-
-  return DEFAULT_PROFILE;
 }
 
-export function getActiveRole() {
-  return getActiveRoleProfile().role;
-}
+export function getAvailableRoleProfiles({ includeValidator = false } = {}) {
+  const profiles = Object.values(ROLE_PROFILES);
 
-export function setActiveRole(role) {
-  return setActiveRoleProfile(role);
-}
+  if (includeValidator) return profiles;
 
-export const ROLE_PROFILES = [
-  { role: 'institution', label: 'Instituição' },
-  { role: 'member', label: 'Membro' },
-  { role: 'producer', label: 'Produtor' },
-  { role: 'validator', label: 'Validador' },
-];
+  return profiles.filter((profile) => profile.role !== 'validator');
+}
