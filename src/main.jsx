@@ -4,6 +4,7 @@ import App from './app/App.jsx';
 import { AppProviders } from './app/providers.jsx';
 import './styles/globals.css';
 import './styles/institutionCustomization.css';
+import './styles/protocol.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
