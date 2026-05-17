@@ -1,28 +1,78 @@
-const STORAGE_KEY = "fs_role_profile";
+const STORAGE_KEY = 'florestas.activeRoleProfile';
 
-export const PUBLIC_ROLES = ["member", "institution", "producer"];
+const DEFAULT_PROFILE = {
+  role: 'institution',
+  label: 'Instituição',
+};
 
-export function getRoleStorageKey(privyUserId = "guest") {
-  return `${STORAGE_KEY}:${privyUserId}`;
+const ROLE_LABELS = {
+  institution: 'Instituição',
+  member: 'Membro',
+  producer: 'Produtor',
+  validator: 'Validador',
+  admin: 'Admin',
+};
+
+function canUseLocalStorage() {
+  return typeof window !== 'undefined' && Boolean(window.localStorage);
 }
 
-export function loadRoleProfile(privyUserId = "guest") {
+function normalizeRoleProfile(profile = {}) {
+  const role = profile?.role || DEFAULT_PROFILE.role;
+
+  return {
+    ...profile,
+    role,
+    label: profile?.label || ROLE_LABELS[role] || role,
+    updatedAt: profile?.updatedAt || new Date().toISOString(),
+  };
+}
+
+export function getActiveRoleProfile() {
+  if (!canUseLocalStorage()) return DEFAULT_PROFILE;
+
   try {
-    return JSON.parse(localStorage.getItem(getRoleStorageKey(privyUserId)) || "null");
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return DEFAULT_PROFILE;
+
+    return normalizeRoleProfile(JSON.parse(raw));
   } catch {
-    return null;
+    return DEFAULT_PROFILE;
   }
 }
 
-export function saveRoleProfile(privyUserId = "guest", profile) {
-  localStorage.setItem(getRoleStorageKey(privyUserId), JSON.stringify(profile));
-  return profile;
+export function setActiveRoleProfile(profileOrRole) {
+  const nextProfile =
+    typeof profileOrRole === 'string'
+      ? normalizeRoleProfile({ role: profileOrRole })
+      : normalizeRoleProfile(profileOrRole);
+
+  if (canUseLocalStorage()) {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextProfile));
+  }
+
+  return nextProfile;
 }
 
-export function createDefaultRoleProfile({ activeRole = "member", enabledRoles = ["member"] } = {}) {
-  return {
-    activeRole,
-    enabledRoles: Array.from(new Set(enabledRoles)),
-    theme: localStorage.getItem("fs_theme") || "light",
-  };
+export function clearActiveRoleProfile() {
+  if (canUseLocalStorage()) {
+    window.localStorage.removeItem(STORAGE_KEY);
+  }
+
+  return DEFAULT_PROFILE;
 }
+
+export function getActiveRole() {
+  return getActiveRoleProfile().role;
+}
+
+export function setActiveRole(role) {
+  return setActiveRoleProfile(role);
+}
+
+export const ROLE_PROFILES = [
+  { role: 'institution', label: 'Instituição' },
+  { role: 'member', label: 'Membro' },
+  { role: 'producer', label: 'Produtor' },
+  { role: 'validator', label: 'Validador' },
+];
