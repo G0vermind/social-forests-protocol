@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { usePrivy } from '@privy-io/react-auth';
+import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { getActiveRoleProfile, setActiveRoleProfile } from '../auth/roleProfileStore.js';
 import { fetchProtocolAccount, isRelayerConfigured } from './protocolRelayerClient.js';
 
@@ -11,33 +11,52 @@ function getEmail(user) {
   return user?.email?.address || user?.google?.email || user?.discord?.email || null;
 }
 
-function getWalletAddressFromPrivy(user) {
+function getWalletAddressFromPrivyWallets(wallets = []) {
+  const candidates = wallets
+    .flatMap((wallet) => [
+      wallet?.address,
+      wallet?.walletAddress,
+      wallet?.publicKey,
+      wallet?.account?.address,
+      wallet?.account?.publicKey,
+    ])
+    .filter(Boolean);
+
+  return candidates.find(isStellarPublicKey) || null;
+}
+
+function getWalletAddressFromPrivyUser(user) {
   const linkedAccounts = Array.isArray(user?.linkedAccounts) ? user.linkedAccounts : [];
 
   const directCandidates = [
     user?.wallet?.address,
+    user?.wallet?.walletAddress,
+    user?.wallet?.publicKey,
     user?.embeddedWallet?.address,
+    user?.embeddedWallet?.walletAddress,
+    user?.embeddedWallet?.publicKey,
     user?.smartWallet?.address,
+    user?.smartWallet?.walletAddress,
+    user?.smartWallet?.publicKey,
   ];
 
   const linkedCandidates = linkedAccounts.flatMap((account) => [
     account?.address,
     account?.walletAddress,
     account?.publicKey,
+    account?.embeddedWallet?.address,
+    account?.embeddedWallet?.walletAddress,
+    account?.embeddedWallet?.publicKey,
   ]);
 
   const allCandidates = [...directCandidates, ...linkedCandidates].filter(Boolean);
 
-  const stellarAddress = allCandidates.find(isStellarPublicKey);
-  if (stellarAddress) return stellarAddress;
-
-  return null;
+  return allCandidates.find(isStellarPublicKey) || null;
 }
 
 function getFallbackWalletAddress() {
   const fallbackInstitutionWallet = import.meta.env.VITE_INSTITUTION_TEST_WALLET;
-  if (isStellarPublicKey(fallbackInstitutionWallet)) return fallbackInstitutionWallet;
-  return null;
+  return isStellarPublicKey(fallbackInstitutionWallet) ? fallbackInstitutionWallet : null;
 }
 
 function getProtocolWalletAddress(protocolAccount) {
@@ -46,6 +65,8 @@ function getProtocolWalletAddress(protocolAccount) {
     protocolAccount?.walletAddress,
     protocolAccount?.institutionWalletAddress,
     protocolAccount?.companyAddress,
+    protocolAccount?.actor?.walletAddress,
+    protocolAccount?.actor?.stellarWalletAddress,
   ].filter(Boolean);
 
   return candidates.find(isStellarPublicKey) || null;
@@ -53,6 +74,7 @@ function getProtocolWalletAddress(protocolAccount) {
 
 export function useProtocolAccount() {
   const { ready, authenticated, user, login, logout, getAccessToken } = usePrivy();
+  const { wallets = [] } = useWallets();
 
   const [protocolAccount, setProtocolAccount] = useState(null);
   const [protocolAccountLoading, setProtocolAccountLoading] = useState(false);
@@ -109,7 +131,11 @@ export function useProtocolAccount() {
       } catch (error) {
         if (!cancelled) {
           setProtocolAccount(null);
-          setProtocolAccountError(error instanceof Error ? error.message : 'Erro ao carregar conta de protocolo.');
+          setProtocolAccountError(
+            error instanceof Error
+              ? error.message
+              : 'Erro ao carregar conta de protocolo.'
+          );
         }
       } finally {
         if (!cancelled) {
@@ -123,20 +149,52 @@ export function useProtocolAccount() {
     return () => {
       cancelled = true;
     };
-  }, [ready, authenticated, user?.id]);
+  }, [ready, authenticated, user?.id, baseAccount]);
+
+  const protocolWalletAddress = getProtocolWalletAddress(protocolAccount);
+  const privyWalletsAddress = getWalletAddressFromPrivyWallets(wallets);
+  const privyUserAddress = getWalletAddressFromPrivyUser(user);
+  const fallbackWalletAddress = getFallbackWalletAddress();
 
   const walletAddress =
-    getProtocolWalletAddress(protocolAccount) ||
-    getWalletAddressFromPrivy(user) ||
-    getFallbackWalletAddress();
+    protocolWalletAddress ||
+    privyWalletsAddress ||
+    privyUserAddress ||
+    fallbackWalletAddress;
 
-  return {
-    ...baseAccount,
-    user,
+  const walletSource = protocolWalletAddress
+    ? 'relayer:protocolAccount'
+    : privyWalletsAddress
+      ? 'privy:wallets'
+      : privyUserAddress
+        ? 'privy:user'
+        : fallbackWalletAddress
+          ? 'env:VITE_INSTITUTION_TEST_WALLET'
+          : 'none';
+
+  console.log('[ProtocolAccount]', {
+    privyUserId: user?.id || null,
+    email: getEmail(user),
+    wallets,
+    linkedAccounts: user?.linkedAccounts,
     protocolAccount,
     protocolAccountLoading,
     protocolAccountError,
     walletAddress,
+    walletSource,
+  });
+
+  return {
+    ...baseAccount,
+    user,
+    wallets,
+    protocolAccount,
+    protocolAccountLoading,
+    protocolAccountError,
+    walletAddress,
+    walletSource,
     hasProtocolWallet: isStellarPublicKey(walletAddress),
+    isUsingFallbackWallet: walletSource === 'env:VITE_INSTITUTION_TEST_WALLET',
+    isUsingPrivyWallet: walletSource === 'privy:wallets' || walletSource === 'privy:user',
   };
 }
