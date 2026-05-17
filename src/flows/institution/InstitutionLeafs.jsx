@@ -21,6 +21,24 @@ export function InstitutionLeafs({ institution }) {
         <article className="stat-card"><span>Reservado</span><strong>{formatLeafs(reserved)}</strong></article>
         <article className="stat-card"><span>Distribuído</span><strong>{formatLeafs(distributed)}</strong></article>
       </div>
+
+      {(institution.purchases || []).length ? (
+        <div className="activity-list">
+          {(institution.purchases || []).map((purchase) => (
+            <article className="activity-row" key={purchase.id}>
+              <div>
+                <strong>{purchase.name}</strong>
+                <p>{purchase.trees} árvores de Mogno Africano adquiridas.</p>
+                <small>{purchase.txHash ? 'Registrado no protocolo' : 'Confirmação registrada'}</small>
+              </div>
+              <div className="activity-meta">
+                <span>Folhas liberadas</span>
+                <strong>{formatLeafs(purchase.leafsUnlocked)}</strong>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : null}
     </section>
   );
 }

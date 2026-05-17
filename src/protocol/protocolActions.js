@@ -1,40 +1,52 @@
-import { getProtocolAction } from "./actionMap.js";
-import { createTechnicalReceipt, saveLastReceipt } from "./technicalReceipts.js";
+import { getProtocolAction } from './actionMap.js';
+import { callProtocolRelayer, isRelayerConfigured } from './protocolRelayerClient.js';
+import { createTechnicalReceipt, saveLastReceipt } from './technicalReceipts.js';
 
-const MOCK_LATENCY_MS = 650;
+const EXECUTION_MODE = import.meta.env.VITE_PROTOCOL_EXECUTION_MODE || 'relayer';
 
-function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+function wait(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
+
+function buildLocalFallbackResult(action, payload) {
+  return {
+    ok: true,
+    simulated: true,
+    message: action.userFacingSuccess,
+    txHash: null,
+    ledger: null,
+    receiptId: `${action.id}-local-${Date.now()}`,
+    institution: {
+      acquiredTrees: payload?.treeCount,
+      leafsUnlocked: payload?.leafsUnlocked,
+    },
+  };
 }
 
 export async function executeProtocolAction(actionId, payload = {}, account = {}) {
   const action = getProtocolAction(actionId);
 
-  await wait(MOCK_LATENCY_MS);
+  if (!account?.authenticated) {
+    account?.login?.();
+    throw new Error('Entre na conta para continuar.');
+  }
 
-  const receipt = createTechnicalReceipt({ action, payload, account });
+  let relayerResult;
+  if (EXECUTION_MODE === 'mock') {
+    await wait(550);
+    relayerResult = buildLocalFallbackResult(action, payload);
+  } else if (isRelayerConfigured()) {
+    relayerResult = await callProtocolRelayer(action, payload, account);
+  } else {
+    throw new Error('Relayer do protocolo não configurado. Configure VITE_PROTOCOL_RELAYER_URL para comprar árvores e emitir Folhas nos contratos reais.');
+  }
+
+  const receipt = createTechnicalReceipt({ action, payload, account, relayerResult });
   saveLastReceipt(receipt);
 
   return {
     ok: true,
     action,
     receipt,
-    message: action.userFacingSuccess,
+    relayerResult,
+    message: relayerResult?.message || action.userFacingSuccess,
   };
-}
-
-export async function acquireInstitutionTrees({ institution, treePackage, quantity = 1 }, account) {
-  return executeProtocolAction(
-    "INSTITUTION_ACQUIRE_TREES",
-    {
-      institutionId: institution?.id,
-      institutionName: institution?.profile?.name || institution?.name,
-      packageId: treePackage?.id,
-      packageName: treePackage?.name,
-      treeCount: Number(treePackage?.treeCount || treePackage?.trees || 0) * Number(quantity || 1),
-      leafsUnlocked: Number(treePackage?.leafs || treePackage?.totalLeafs || 0) * Number(quantity || 1),
-      quantity,
-    },
-    account
-  );
 }

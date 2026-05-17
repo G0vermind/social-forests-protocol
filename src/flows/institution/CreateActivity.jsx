@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { ACTIVITY_TEMPLATES } from '../../data/activity.mock.js';
-import { getAvailableLeafs, getActivityReservedLeafs, formatLeafs } from '../../utils/leafsMath.js';
+import { createInstitutionActivity } from '../../services/institutionService.js';
+import { formatLeafs, getActivityReservedLeafs, getAvailableLeafs } from '../../utils/leafsMath.js';
 
-export function CreateActivity({ institution, onCreate }) {
+export function CreateActivity({ institution, onSave }) {
   const [form, setForm] = useState({
     title: 'Complete seu cadastro',
     description: 'Convide sua comunidade a completar uma ação simples e receber Folhas.',
@@ -12,20 +13,30 @@ export function CreateActivity({ institution, onCreate }) {
   });
   const [feedback, setFeedback] = useState('');
 
-  const preview = getActivityReservedLeafs(form);
+  const reservedPreview = getActivityReservedLeafs(form);
   const available = getAvailableLeafs(institution);
+  const canCreate = available > 0 && reservedPreview <= available;
 
   function update(key, value) {
+    setFeedback('');
     setForm((current) => ({ ...current, [key]: value }));
   }
 
   function submit(event) {
     event.preventDefault();
-    const result = onCreate(form);
-    setFeedback(result.ok ? 'Atividade criada e Folhas reservadas.' : result.error);
-    if (result.ok) {
-      setForm((current) => ({ ...current, title: '', description: '' }));
+    if (available <= 0) {
+      setFeedback('Adquira árvores primeiro para liberar Folhas para distribuição.');
+      return;
     }
+    if (reservedPreview > available) {
+      setFeedback('Esta atividade reserva mais Folhas do que o saldo disponível.');
+      return;
+    }
+
+    const next = createInstitutionActivity(institution, form);
+    onSave?.(next);
+    setFeedback('Atividade criada e Folhas reservadas. Agora você pode personalizar e compartilhar a página da instituição.');
+    setForm((current) => ({ ...current, title: '', description: '' }));
   }
 
   return (
@@ -39,40 +50,40 @@ export function CreateActivity({ institution, onCreate }) {
       <form className="form-card" onSubmit={submit}>
         <label>
           Modelo rápido
-          <select value={form.title} onChange={(e) => update('title', e.target.value)}>
+          <select value={form.title} onChange={(event) => update('title', event.target.value)}>
             {ACTIVITY_TEMPLATES.map((template) => <option key={template}>{template}</option>)}
           </select>
         </label>
         <label>
           Nome da atividade
-          <input value={form.title} onChange={(e) => update('title', e.target.value)} placeholder="Ex: Responda à pesquisa" />
+          <input value={form.title} onChange={(event) => update('title', event.target.value)} placeholder="Ex: Responda à pesquisa" />
         </label>
         <label>
           Descrição
-          <textarea value={form.description} onChange={(e) => update('description', e.target.value)} />
+          <textarea value={form.description} onChange={(event) => update('description', event.target.value)} />
         </label>
         <div className="form-row">
           <label>
             Folhas por participação
-            <input type="number" min="1" value={form.rewardLeafs} onChange={(e) => update('rewardLeafs', e.target.value)} />
+            <input type="number" min="1" value={form.rewardLeafs} onChange={(event) => update('rewardLeafs', event.target.value)} />
           </label>
           <label>
             Limite de participantes
-            <input type="number" min="1" value={form.participantLimit} onChange={(e) => update('participantLimit', e.target.value)} />
+            <input type="number" min="1" value={form.participantLimit} onChange={(event) => update('participantLimit', event.target.value)} />
           </label>
         </div>
         <label>
           Encerramento
-          <input value={form.endDate} onChange={(e) => update('endDate', e.target.value)} />
+          <input value={form.endDate} onChange={(event) => update('endDate', event.target.value)} />
         </label>
 
         <div className="reserve-preview">
           <span>Esta atividade vai reservar</span>
-          <strong>{formatLeafs(preview)} Folhas</strong>
+          <strong>{formatLeafs(reservedPreview)} Folhas</strong>
           <small>Disponível agora: {formatLeafs(available)} Folhas</small>
         </div>
 
-        <button className="primary-button" type="submit">Publicar atividade</button>
+        <button className="button primary md" type="submit" disabled={!canCreate}>Publicar atividade</button>
         {feedback ? <p className="form-feedback">{feedback}</p> : null}
       </form>
     </section>

@@ -1,46 +1,31 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 export function TechnicalReceipt({ receipt }) {
   const [open, setOpen] = useState(false);
-
   if (!receipt) return null;
 
   return (
-    <section className="technical-receipt">
-      <button className="ghost-button small" type="button" onClick={() => setOpen((value) => !value)}>
-        {open ? "Ocultar comprovante técnico" : "Ver comprovante técnico"}
+    <div className="technical-receipt">
+      <button type="button" className="link-button" onClick={() => setOpen((current) => !current)}>
+        {open ? 'Ocultar comprovante técnico' : 'Ver comprovante técnico'}
       </button>
-
       {open ? (
-        <div className="technical-receipt-panel">
-          <p className="eyebrow">Registro verificável</p>
-          <strong>{receipt.label}</strong>
-          <span>{receipt.network}</span>
-          <dl>
-            <div>
-              <dt>Status</dt>
-              <dd>{receipt.status}</dd>
-            </div>
-            <div>
-              <dt>Contrato principal</dt>
-              <dd>
-                <a href={receipt.contract.url} target="_blank" rel="noreferrer">
-                  {receipt.contract.id.slice(0, 8)}...{receipt.contract.id.slice(-6)}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt>Método planejado</dt>
-              <dd>{receipt.plannedSorobanMethod}</dd>
-            </div>
-            <div>
-              <dt>Referência</dt>
-              <dd>{receipt.id}</dd>
-            </div>
-          </dl>
-          <p className="field-hint">{receipt.note}</p>
+        <div className="technical-receipt-box">
+          <div><span>Status</span><strong>{receipt.status}</strong></div>
+          <div><span>Rede</span><strong>{receipt.network}</strong></div>
+          <div><span>Ação</span><strong>{receipt.technicalLabel}</strong></div>
+          <div><span>Contrato principal</span><a href={receipt.contract.url} target="_blank" rel="noreferrer">{receipt.contract.id}</a></div>
+          {receipt.txHash ? <div><span>Transação</span><a href={receipt.txUrl} target="_blank" rel="noreferrer">{receipt.txHash}</a></div> : null}
+          {receipt.ledger ? <div><span>Ledger</span><strong>{receipt.ledger}</strong></div> : null}
+          <details>
+            <summary>Contratos envolvidos</summary>
+            <ul>
+              {receipt.touchedContracts.map((contract) => <li key={contract.id}><a href={contract.url} target="_blank" rel="noreferrer">{contract.id}</a></li>)}
+            </ul>
+          </details>
+          <p>{receipt.note}</p>
         </div>
       ) : null}
-    </section>
+    </div>
   );
 }

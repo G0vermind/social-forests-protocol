@@ -13,16 +13,18 @@ export function InstitutionPageBuilder({ institution, onSave, onTabChange }) {
     welcomeMessage: institution.welcomeMessage || '',
     primaryColor: institution.primaryColor || '#2f6b3f',
     supportColor: institution.supportColor || '#d9f2c7',
+    textColor: institution.textColor || '#172319',
     ctaLabel: institution.ctaLabel || 'Participar agora',
   });
   const [saved, setSaved] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const publicLink = useMemo(() => getInstitutionPublicLink({ ...institution, ...form }), [institution, form]);
-  const previewStyle = useMemo(
-    () => ({ '--institution-primary': form.primaryColor, '--institution-support': form.supportColor }),
-    [form.primaryColor, form.supportColor]
-  );
+  const previewStyle = useMemo(() => ({
+    '--institution-primary': form.primaryColor,
+    '--institution-support': form.supportColor,
+    '--institution-text': form.textColor,
+  }), [form.primaryColor, form.supportColor, form.textColor]);
 
   function update(key, value) {
     setSaved(false);
@@ -48,11 +50,7 @@ export function InstitutionPageBuilder({ institution, onSave, onTabChange }) {
     const link = getInstitutionPublicLink(next);
     try {
       if (navigator.share) {
-        await navigator.share({
-          title: `Página de impacto de ${next.name}`,
-          text: next.welcomeMessage,
-          url: link,
-        });
+        await navigator.share({ title: `Página de impacto de ${next.name}`, text: next.welcomeMessage, url: link });
       } else {
         await navigator.clipboard?.writeText(link);
         setCopied(true);
@@ -68,7 +66,7 @@ export function InstitutionPageBuilder({ institution, onSave, onTabChange }) {
       <div className="section-heading">
         <p className="eyebrow">Página pública</p>
         <h2>Personalizar página da instituição</h2>
-        <p>Suba a logo, escolha cores simples, salve a página e compartilhe o link com sua comunidade.</p>
+        <p>Suba a logo, escolha cores legíveis, salve a página e compartilhe o link com sua comunidade.</p>
       </div>
 
       <div className="builder-grid">
@@ -85,7 +83,12 @@ export function InstitutionPageBuilder({ institution, onSave, onTabChange }) {
           <label>Mensagem de boas-vindas<textarea value={form.welcomeMessage} onChange={(event) => update('welcomeMessage', event.target.value)} /></label>
           <label>Texto do botão principal<input value={form.ctaLabel} onChange={(event) => update('ctaLabel', event.target.value)} /></label>
 
-          <ColorControls primaryColor={form.primaryColor} supportColor={form.supportColor} onChange={updateColors} />
+          <ColorControls
+            primaryColor={form.primaryColor}
+            supportColor={form.supportColor}
+            textColor={form.textColor}
+            onChange={updateColors}
+          />
 
           <div className="inline-actions wrap sticky-actions">
             <button className="button primary md" type="submit">Salvar página</button>

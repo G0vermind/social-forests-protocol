@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AccountStatus } from '../../components/account/AccountStatus.jsx';
 import { loadInstitution } from '../../services/institutionService.js';
+import { formatLeafs, getTotalLeafsCapacity } from '../../utils/leafsMath.js';
 
 function Logo({ institution }) {
   if (institution.logoDataUrl) {
@@ -9,13 +10,11 @@ function Logo({ institution }) {
   return <div className="institution-public-logo-fallback">{(institution.logo || institution.name.slice(0, 2)).toUpperCase()}</div>;
 }
 
-export function InstitutionPublicPage({ slug }) {
+export function InstitutionPublicPage() {
   const [institution, setInstitution] = useState(() => loadInstitution());
 
   useEffect(() => {
-    function refresh() {
-      setInstitution(loadInstitution());
-    }
+    function refresh() { setInstitution(loadInstitution()); }
     window.addEventListener('florestas:institution-updated', refresh);
     window.addEventListener('storage', refresh);
     return () => {
@@ -25,10 +24,11 @@ export function InstitutionPublicPage({ slug }) {
   }, []);
 
   const activities = institution.activities || [];
-  const pageStyle = useMemo(
-    () => ({ '--institution-primary': institution.primaryColor, '--institution-support': institution.supportColor }),
-    [institution.primaryColor, institution.supportColor]
-  );
+  const pageStyle = useMemo(() => ({
+    '--institution-primary': institution.primaryColor,
+    '--institution-support': institution.supportColor,
+    '--institution-text': institution.textColor || '#172319',
+  }), [institution.primaryColor, institution.supportColor, institution.textColor]);
 
   return (
     <main className="institution-public-page" style={pageStyle}>
@@ -54,7 +54,7 @@ export function InstitutionPublicPage({ slug }) {
 
         <div className="stat-grid">
           <article className="card stat-card"><span>Árvores adquiridas</span><strong>{institution.acquiredTrees}</strong></article>
-          <article className="card stat-card"><span>Folhas ativadas</span><strong>{Number(institution.acquiredTrees || 0) * Number(institution.leafsPerTree || 0)}</strong></article>
+          <article className="card stat-card"><span>Folhas ativadas</span><strong>{formatLeafs(getTotalLeafsCapacity(institution))}</strong></article>
           <article className="card stat-card"><span>Participantes</span><strong>{institution.participants}</strong></article>
           <article className="card stat-card"><span>Atividades</span><strong>{activities.length}</strong></article>
         </div>
@@ -62,7 +62,7 @@ export function InstitutionPublicPage({ slug }) {
         <section className="card">
           <div className="card-header"><p className="eyebrow">Atividades disponíveis</p><h2>Participe e receba Folhas</h2></div>
           <div className="list-stack">
-            {activities.map((activity) => (
+            {activities.length ? activities.map((activity) => (
               <article className="public-activity-card" key={activity.id}>
                 <div>
                   <span className="badge success">{activity.status || 'Disponível'}</span>
@@ -70,11 +70,11 @@ export function InstitutionPublicPage({ slug }) {
                   <p>{activity.description}</p>
                 </div>
                 <div>
-                  <strong>+{activity.rewardLeafs || activity.reward} Folhas</strong>
+                  <strong>+{formatLeafs(activity.rewardLeafs || activity.reward)} Folhas</strong>
                   <button className="button secondary sm" type="button">Participar</button>
                 </div>
               </article>
-            ))}
+            )) : <p className="muted">As atividades serão publicadas em breve.</p>}
           </div>
         </section>
 
