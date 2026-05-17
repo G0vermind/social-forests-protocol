@@ -14,7 +14,7 @@ export const PROTOCOL_ACTIONS = {
       CONTRACT_IDS.LEAF_TOKEN,
     ],
     relayerPath: '/v1/protocol/institution/acquire-trees',
-    orchestratorMethod: 'institution_onboarding_purchase',
+    orchestratorMethod: "institutional_onboarding",
     status: 'relayer-required',
   },
   INSTITUTION_CREATE_ACTIVITY: {
